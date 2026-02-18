@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Show Company | Premier Entertainment</title>
+<title>The Show Company | Stand-Up Comedy, College & Corporate Events</title>
+<meta name="description" content="The Show Company curates stand-up comedy, college fests, corporate entertainment, and large-scale live productions across India. Book artists and plan your next event.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="The Show Company">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://theshowcompany.live/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Show Company">
+<meta property="og:title" content="The Show Company | Stand-Up Comedy, College & Corporate Events">
+<meta property="og:description" content="Book premium stand-up comedy, college shows, corporate events, and live productions with The Show Company.">
+<meta property="og:url" content="https://theshowcompany.live/">
+<meta property="og:image" content="https://theshowcompany.live/assets/stage-lighting-1600x1200.jpeg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Show Company | Stand-Up Comedy, College & Corporate Events">
+<meta name="twitter:description" content="Curating unforgettable comedy and live entertainment experiences across India.">
+<meta name="twitter:image" content="https://theshowcompany.live/assets/stage-lighting-1600x1200.jpeg">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EntertainmentBusiness",
+  "name": "The Show Company",
+  "url": "https://theshowcompany.live/",
+  "description": "Entertainment production company specializing in stand-up comedy, college events, corporate shows, and auditorium performances.",
+  "email": "talent@theshowcompany.com",
+  "areaServed": "IN",
+  "serviceType": [
+    "Stand-Up Comedy Shows",
+    "College Fest Events",
+    "Corporate Entertainment",
+    "Auditorium Productions"
+  ],
+  "sameAs": []
+}
+</script>
 <style>
 /* --- Ambient Magic Variables --- */
 :root {
@@ -112,6 +148,9 @@ background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
 border: 1px solid rgba(255, 255, 255, 0.05);
 }
+.menu-open {
+overflow: hidden;
+}
 </style></head>
 <body class="font-body antialiased selection:bg-[#c6a87c]/20 selection:text-[#c6a87c] overflow-x-hidden">
     
@@ -136,7 +175,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 md:px-12 md:py-8 flex justify-between items-center mix-blend-difference pointer-events-none">
         <div class="reveal-hidden pointer-events-auto flex items-center gap-3">
-            <a href="#" class="flex flex-col items-center leading-none group cursor-pointer">
+            <a href="/" class="flex flex-col items-center leading-none group cursor-pointer">
                 <span class="font-ancient text-lg text-[#c6a87c] font-bold tracking-widest group-hover:text-white transition-colors">THE</span>
                 <span class="font-ancient text-2xl text-slate-100 font-bold tracking-[0.2em]">SHOW</span>
                 <span class="font-ancient text-xs text-[#c6a87c] tracking-[0.5em] mt-1 group-hover:text-white transition-colors">COMPANY</span>
@@ -150,17 +189,34 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                 Enquire
             </a>
         </div>
-        <!-- Mobile Menu Icon (Placeholder) -->
-        <div class="md:hidden pointer-events-auto text-[#c6a87c]">
-            <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
-        </div>
+        <!-- Mobile Menu Toggle -->
+        <button
+            id="mobile-menu-button"
+            type="button"
+            class="md:hidden pointer-events-auto text-[#c6a87c] inline-flex items-center justify-center"
+            aria-label="Toggle menu"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+        >
+            <iconify-icon id="mobile-menu-icon" icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
+        </button>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-md px-6 pt-28 pb-10 hidden md:hidden">
+        <div class="flex flex-col gap-6">
+            <a href="#about" class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-300 hover:text-[#c6a87c] transition-colors">About</a>
+            <a href="#shows" class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-300 hover:text-[#c6a87c] transition-colors">Services</a>
+            <a href="#faqs" class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-300 hover:text-[#c6a87c] transition-colors">FAQs</a>
+            <a href="#contact" class="mobile-nav-link mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <header class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 z-0 pointer-events-none">
-            <img src="assets/stage-lighting-1600x1200.jpeg" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]" alt="Stage lighting at The Show Company event">
+            <img src="assets/stage-lighting-1600x1200.jpeg" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]" alt="Stage lighting at The Show Company event" width="1600" height="1200" loading="eager" fetchpriority="high" decoding="async">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-[#050505]/30 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
         </div>
@@ -175,7 +231,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                 </div>
             </div>
 
-            <h1 class="reveal-hidden font-ancient text-6xl md:text-9xl tracking-tight text-slate-100 font-bold leading-none drop-shadow-2xl" style="transition-delay: 600ms;">
+            <h1 class="reveal-hidden font-ancient text-5xl sm:text-6xl md:text-9xl tracking-tight text-slate-100 font-bold leading-none drop-shadow-2xl" style="transition-delay: 600ms;">
                 THE SHOW<br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#c6a87c] via-[#eaddcf] to-[#c6a87c] opacity-90">COMPANY</span>
             </h1>
@@ -254,7 +310,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- College Shows -->
                 <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 p-10 h-96 flex flex-col justify-end reveal-hidden cursor-none">
-                    <img src="assets/audience-crowd-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="College crowd at campus event">
+                    <img src="assets/audience-crowd-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="College crowd at campus event" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                     <div class="relative z-10">
                         <div class="flex items-center gap-2 mb-2 text-[#c6a87c]">
@@ -275,7 +331,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
 
                 <!-- Corporate Shows -->
                 <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 p-10 h-96 flex flex-col justify-end reveal-hidden cursor-none">
-                    <img src="assets/event-performance-1600x1200.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="Corporate gala performance">
+                    <img src="assets/event-performance-1600x1200.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="Corporate gala performance" width="1600" height="1200" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                     <div class="relative z-10">
                         <div class="flex items-center gap-2 mb-2 text-[#c6a87c]">
@@ -292,7 +348,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
 
                 <!-- Artist Shows (Auditorium Shows) -->
                 <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 p-10 h-96 flex flex-col justify-end reveal-hidden cursor-none">
-                    <img src="assets/performer-on-stage-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="Artist performing on stage">
+                    <img src="assets/performer-on-stage-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 grayscale group-hover:grayscale-0" alt="Artist performing on stage" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                     <div class="relative z-10">
                         <div class="flex items-center gap-2 mb-2 text-[#c6a87c]">
@@ -329,7 +385,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                 </div>
             </div>
             <div class="w-full aspect-[21/9] bg-[#0c0d10] overflow-hidden relative cursor-none rounded-sm">
-                <img src="assets/comedy-show-event-1600x1202.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-[1.5s] ease-out mix-blend-luminosity group-hover:mix-blend-normal" alt="Comedy Collective Tour">
+                <img src="assets/comedy-show-event-1600x1202.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-[1.5s] ease-out mix-blend-luminosity group-hover:mix-blend-normal" alt="Comedy Collective Tour" width="1600" height="1202" loading="lazy" decoding="async">
             </div>
         </article>
 
@@ -346,7 +402,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                 </div>
             </div>
             <div class="w-full aspect-[21/9] bg-[#0c0d10] overflow-hidden relative cursor-none rounded-sm">
-                <img src="assets/live-performance-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-[1.5s] ease-out mix-blend-luminosity group-hover:mix-blend-normal" alt="Campus Beats Festival">
+                <img src="assets/live-performance-1200x1600.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-[1.5s] ease-out mix-blend-luminosity group-hover:mix-blend-normal" alt="Campus Beats Festival" width="1200" height="1600" loading="lazy" decoding="async">
             </div>
         </article>
     </section>
@@ -362,22 +418,22 @@ border: 1px solid rgba(255, 255, 255, 0.05);
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal-hidden">
                 <div class="relative aspect-square overflow-hidden rounded-sm group">
-                    <img src="assets/venue-stage-setup-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Venue setup">
+                    <img src="assets/venue-stage-setup-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Venue setup" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <p class="absolute bottom-4 left-4 text-xs text-white uppercase tracking-widest">Main Stage</p>
                 </div>
                 <div class="relative aspect-square overflow-hidden rounded-sm group">
-                    <img src="assets/comedy-show-event-1600x1202.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Comedy show">
+                    <img src="assets/comedy-show-event-1600x1202.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Comedy show" width="1600" height="1202" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <p class="absolute bottom-4 left-4 text-xs text-white uppercase tracking-widest">Comedy Night</p>
                 </div>
                 <div class="relative aspect-square overflow-hidden rounded-sm group">
-                    <img src="assets/live-performance-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Live performance">
+                    <img src="assets/live-performance-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Live performance" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <p class="absolute bottom-4 left-4 text-xs text-white uppercase tracking-widest">Live Show</p>
                 </div>
                 <div class="relative aspect-square overflow-hidden rounded-sm group">
-                    <img src="assets/audience-crowd-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Audience">
+                    <img src="assets/audience-crowd-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Audience" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <p class="absolute bottom-4 left-4 text-xs text-white uppercase tracking-widest">Full House</p>
                 </div>
@@ -439,7 +495,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
             <!-- Team Member 1 -->
             <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500">
                 <div class="aspect-[3/4] relative overflow-hidden">
-                    <img src="assets/performer-on-stage-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Director">
+                    <img src="assets/performer-on-stage-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Director" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
@@ -459,7 +515,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
             <!-- Team Member 2 -->
             <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500" style="transition-delay: 100ms;">
                 <div class="aspect-[3/4] relative overflow-hidden">
-                    <img src="assets/live-performance-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Creative Lead">
+                    <img src="assets/live-performance-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Creative Lead" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
@@ -479,7 +535,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
             <!-- Team Member 3 -->
             <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500" style="transition-delay: 200ms;">
                 <div class="aspect-[3/4] relative overflow-hidden">
-                    <img src="assets/venue-stage-setup-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Artist Manager">
+                    <img src="assets/venue-stage-setup-1200x1600.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Artist Manager" width="1200" height="1600" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
@@ -717,7 +773,7 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                         <input type="text" class="w-full border-b border-slate-700 py-2 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="Your full name">
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-2">
                             <label class="text-[10px] uppercase tracking-widest text-slate-500">Email</label>
                             <input type="email" class="w-full border-b border-slate-700 py-2 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="hello@example.com">
@@ -790,6 +846,39 @@ border: 1px solid rgba(255, 255, 255, 0.05);
                 icon.style.transform = 'rotate(180deg)';
             }
         }
+
+        // Mobile Navigation
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+
+        function setMobileMenuState(isOpen) {
+            mobileMenu.classList.toggle('hidden', !isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
+            mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+            mobileMenuIcon.setAttribute('icon', isOpen ? 'solar:close-circle-linear' : 'solar:hamburger-menu-linear');
+        }
+
+        mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('hidden');
+            setMobileMenuState(isOpen);
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => setMobileMenuState(false));
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                setMobileMenuState(false);
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                setMobileMenuState(false);
+            }
+        });
 
         // Particles
         const particleContainer = document.getElementById('particles');
