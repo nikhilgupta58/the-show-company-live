@@ -216,9 +216,9 @@ overflow: hidden;
     <header class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 z-0 pointer-events-none">
-            <img src="assets/stage-lighting-1600x1200.jpeg" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]" alt="Stage lighting at The Show Company event" width="1600" height="1200" loading="eager" fetchpriority="high" decoding="async">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-[#050505]/30 mix-blend-multiply"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
+            <img src="assets/stage-lighting-1600x1200.jpeg" class="w-full h-full object-cover opacity-65 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]" alt="Stage lighting at The Show Company event" width="1600" height="1200" loading="eager" fetchpriority="high" decoding="async">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/45 to-[#050505]/15 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/10 via-transparent to-[#050505]"></div>
         </div>
 
         <div class="relative z-10 text-center max-w-6xl space-y-8 mt-20">
@@ -722,48 +722,51 @@ overflow: hidden;
 
     <!-- Contact & Enquiry Section -->
     <section id="contact" class="py-32 px-6 md:px-12 max-w-screen-xl mx-auto border-t border-white/5">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-            
-            <!-- Artist Enquiry CTA -->
-            <div class="reveal-hidden space-y-8">
-                <div>
-                    <h2 class="font-cinematic text-4xl md:text-5xl text-slate-200 mb-6">
-                        Take the Stage
-                    </h2>
-                    <p class="text-slate-500 font-light leading-relaxed">
-                        Are you an artist looking for management or booking? We are always looking for new talent to join our roster.
-                    </p>
+        <!-- Book a Show / Artist Enquiry -->
+        <div class="reveal-hidden mb-16 md:mb-20 glass-panel p-8 md:p-12 rounded-sm border border-white/10">
+            <div class="text-center mb-10 md:mb-12">
+                <div class="w-12 h-12 rounded-full bg-[#c6a87c]/10 border border-[#c6a87c]/40 flex items-center justify-center text-[#c6a87c] mx-auto mb-4">
+                    <iconify-icon icon="solar:microphone-3-linear" width="22"></iconify-icon>
                 </div>
-                
-                <div class="p-8 glass-panel border border-[#c6a87c]/20 rounded-sm">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-[#c6a87c]/10 flex items-center justify-center text-[#c6a87c]">
-                            <iconify-icon icon="solar:microphone-3-linear" class="text-2xl"></iconify-icon>
-                        </div>
-                        <h4 class="font-ancient text-xl text-slate-200">Artist Enquiry</h4>
-                    </div>
-                    <p class="text-xs text-slate-400 mb-6">Send your portfolio and showreel to our talent acquisition team.</p>
-                    <a href="mailto:talent@theshowcompany.com" class="text-xs uppercase tracking-widest text-[#c6a87c] hover:text-white transition-colors">
-                        talent@theshowcompany.com
-                    </a>
-                </div>
-
-                <div class="space-y-4 pt-8">
-                    <p class="text-xs text-slate-600 uppercase tracking-widest">Connect Socially</p>
-                    <div class="flex gap-6 text-slate-400">
-                        <a href="#" class="hover:text-[#c6a87c] transition-colors cursor-pointer">
-                            <iconify-icon icon="mdi:whatsapp" class="text-2xl"></iconify-icon>
-                        </a>
-                        <a href="#" class="hover:text-[#c6a87c] transition-colors cursor-pointer">
-                            <iconify-icon icon="mdi:linkedin" class="text-2xl"></iconify-icon>
-                        </a>
-                        <a href="#" class="hover:text-[#c6a87c] transition-colors cursor-pointer">
-                            <iconify-icon icon="mdi:instagram" class="text-2xl"></iconify-icon>
-                        </a>
-                    </div>
-                </div>
+                <h3 class="font-ancient text-2xl md:text-3xl text-slate-200 tracking-wide">Book a Show / Artist</h3>
+                <p class="text-slate-500 text-sm mt-3">Fill this form to enquire about artist availability and pricing.</p>
             </div>
 
+            <form class="space-y-8" onsubmit="event.preventDefault();">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-slate-500">Your Name</label>
+                        <input type="text" class="w-full border border-white/10 rounded-sm px-4 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-slate-500">Organization / College</label>
+                        <input type="text" class="w-full border border-white/10 rounded-sm px-4 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-slate-500">Artist / Genre Preference</label>
+                    <input type="text" class="w-full border border-white/10 rounded-sm px-4 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-600" placeholder="e.g. Standup Comedy, EDM DJ, Rock Band">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-slate-500">Event Date</label>
+                        <input type="date" class="w-full border border-white/10 rounded-sm px-4 py-3 text-slate-300 focus:border-[#c6a87c] transition-colors">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-slate-500">Approx Budget</label>
+                        <input type="text" class="w-full border border-white/10 rounded-sm px-4 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-600" placeholder="Approx Budget">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-[#c6a87c] text-[#070707] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-[#d2b88f] transition-colors">
+                    Send Enquiry
+                </button>
+            </form>
+        </div>
+
+        <div class="max-w-3xl mx-auto">
             <!-- Customer Query Form -->
             <div class="reveal-hidden glass-panel p-8 md:p-12 rounded-sm border border-white/5">
                 <h3 class="font-ancient text-2xl text-slate-200 mb-8">Customer Query</h3>
@@ -799,7 +802,6 @@ overflow: hidden;
                     </button>
                 </form>
             </div>
-
         </div>
     </section>
 
