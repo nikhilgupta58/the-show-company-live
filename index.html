@@ -527,6 +527,12 @@
         font-weight: 700;
       }
     </style>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+    </script>
   </head>
   <body class="font-body antialiased selection:bg-[#c6a87c]/20 selection:text-[#c6a87c] overflow-x-hidden">
 
@@ -1493,44 +1499,44 @@
           <p class="text-slate-500 text-xs mt-2">Fields marked <span class="text-[#c6a87c]">*</span> are required</p>
         </div>
 
-        <form class="space-y-7" onsubmit="handleBookingSubmit(event)">
+        <form id="booking-form" class="space-y-7" onsubmit="handleBookingSubmit(event)">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Your Name <span class="required-star">*</span></label>
-              <input type="text" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Full name" />
+              <input type="text" name="name" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Full name" />
             </div>
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Organization / College <span class="required-star">*</span></label>
-              <input type="text" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Your org or college" />
+              <input type="text" name="organization" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Your org or college" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Email Address <span class="required-star">*</span></label>
-              <input type="email" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="hello@example.com" />
+              <input type="email" name="email" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="hello@example.com" />
             </div>
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
-              <input type="tel" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="+91 98765 43210" />
+              <input type="tel" name="phone" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="+91 98765 43210" />
             </div>
           </div>
 
           <div class="space-y-2">
             <label class="text-[10px] uppercase tracking-widest text-slate-500">Artist / Genre Preference <span class="required-star">*</span></label>
-            <input type="text" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="e.g. Standup Comedy, EDM DJ, Rock Band" />
+            <input type="text" name="artist_preference" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="e.g. Standup Comedy, EDM DJ, Rock Band" />
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Event Date <span class="required-star">*</span></label>
-              <input type="date" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" />
+              <input type="date" name="event_date" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" />
             </div>
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Approx. Budget (₹)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">₹</span>
-                <input type="text" id="budget-input" class="w-full border border-white/10 rounded-sm px-4 py-3.5 text-slate-200 focus:border-[#c6a87c] transition-colors input-with-prefix placeholder-slate-600" placeholder="e.g. 1,00,000" oninput="formatBudget(this)" />
+                <input type="text" name="budget" id="budget-input" class="w-full border border-white/10 rounded-sm px-4 py-3.5 text-slate-200 focus:border-[#c6a87c] transition-colors input-with-prefix placeholder-slate-600" placeholder="e.g. 1,00,000" oninput="formatBudget(this)" />
               </div>
             </div>
           </div>
@@ -1550,38 +1556,38 @@
           <h3 class="font-ancient text-2xl md:text-3xl text-slate-200 mb-2">Customer Query</h3>
           <p class="text-slate-500 text-xs mb-8">Fields marked <span class="text-[#c6a87c]">*</span> are required</p>
 
-          <form class="space-y-7" onsubmit="handleQuerySubmit(event)">
+          <form id="query-form" class="space-y-7" onsubmit="handleQuerySubmit(event)">
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Name <span class="required-star">*</span></label>
-              <input type="text" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="Your full name" />
+              <input type="text" name="name" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="Your full name" />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
               <div class="space-y-2">
                 <label class="text-[10px] uppercase tracking-widest text-slate-500">Email <span class="required-star">*</span></label>
-                <input type="email" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="hello@example.com" />
+                <input type="email" name="email" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="hello@example.com" />
               </div>
               <div class="space-y-2">
                 <label class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
-                <input type="tel" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="+91 98765 43210" />
+                <input type="tel" name="phone" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700" placeholder="+91 98765 43210" />
               </div>
             </div>
 
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Subject <span class="required-star">*</span></label>
-              <select required class="w-full border-b border-slate-700 py-3 text-slate-500 focus:border-[#c6a87c] transition-colors bg-transparent">
+              <select name="subject" required class="w-full border-b border-slate-700 py-3 text-slate-500 focus:border-[#c6a87c] transition-colors bg-transparent">
                 <option class="bg-black" value="">Select a topic</option>
-                <option class="bg-black" value="general">General Inquiry</option>
-                <option class="bg-black" value="book">Book a Show</option>
-                <option class="bg-black" value="ticket">Ticket Support</option>
-                <option class="bg-black" value="partnership">Partnership</option>
-                <option class="bg-black" value="artist">Artist Collaboration</option>
+                <option class="bg-black" value="General Inquiry">General Inquiry</option>
+                <option class="bg-black" value="Book a Show">Book a Show</option>
+                <option class="bg-black" value="Ticket Support">Ticket Support</option>
+                <option class="bg-black" value="Partnership">Partnership</option>
+                <option class="bg-black" value="Artist Collaboration">Artist Collaboration</option>
               </select>
             </div>
 
             <div class="space-y-2">
               <label class="text-[10px] uppercase tracking-widest text-slate-500">Message <span class="required-star">*</span></label>
-              <textarea required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700 resize-none h-28" placeholder="How can we help you?"></textarea>
+              <textarea name="message" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors placeholder-slate-700 resize-none h-28" placeholder="How can we help you?"></textarea>
             </div>
 
             <button type="submit" class="btn-outline-gold w-full py-4 text-xs uppercase tracking-[0.2em] rounded-sm hover:bg-[#c6a87c]/15">
@@ -1805,28 +1811,62 @@
         input.value = lastThree;
       }
 
+      // ── EmailJS Config ──
+      const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+      const EMAILJS_BOOKING_TEMPLATE_ID = 'YOUR_BOOKING_TEMPLATE_ID';
+      const EMAILJS_QUERY_TEMPLATE_ID = 'YOUR_QUERY_TEMPLATE_ID';
+
       // ── Form submission handlers ──
       function handleBookingSubmit(e) {
         e.preventDefault();
-        const btn = e.target.querySelector('button[type=submit]');
-        btn.textContent = 'Enquiry Sent ✓';
-        btn.classList.remove('bg-[#c6a87c]');
-        btn.classList.add('bg-[#c6a87c]/50');
-        setTimeout(() => {
-          btn.textContent = 'Send Enquiry';
-          btn.classList.add('bg-[#c6a87c]');
-          btn.classList.remove('bg-[#c6a87c]/50');
-          e.target.reset();
-        }, 3000);
+        const form = e.target;
+        const btn = form.querySelector('button[type=submit]');
+        const originalText = btn.textContent;
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_BOOKING_TEMPLATE_ID, form)
+          .then(() => {
+            btn.textContent = 'Enquiry Sent ✓';
+            btn.classList.add('bg-[#c6a87c]/50');
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.classList.remove('bg-[#c6a87c]/50');
+              btn.disabled = false;
+              form.reset();
+            }, 3000);
+          })
+          .catch((err) => {
+            console.error('EmailJS booking error:', err);
+            btn.textContent = 'Failed — Try Again';
+            btn.disabled = false;
+            setTimeout(() => { btn.textContent = originalText; }, 3000);
+          });
       }
+
       function handleQuerySubmit(e) {
         e.preventDefault();
-        const btn = e.target.querySelector('button[type=submit]');
-        btn.textContent = 'Message Sent ✓';
-        setTimeout(() => {
-          btn.textContent = 'Send Message';
-          e.target.reset();
-        }, 3000);
+        const form = e.target;
+        const btn = form.querySelector('button[type=submit]');
+        const originalText = btn.textContent;
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_QUERY_TEMPLATE_ID, form)
+          .then(() => {
+            btn.textContent = 'Message Sent ✓';
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.disabled = false;
+              form.reset();
+            }, 3000);
+          })
+          .catch((err) => {
+            console.error('EmailJS query error:', err);
+            btn.textContent = 'Failed — Try Again';
+            btn.disabled = false;
+            setTimeout(() => { btn.textContent = originalText; }, 3000);
+          });
       }
 
       // ── Mobile Navigation ──
