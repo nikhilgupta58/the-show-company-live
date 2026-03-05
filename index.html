@@ -1423,22 +1423,16 @@
       </div>
       <!-- Section Header -->
       <div class="text-center mb-16 reveal-hidden relative z-10">
-        <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Reach Out</span>
         <h3 class="font-ancient text-4xl md:text-5xl text-slate-200 mt-4">Get In Touch</h3>
         <p class="text-slate-500 text-sm mt-4 max-w-lg mx-auto">Ready to create something unforgettable? Fill in the form below and our team will get back to you within 24 hours.</p>
         <!-- Social contact links -->
         <div class="flex items-center justify-center gap-6 mt-8 flex-wrap">
-          <a href="https://www.instagram.com/theshowcompany" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.instagram.com/the_show_company/" target="_blank" rel="noopener noreferrer"
              class="group flex items-center gap-2.5 px-5 py-2.5 border border-white/10 rounded-sm text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all text-xs uppercase tracking-widest">
             <iconify-icon icon="mdi:instagram" width="16"></iconify-icon>
             <span>Instagram</span>
           </a>
-          <a href="https://www.linkedin.com/company/theshowcompany" target="_blank" rel="noopener noreferrer"
-             class="group flex items-center gap-2.5 px-5 py-2.5 border border-white/10 rounded-sm text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all text-xs uppercase tracking-widest">
-            <iconify-icon icon="mdi:linkedin" width="16"></iconify-icon>
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
+          <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer"
              class="group flex items-center gap-2.5 px-5 py-2.5 border border-white/10 rounded-sm text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all text-xs uppercase tracking-widest">
             <iconify-icon icon="mdi:whatsapp" width="16"></iconify-icon>
             <span>WhatsApp</span>
@@ -1595,29 +1589,17 @@
 
         <!-- Social Media Handles -->
         <div class="flex items-center gap-6 pt-2">
-          <a href="https://www.instagram.com/theshowcompany" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
+          <a href="https://www.instagram.com/the_show_company/" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
             <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">
               <iconify-icon icon="mdi:instagram" width="18"></iconify-icon>
             </div>
             <span class="text-[9px] uppercase tracking-widest">Instagram</span>
           </a>
-          <a href="https://www.youtube.com/@theshowcompany" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
+          <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
             <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">
-              <iconify-icon icon="mdi:youtube" width="18"></iconify-icon>
+              <iconify-icon icon="mdi:whatsapp" width="18"></iconify-icon>
             </div>
-            <span class="text-[9px] uppercase tracking-widest">YouTube</span>
-          </a>
-          <a href="https://www.linkedin.com/company/theshowcompany" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
-            <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">
-              <iconify-icon icon="mdi:linkedin" width="18"></iconify-icon>
-            </div>
-            <span class="text-[9px] uppercase tracking-widest">LinkedIn</span>
-          </a>
-          <a href="https://twitter.com/theshowcompany" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
-            <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">
-              <iconify-icon icon="mdi:twitter" width="18"></iconify-icon>
-            </div>
-            <span class="text-[9px] uppercase tracking-widest">Twitter / X</span>
+            <span class="text-[9px] uppercase tracking-widest">WhatsApp</span>
           </a>
         </div>
 
@@ -1827,16 +1809,43 @@
       }
 
       // ── Budget formatting ──
+      let previousBudgetValue = '';
+      
       function formatBudget(input) {
+        const currentValue = input.value;
+        const isBackspace = currentValue.length < previousBudgetValue.length;
+        
+        // Store current value for next comparison
+        previousBudgetValue = currentValue;
+        
+        // If it's a backspace operation and the field is getting empty, allow it
+        if (isBackspace && currentValue.replace(/[^0-9]/g, '').length <= 3) {
+          let raw = currentValue.replace(/[^0-9]/g, '');
+          if (!raw) { 
+            input.value = ''; 
+            return; 
+          }
+          // For 3 digits or less, don't add commas
+          input.value = raw;
+          return;
+        }
+        
         let raw = input.value.replace(/[^0-9]/g, '');
         if (!raw) { input.value = ''; return; }
+        
         // Indian comma system: last 3 digits, then groups of 2
         let lastThree = raw.slice(-3);
         let rest = raw.slice(0, raw.length - 3);
+        let formattedValue;
+        
         if (rest) {
-          lastThree = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + lastThree;
+          rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+          formattedValue = rest + ',' + lastThree;
+        } else {
+          formattedValue = lastThree;
         }
-        input.value = lastThree;
+        
+        input.value = formattedValue;
       }
 
       // ── EmailJS Config ──
