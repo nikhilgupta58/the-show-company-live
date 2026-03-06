@@ -17,37 +17,45 @@
     <meta name="author" content="The Show Company" />
     <meta name="theme-color" content="#050505" />
     <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="apple-touch-icon" href="assets/logo.png" />
     <link rel="canonical" href="https://theshowcompany.live/" />
+    <link rel="preload" as="image" href="assets/stage-lighting-1600x1200.jpeg" fetchpriority="high" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="The Show Company" />
+    <meta property="og:locale" content="en_IN" />
     <meta
       property="og:title"
       content="The Show Company | Stand-Up Comedy, College &amp; Corporate Events"
     />
     <meta
       property="og:description"
-      content="Book premium stand-up comedy, college shows, corporate events, and live productions with The Show Company."
+      content="Book premium stand-up comedy, college shows, corporate events, and live productions with The Show Company. Curating unforgettable live experiences across India."
     />
     <meta property="og:url" content="https://theshowcompany.live/" />
     <meta
       property="og:image"
-      content="https://theshowcompany.live/assets/stage-lighting-1600x1200.jpeg"
+      content="https://theshowcompany.live/assets/og-image.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Show Company — Live Entertainment, Stand-Up Comedy &amp; Events across India" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@theshowcompany" />
     <meta
       name="twitter:title"
       content="The Show Company | Stand-Up Comedy, College &amp; Corporate Events"
     />
     <meta
       name="twitter:description"
-      content="Curating unforgettable comedy and live entertainment experiences across India."
+      content="Curating unforgettable comedy and live entertainment experiences across India. Book artists, college shows, corporate events &amp; auditorium productions."
     />
     <meta
       name="twitter:image"
-      content="https://theshowcompany.live/assets/stage-lighting-1600x1200.jpeg"
+      content="https://theshowcompany.live/assets/og-image.png"
     />
+    <meta name="twitter:image:alt" content="The Show Company — Live Entertainment across India" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -63,16 +71,24 @@
         "@type": "EntertainmentBusiness",
         "name": "The Show Company",
         "url": "https://theshowcompany.live/",
-        "description": "Entertainment production company specializing in stand-up comedy, college events, corporate shows, and auditorium performances.",
+        "logo": "https://theshowcompany.live/assets/logo.png",
+        "image": "https://theshowcompany.live/assets/og-image.png",
+        "description": "Entertainment production company specializing in stand-up comedy, college events, corporate shows, and auditorium performances across India.",
         "email": "contact@theshowcompany.in",
+        "telephone": "+91-70602-93132",
         "areaServed": "IN",
         "serviceType": [
           "Stand-Up Comedy Shows",
           "College Fest Events",
           "Corporate Entertainment",
-          "Auditorium Productions"
+          "Auditorium Productions",
+          "Artist Booking",
+          "Live Productions"
         ],
-        "sameAs": []
+        "sameAs": [
+          "https://www.instagram.com/the_show_company/",
+          "https://www.linkedin.com/company/theshowcompany"
+        ]
       }
     </script>
     <style>
@@ -634,6 +650,8 @@
       </div>
     </header>
 
+    <main id="main-content">
+
     <!-- ═══════════════════════════════════════════════
          MARQUEE STRIP
     ════════════════════════════════════════════════ -->
@@ -721,7 +739,7 @@
       <div class="px-6 md:px-12 max-w-screen-xl mx-auto">
         <div class="mb-14 reveal-hidden text-center">
           <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Our Expertise</span>
-          <h3 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Production Types</h3>
+          <h2 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Production Types</h2>
         </div>
 
         <!-- Category pills -->
@@ -747,7 +765,7 @@
                     <iconify-icon icon="solar:microphone-3-linear" width="22" class="shows-icon-glow"></iconify-icon>
                     <span class="text-xs uppercase tracking-widest">Comedy</span>
                   </div>
-                  <h4 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Standup Comedy Shows</h4>
+                  <h3 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Standup Comedy Shows</h3>
                   <p class="text-sm text-slate-200 font-light mb-6 max-w-xl leading-relaxed">
                     We book and produce top standup comedians across India — from intimate club nights to massive auditorium shows. Our roster includes emerging voices and headline acts audiences love.
                   </p>
@@ -769,7 +787,7 @@
                     <iconify-icon icon="solar:diploma-linear" width="22"></iconify-icon>
                     <span class="text-xs uppercase tracking-widest">Campus Events</span>
                   </div>
-                  <h4 class="font-cinematic text-4xl md:text-5xl text-white mb-5">College Shows</h4>
+                  <h3 class="font-cinematic text-4xl md:text-5xl text-white mb-5">College Shows</h3>
                   <p class="text-sm text-slate-200 font-light mb-6 max-w-xl leading-relaxed">
                     Energetic music gigs, comedy nights, and full-scale cultural fests designed for the youth. We've worked with premier institutions like Graphic Era and many more across the country.
                   </p>
@@ -793,7 +811,7 @@
                     <iconify-icon icon="solar:briefcase-linear" width="22"></iconify-icon>
                     <span class="text-xs uppercase tracking-widest">Professional</span>
                   </div>
-                  <h4 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Corporate Events</h4>
+                  <h3 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Corporate Events</h3>
                   <p class="text-sm text-slate-200 font-light mb-6 max-w-xl leading-relaxed">
                     Tailored stand-up comedy and entertainment for galas, product launches, and company retreats. We handle end-to-end production so your team can focus on the moment.
                   </p>
@@ -815,7 +833,7 @@
                     <iconify-icon icon="solar:star-fall-linear" width="22"></iconify-icon>
                     <span class="text-xs uppercase tracking-widest">Public Events</span>
                   </div>
-                  <h4 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Auditorium Shows</h4>
+                  <h3 class="font-cinematic text-4xl md:text-5xl text-white mb-5">Auditorium Shows</h3>
                   <p class="text-sm text-slate-200 font-light mb-6 max-w-xl leading-relaxed">
                     Large-scale auditorium performances featuring top comedians, singers, and entertainers — backed by world-class sound and lighting by our partners at VIGOR MENTORS.
                   </p>
@@ -847,7 +865,7 @@
         <div class="flex items-end justify-between">
           <div>
             <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Portfolio</span>
-            <h3 class="font-ancient text-4xl md:text-5xl text-slate-200 mt-3">Featured Events</h3>
+            <h2 class="font-ancient text-4xl md:text-5xl text-slate-200 mt-3">Featured Events</h2>
           </div>
           <div class="hidden md:flex gap-3">
             <button onclick="switchEventSlide(currentEventSlide - 1)" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all">
@@ -997,7 +1015,7 @@
       <div class="px-6 md:px-12 max-w-screen-xl mx-auto">
         <div class="mb-16 text-center reveal-hidden">
           <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Our Venues</span>
-          <h3 class="font-cinematic text-3xl md:text-4xl text-slate-100 mt-4">Auditorium Events</h3>
+          <h2 class="font-cinematic text-3xl md:text-4xl text-slate-100 mt-4">Auditorium Events</h2>
           <p class="text-slate-400 text-sm mt-4 max-w-2xl mx-auto">Large-scale performances at premier venues across the country</p>
         </div>
 
@@ -1073,7 +1091,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start mb-16 gap-8">
           <div>
             <p class="text-xs text-[#c6a87c] uppercase tracking-[0.3em] mb-2">Our Network</p>
-            <h3 class="font-cinematic text-3xl md:text-4xl text-slate-200">Strategic Partners</h3>
+            <h2 class="font-cinematic text-3xl md:text-4xl text-slate-200">Strategic Partners</h2>
           </div>
           <!-- Vigor Mentors -->
           <div class="px-5 py-3 rounded-sm border border-white/10 flex items-center gap-4 opacity-70 hover:opacity-100 transition-opacity">
@@ -1115,7 +1133,7 @@
     <section id="team" class="py-28 px-6 md:px-12 max-w-screen-xl mx-auto">
       <div class="mb-16 text-center reveal-hidden">
         <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">The Curators</span>
-        <h3 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Meet Our Team</h3>
+        <h2 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Meet Our Team</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1126,7 +1144,7 @@
             <div class="absolute inset-0 team-card-overlay"></div>
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-6">
-            <h4 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Adbhut Tripathi</h4>
+            <h3 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Adbhut Tripathi</h3>
             <div class="team-name-line"></div>
             <p class="text-[10px] text-[#c6a87c] uppercase tracking-widest mt-3">Founder</p>
             <div class="mt-4 flex gap-4">
@@ -1139,11 +1157,11 @@
         <!-- Team Member 2: Aryan Kaushik -->
         <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500" style="transition-delay:100ms">
           <div class="aspect-[3/4] relative overflow-hidden">
-            <img src="assets/team-nikhil-gupta-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Aryan Kaushik" width="3024" height="4032" loading="lazy" decoding="async" />
+            <img src="assets/team-nikhil-gupta-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Nikhil Gupta" width="3024" height="4032" loading="lazy" decoding="async" />
             <div class="absolute inset-0 team-card-overlay"></div>
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-6">
-            <h4 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Aryan Kaushik</h4>
+            <h3 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Aryan Kaushik</h3>
             <div class="team-name-line"></div>
             <p class="text-[10px] text-[#c6a87c] uppercase tracking-widest mt-3">Events &amp; Artist Relations</p>
             <div class="mt-4 flex gap-4">
@@ -1160,7 +1178,7 @@
             <div class="absolute inset-0 team-card-overlay"></div>
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-6">
-            <h4 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Nikhil Gupta</h4>
+            <h3 class="text-slate-100 font-display text-3xl font-light" style="font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;">Nikhil Gupta</h3>
             <div class="team-name-line"></div>
             <p class="text-[10px] text-[#c6a87c] uppercase tracking-widest mt-3">Design &amp; Tech</p>
             <div class="mt-4 flex gap-4">
@@ -1179,7 +1197,7 @@
       <div class="max-w-screen-xl mx-auto px-6 md:px-12">
         <div class="mb-14 text-center reveal-hidden">
           <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Testimonials</span>
-          <h3 class="font-display text-4xl md:text-5xl text-slate-200 mt-4 font-light italic" style="font-family:'Cormorant Garamond',serif;">Audience Applause</h3>
+          <h2 class="font-display text-4xl md:text-5xl text-slate-200 mt-4 font-light italic" style="font-family:'Cormorant Garamond',serif;">Audience Applause</h2>
         </div>
 
         <div class="relative overflow-hidden">
@@ -1343,7 +1361,7 @@
       <div class="max-w-screen-xl mx-auto px-6 md:px-12">
         <div class="mb-16 text-center reveal-hidden">
           <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Questions</span>
-          <h3 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Frequently Asked Questions</h3>
+          <h2 class="font-cinematic text-3xl md:text-4xl text-slate-200 mt-4">Frequently Asked Questions</h2>
         </div>
 
         <div class="max-w-3xl mx-auto space-y-3">
@@ -1423,7 +1441,7 @@
       </div>
       <!-- Section Header -->
       <div class="text-center mb-16 reveal-hidden relative z-10">
-        <h3 class="font-ancient text-4xl md:text-5xl text-slate-200 mt-4">Get In Touch</h3>
+        <h2 class="font-ancient text-4xl md:text-5xl text-slate-200 mt-4">Get In Touch</h2>
         <p class="text-slate-500 text-sm mt-4 max-w-lg mx-auto">Ready to create something unforgettable? Fill in the form below and our team will get back to you within 24 hours.</p>
         <!-- Social contact links -->
         <div class="flex items-center justify-center gap-6 mt-8 flex-wrap">
@@ -1568,6 +1586,8 @@
         </div>
       </div>
     </section>
+
+    </main>
 
     <!-- ═══════════════════════════════════════════════
          FOOTER
