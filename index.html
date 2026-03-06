@@ -8,7 +8,7 @@
     </title>
     <meta
       name="description"
-      content="The Show Company curates stand-up comedy, college fests, corporate entertainment, and large-scale live productions across India. Book artists and plan your next event."
+      content="The Show Company curates stand-up comedy, college fests, corporate events &amp; auditorium productions across India. Book artists for your next show."
     />
     <meta
       name="robots"
@@ -76,15 +76,21 @@
         "description": "Entertainment production company specializing in stand-up comedy, college events, corporate shows, and auditorium performances across India.",
         "email": "contact@theshowcompany.in",
         "telephone": "+91-70602-93132",
-        "areaServed": "IN",
-        "serviceType": [
-          "Stand-Up Comedy Shows",
-          "College Fest Events",
-          "Corporate Entertainment",
-          "Auditorium Productions",
-          "Artist Booking",
-          "Live Productions"
-        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "India"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Live Entertainment Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stand-Up Comedy Shows" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "College Fest Events" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corporate Entertainment" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Auditorium Productions" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Artist Booking" } }
+          ]
+        },
         "sameAs": [
           "https://www.instagram.com/the_show_company/",
           "https://www.linkedin.com/company/theshowcompany"
@@ -94,20 +100,17 @@
             "@type": "Person",
             "name": "Adbhut Tripathi",
             "jobTitle": "Co-Founder",
-            "worksFor": { "@type": "Organization", "name": "The Show Company" },
-            "sameAs": ["https://www.linkedin.com/company/theshowcompany"]
+            "sameAs": "https://www.linkedin.com/company/theshowcompany"
           },
           {
             "@type": "Person",
             "name": "Aryan Kaushik",
-            "jobTitle": "Co-Founder",
-            "worksFor": { "@type": "Organization", "name": "The Show Company" }
+            "jobTitle": "Co-Founder"
           },
           {
             "@type": "Person",
             "name": "Nikhil Gupta",
-            "jobTitle": "Co-Founder",
-            "worksFor": { "@type": "Organization", "name": "The Show Company" }
+            "jobTitle": "Co-Founder"
           }
         ]
       }
@@ -1167,7 +1170,7 @@
         <!-- Team Member 1: Adbhut -->
         <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500">
           <div class="aspect-[3/4] relative overflow-hidden">
-            <img src="assets/team-adbhut-kumar-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Adbhut Tripathi" width="3024" height="4032" loading="lazy" decoding="async" />
+            <img src="assets/team-adbhut-kumar-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Adbhut Tripathi" width="600" height="800" loading="lazy" decoding="async" />
             <div class="absolute inset-0 team-card-overlay"></div>
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-6">
@@ -1184,7 +1187,7 @@
         <!-- Team Member 2: Aryan Kaushik -->
         <div class="group relative overflow-hidden rounded-sm bg-[#050505] border border-white/5 reveal-hidden hover:border-[#c6a87c]/30 transition-all duration-500" style="transition-delay:100ms">
           <div class="aspect-[3/4] relative overflow-hidden">
-            <img src="assets/team-nikhil-gupta-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Nikhil Gupta" width="3024" height="4032" loading="lazy" decoding="async" />
+            <img src="assets/team-nikhil-gupta-3024x4032.jpeg" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" alt="Nikhil Gupta" width="600" height="800" loading="lazy" decoding="async" />
             <div class="absolute inset-0 team-card-overlay"></div>
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-6">
