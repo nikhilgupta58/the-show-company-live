@@ -18,7 +18,7 @@
     <meta name="theme-color" content="#050505" />
     <link rel="icon" type="image/png" href="assets/logo.png" />
     <link rel="apple-touch-icon" href="assets/logo.png" />
-    <link rel="canonical" href="https://theshowcompany.live/" />
+    <link rel="canonical" href="https://www.theshowcompany.in/" />
     <link rel="preload" as="image" href="assets/stage-lighting-1600x1200.jpeg" fetchpriority="high" />
 
     <meta property="og:type" content="website" />
@@ -32,10 +32,10 @@
       property="og:description"
       content="Book premium stand-up comedy, college shows, corporate events, and live productions with The Show Company. Curating unforgettable live experiences across India."
     />
-    <meta property="og:url" content="https://theshowcompany.live/" />
+    <meta property="og:url" content="https://www.theshowcompany.in/" />
     <meta
       property="og:image"
-      content="https://theshowcompany.live/assets/og-image.png"
+      content="https://www.theshowcompany.in/assets/og-image.png"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -53,7 +53,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://theshowcompany.live/assets/og-image.png"
+      content="https://www.theshowcompany.in/assets/og-image.png"
     />
     <meta name="twitter:image:alt" content="The Show Company — Live Entertainment across India" />
 
@@ -70,9 +70,9 @@
         "@context": "https://schema.org",
         "@type": "EntertainmentBusiness",
         "name": "The Show Company",
-        "url": "https://theshowcompany.live/",
-        "logo": "https://theshowcompany.live/assets/logo.png",
-        "image": "https://theshowcompany.live/assets/og-image.png",
+        "url": "https://www.theshowcompany.in/",
+        "logo": "https://www.theshowcompany.in/assets/logo.png",
+        "image": "https://www.theshowcompany.in/assets/og-image.png",
         "description": "Entertainment production company specializing in stand-up comedy, college events, corporate shows, and auditorium performances across India.",
         "email": "contact@theshowcompany.in",
         "telephone": "+91-70602-93132",
@@ -88,6 +88,27 @@
         "sameAs": [
           "https://www.instagram.com/the_show_company/",
           "https://www.linkedin.com/company/theshowcompany"
+        ],
+        "founder": [
+          {
+            "@type": "Person",
+            "name": "Adbhut Tripathi",
+            "jobTitle": "Co-Founder",
+            "worksFor": { "@type": "Organization", "name": "The Show Company" },
+            "sameAs": ["https://www.linkedin.com/company/theshowcompany"]
+          },
+          {
+            "@type": "Person",
+            "name": "Aryan Kaushik",
+            "jobTitle": "Co-Founder",
+            "worksFor": { "@type": "Organization", "name": "The Show Company" }
+          },
+          {
+            "@type": "Person",
+            "name": "Nikhil Gupta",
+            "jobTitle": "Co-Founder",
+            "worksFor": { "@type": "Organization", "name": "The Show Company" }
+          }
         ]
       }
     </script>
@@ -475,15 +496,20 @@
         border-color: rgba(198,168,124,0.2);
         border-left: 2px solid rgba(198,168,124,0.4);
       }
+      /* FAQ details/summary — content always in DOM for AI crawlers */
+      details.faq-item summary { list-style: none; cursor: pointer; }
+      details.faq-item summary::-webkit-details-marker { display: none; }
       .faq-content {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.55s cubic-bezier(0.16,1,0.3,1), padding 0.3s ease;
       }
-      .faq-content.open {
+      details.faq-item[open] .faq-content {
         max-height: 400px;
         padding-bottom: 24px;
       }
+      details.faq-item[open] .faq-icon { transform: rotate(180deg); }
+      details.faq-item[open] { border-color: rgba(198,168,124,0.2) !important; }
       .faq-content p { opacity: 1; }
 
       /* ── PASS 2: Form left accent ── */
@@ -709,8 +735,9 @@
   <em class="font-display not-italic" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(198,168,124,0.45);">people together.</em>
         </h2>
         <div class="border-t border-white/5 pt-10 text-slate-400 font-light leading-loose text-base md:text-lg space-y-5">
+          <!-- GEO citability block: clear definition for AI citation -->
           <p>
-            At The Show Company, we believe great laughter and live entertainment bring people together like nothing else. Specialising in stand-up comedy, we curate and deliver unforgettable comedy shows across the country, featuring both emerging talent and established performers.
+            The Show Company is a live entertainment production company based in India, founded to curate and deliver premium stand-up comedy shows, college fests, corporate events, and large-scale auditorium productions across the country. Operating in 50+ cities pan-India with 500+ shows produced and 100+ artists booked, The Show Company handles every detail from artist booking and stage design to sound, lighting, and post-event support.
           </p>
           <p>
             Beyond comedy, we design vibrant live experiences at colleges, universities, and cultural venues — from energetic music gigs and EDM nights to engaging campus festivals and large-scale auditorium productions. Our team manages every detail, from artist booking and stage design to sound, lighting, and post-event support, working closely with our partners to ensure a flawless experience every time.
@@ -1366,65 +1393,65 @@
 
         <div class="max-w-3xl mx-auto space-y-3">
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">What types of events does The Show Company organize?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
-              <p class="text-slate-500 text-sm leading-relaxed">We specialize in college shows, corporate events, and large-scale auditorium performances. Our services include standup comedy shows, EDM DJ nights, singing concerts, and live band performances. Whether it's a campus fest, corporate gala, or public auditorium event, we handle end-to-end production including artist booking, stage design, sound and lighting (through our partner VIGOR MENTORS), venue coordination, and post-event support.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">The Show Company specializes in college shows, corporate events, and large-scale auditorium performances. Our services include standup comedy shows, EDM DJ nights, singing concerts, and live band performances. Whether it's a campus fest, corporate gala, or public auditorium event, we handle end-to-end production including artist booking, stage design, sound and lighting (through our partner VIGOR MENTORS), venue coordination, and post-event support.</p>
             </div>
-          </div>
+          </details>
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">How do I book a show for my college or company?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
               <p class="text-slate-500 text-sm leading-relaxed">You can reach us through the enquiry form on this website, email us at contact@theshowcompany.in, or call us directly. For college shows, we recommend booking 2–3 months in advance. For corporate events, we can accommodate shorter timelines depending on availability. Our team will work with you to understand your requirements and create a customized proposal that fits your budget and vision.</p>
             </div>
-          </div>
+          </details>
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">I'm an artist. How can I collaborate with The Show Company?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
-              <p class="text-slate-500 text-sm leading-relaxed">We're always looking for talented artists! Send your portfolio, showreel, and a brief introduction to contact@theshowcompany.in. Our talent acquisition team reviews all submissions and reaches out to artists whose style aligns with our upcoming projects. We offer management, booking, and full production support to help artists focus on their craft while we handle the logistics.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">We're always looking for talented artists. Send your portfolio, showreel, and a brief introduction to contact@theshowcompany.in. Our talent acquisition team reviews all submissions and reaches out to artists whose style aligns with our upcoming projects. We offer management, booking, and full production support to help artists focus on their craft while we handle the logistics.</p>
             </div>
-          </div>
+          </details>
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">What cities do you operate in?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
-              <p class="text-slate-500 text-sm leading-relaxed">We are based in India and operate pan-India. We've executed shows in Delhi, Mumbai, Bangalore, Chennai, Hyderabad, Kolkata, Dehradun, Jaipur, and numerous other cities. For college shows, we've worked with institutions like Graphic Era, DPS, and many more. We can also arrange international events on request — reach out and we'll discuss the scope with you.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">The Show Company is based in India and operates pan-India across 50+ cities. We have executed shows in Delhi, Mumbai, Bangalore, Chennai, Hyderabad, Kolkata, Dehradun, Jaipur, and numerous other cities. For college shows, we have worked with institutions like Graphic Era, DPS, and many more. We can also arrange international events on request.</p>
             </div>
-          </div>
+          </details>
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">What is included in your event production services?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
               <p class="text-slate-500 text-sm leading-relaxed">Our end-to-end production includes artist booking and management, stage design and setup, world-class sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, event management on the day, promotion support, and post-event wrap-up. We handle everything from concept to curtain call so you can focus entirely on enjoying the show.</p>
             </div>
-          </div>
+          </details>
 
-          <div class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
-            <button class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+          <details class="faq-item border border-white/5 rounded-sm overflow-hidden reveal-hidden">
+            <summary class="faq-toggle w-full px-6 py-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
               <span class="text-slate-200 font-medium text-base">How far in advance should I book?</span>
               <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[#c6a87c] text-xl faq-icon transition-transform duration-300 flex-shrink-0 ml-4"></iconify-icon>
-            </button>
+            </summary>
             <div class="faq-content px-6">
-              <p class="text-slate-500 text-sm leading-relaxed">For major events with headlining artists, we recommend 3–6 months in advance to secure the best talent and venues. College fests typically require 1–3 months of lead time, and corporate events can sometimes be accommodated in as little as 2–4 weeks depending on complexity. The earlier you reach out, the better the artist selection and venue availability. Don't hesitate to contact us even for last-minute requirements — we'll do our best!</p>
+              <p class="text-slate-500 text-sm leading-relaxed">For major events with headlining artists, we recommend 3–6 months in advance to secure the best talent and venues. College fests typically require 1–3 months of lead time, and corporate events can sometimes be accommodated in as little as 2–4 weeks depending on complexity. The earlier you reach out, the better the artist selection and venue availability.</p>
             </div>
-          </div>
+          </details>
 
         </div>
       </div>
@@ -1643,7 +1670,10 @@
         </div>
 
         <p class="text-[10px] text-slate-600 uppercase tracking-widest">
-          © 2026 The Show Company. All Rights Reserved.
+          © <time datetime="2026">2026</time> The Show Company. All Rights Reserved.
+        </p>
+        <p class="text-[9px] text-slate-700 mt-2">
+          Last updated: <time datetime="2026-03-06">March 2026</time>
         </p>
       </div>
     </footer>
@@ -1729,23 +1759,24 @@
         }, { passive: true });
       })();
 
-      // ── FAQ Toggle ──
-      function toggleFaq(button) {
-        const item = button.parentElement;
-        const content = button.nextElementSibling;
-        const icon = button.querySelector('.faq-icon');
-        const isOpen = content.classList.contains('open');
-        // Close all
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-        document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
-        document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = 'rotate(0deg)');
-        // Open clicked if it was closed
-        if (!isOpen) {
-          item.classList.add('open');
-          content.classList.add('open');
-          icon.style.transform = 'rotate(180deg)';
-        }
-      }
+      // ── FAQ Toggle (details/summary — accordion with animation) ──
+      document.querySelectorAll('details.faq-item').forEach(details => {
+        details.addEventListener('toggle', () => {
+          const content = details.querySelector('.faq-content');
+          // Close all others
+          document.querySelectorAll('details.faq-item').forEach(d => {
+            if (d !== details && d.open) {
+              d.open = false;
+              d.querySelector('.faq-content').classList.remove('open');
+            }
+          });
+          if (details.open) {
+            content.classList.add('open');
+          } else {
+            content.classList.remove('open');
+          }
+        });
+      });
 
       // ── Shows/Types Slideshow ──
       let currentShowSlide = 0;
