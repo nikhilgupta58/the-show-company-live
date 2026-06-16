@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Show Company — Brochure</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  :root {
+    --gold: #c6a87c;
+    --gold-soft: #d8c19c;
+    --ink: #0d0d0f;
+    --ink2: #16161a;
+    --cream: #f3ece0;
+    --muted: #9a9488;
+  }
+  html, body { background: var(--ink); }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--cream); }
+  .page {
+    width: 210mm; height: 297mm; position: relative; overflow: hidden;
+    page-break-after: always; background: var(--ink); display: flex; flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+  img { display: block; }
+  .eyebrow { letter-spacing: .42em; text-transform: uppercase; font-size: 10px; color: var(--gold); font-weight: 600; }
+  h1, h2, h3 { font-weight: 700; letter-spacing: -.01em; line-height: 1.04; }
+
+  /* ---------- COVER ---------- */
+  .cover { justify-content: flex-end; }
+  .cover-bg { position: absolute; inset: 0; }
+  .cover-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 1; }
+  .cover-grad { position: absolute; inset: 0; background:
+     linear-gradient(180deg, rgba(13,13,15,.55) 0%, rgba(13,13,15,.22) 40%, rgba(13,13,15,.78) 72%, rgba(13,13,15,.96) 100%); }
+  .cover-top { position: absolute; top: 22mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; align-items: center; }
+  .cover-content { position: relative; padding: 0 18mm 26mm; }
+  .cover h1 { font-size: 58px; color: #fff; }
+  .cover h1 .accent { color: var(--gold); }
+  .cover .tagline { margin-top: 14px; font-size: 17px; color: var(--gold-soft); letter-spacing: .04em; max-width: 150mm; line-height: 1.4; }
+  .cover .rule { width: 64px; height: 3px; background: var(--gold); margin: 22px 0 0; }
+
+  /* ---------- GENERIC SECTION HEADER ---------- */
+  .pad { padding: 20mm 18mm; flex: 1; display: flex; flex-direction: column; }
+  .sec-head { margin-bottom: 8mm; }
+  .sec-head h2 { font-size: 34px; color: #fff; margin-top: 8px; }
+  .sec-head h2 .accent { color: var(--gold); }
+  .lede { color: var(--muted); font-size: 13.5px; line-height: 1.6; max-width: 150mm; margin-top: 10px; }
+
+  /* ---------- STATS BAR ---------- */
+  .stats { display: flex; gap: 0; border-top: 1px solid rgba(198,168,124,.3); border-bottom: 1px solid rgba(198,168,124,.3); margin: 4mm 0 0; }
+  .stat { flex: 1; padding: 7mm 4mm; text-align: center; border-right: 1px solid rgba(198,168,124,.18); }
+  .stat:last-child { border-right: none; }
+  .stat .num { font-size: 38px; font-weight: 700; color: var(--gold); }
+  .stat .lbl { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- SERVICE / EVENT CARDS ---------- */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; margin-top: 2mm; }
+  .card { background: var(--ink2); border: 1px solid rgba(198,168,124,.16); border-radius: 10px; overflow: hidden; }
+  .card .ph { height: 52mm; overflow: hidden; }
+  .card .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .card .body { padding: 6mm 6mm 7mm; }
+  .card h3 { font-size: 18px; color: #fff; }
+  .card p { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 7px; }
+  .card .cap { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-top: 9px; }
+
+  /* ---------- GALLERY ---------- */
+  .gallery { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-auto-rows: 46mm; gap: 5mm; margin-top: 2mm; }
+  .gallery figure { position: relative; border-radius: 8px; overflow: hidden; }
+  .gallery figure.tall { grid-row: span 2; }
+  .gallery figure.wide { grid-column: span 2; }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 10px 8px;
+     background: linear-gradient(180deg, transparent, rgba(13,13,15,.85)); font-size: 9px; letter-spacing: .12em;
+     text-transform: uppercase; color: var(--cream); }
+
+  /* ---------- QUOTES ---------- */
+  .quotes { display: flex; flex-direction: column; gap: 6mm; margin-top: 2mm; }
+  .quote { background: var(--ink2); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 7mm 8mm; }
+  .quote p { font-size: 15px; line-height: 1.5; color: var(--cream); font-style: italic; }
+  .quote .who { margin-top: 12px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+
+  /* ---------- PARTNERS ---------- */
+  .partners { display: flex; gap: 8mm; align-items: center; margin-top: 4mm; flex-wrap: wrap; }
+  .partners .pill { background: #15131a; border: 1px solid rgba(198,168,124,.28); border-radius: 8px; padding: 6mm 8mm; display: flex; align-items: center; justify-content: center; min-width: 46mm; min-height: 28mm; }
+  .partners .pill img { height: 15mm; max-width: 44mm; object-fit: contain; }
+  .partners .pill.text { color: var(--gold-soft); font-weight: 600; letter-spacing: .08em; font-size: 13px; }
+
+  /* ---------- CTA / CONTACT ---------- */
+  .cta { justify-content: center; align-items: center; text-align: center; }
+  .cta-bg { position: absolute; inset: 0; }
+  .cta-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .35; }
+  .cta-grad { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,13,15,.9), rgba(13,13,15,.97)); }
+  .cta-inner { position: relative; padding: 0 22mm; }
+  .cta h2 { font-size: 44px; color: #fff; }
+  .cta h2 .accent { color: var(--gold); }
+  .cta .sub { margin-top: 16px; font-size: 16px; color: var(--gold-soft); line-height: 1.55; max-width: 150mm; }
+  .cta .budget { margin: 26px auto 0; max-width: 150mm; font-size: 14px; color: var(--cream); line-height: 1.6;
+     border: 1px solid rgba(198,168,124,.35); border-radius: 12px; padding: 7mm 8mm; background: rgba(198,168,124,.06); }
+  .cta .budget strong { color: var(--gold); }
+  .contact { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
+  .contact a, .contact span { font-size: 15px; color: var(--cream); text-decoration: none; letter-spacing: .02em; }
+  .contact .lead { color: var(--gold); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; font-size: 11px; margin-bottom: 4px; }
+  .footer-mark { position: absolute; bottom: 14mm; left: 0; right: 0; text-align: center; font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); }
+
+  .wordmark { display: flex; align-items: center; gap: 10px; }
+  .wordmark .dot { width: 9px; height: 9px; background: var(--gold); border-radius: 50%; }
+  .wordmark span { font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--cream); font-weight: 600; }
+  .pagenum { position: absolute; bottom: 12mm; right: 18mm; font-size: 10px; letter-spacing: .2em; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ========== PAGE 1 — COVER ========== -->
+<section class="page cover">
+  <div class="cover-bg"><img src="../assets/college_fest.jpg" alt=""></div>
+  <div class="cover-grad"></div>
+  <div class="cover-top">
+    <div class="wordmark"><span class="dot"></span><span>The Show Company</span></div>
+    <div class="eyebrow">Live · Production · Comedy</div>
+  </div>
+  <div class="cover-content">
+    <div class="eyebrow">India's Live Entertainment Partner</div>
+    <h1 style="margin-top:16px">We Produce<br>The Shows People<br><span class="accent">Don't Forget.</span></h1>
+    <div class="rule"></div>
+    <p class="tagline">Stand-up comedy, college fests, corporate events and large-scale auditorium productions — booked, built and delivered end to end, pan-India.</p>
+  </div>
+</section>
+
+<!-- ========== PAGE 2 — ABOUT + STATS + SERVICES ========== -->
+<section class="page">
+  <div class="pad">
+    <div class="sec-head">
+      <div class="eyebrow">Who We Are</div>
+      <h2>One Partner For The <span class="accent">Entire Show.</span></h2>
+      <p class="lede">The Show Company is a live entertainment production house built to curate unforgettable experiences. We handle everything — artist booking, stage design, sound, lighting and post-event support — so you deal with one team instead of ten vendors.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">500+</div><div class="lbl">Shows Produced</div></div>
+      <div class="stat"><div class="num">100+</div><div class="lbl">Artists Booked</div></div>
+      <div class="stat"><div class="num">50+</div><div class="lbl">Cities Pan-India</div></div>
+    </div>
+
+    <div class="grid" style="margin-top:9mm">
+      <div class="card">
+        <div class="ph"><img src="../assets/comedy-show-event-1600x1202.jpeg" alt=""></div>
+        <div class="body"><h3>Stand-Up Comedy</h3><p>Full-house comedy nights featuring emerging and established comedians across India.</p><div class="cap">Booking · Production</div></div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="../assets/college-event-audience-1280x960.jpeg" alt=""></div>
+        <div class="body"><h3>College Fests</h3><p>EDM nights, concerts, comedy and cultural festivals built for campus crowds.</p><div class="cap">Youth · Energy · Scale</div></div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="../assets/corporate_image.jpg" alt=""></div>
+        <div class="body"><h3>Corporate Events</h3><p>Tailored entertainment for galas, team events and brand activations.</p><div class="cap">Brand · Engagement</div></div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="../assets/auditorium-stage-production-1280x960.jpeg" alt=""></div>
+        <div class="body"><h3>Auditorium Shows</h3><p>Large-scale productions with full LED staging, beam lights and world-class sound.</p><div class="cap">Premium · Full Production</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">02</div>
+</section>
+
+<!-- ========== PAGE 3 — RECENT WORK GALLERY ========== -->
+<section class="page">
+  <div class="pad">
+    <div class="sec-head">
+      <div class="eyebrow">Recent Work</div>
+      <h2>From The <span class="accent">Front Row.</span></h2>
+      <p class="lede">A look at the shows we've put on across campuses, corporate stages and packed auditoriums.</p>
+    </div>
+    <div class="gallery">
+      <figure class="tall"><img src="../assets/recent-event-standup-pointing-1066x1600.jpeg" alt=""><figcaption>Stand-Up · Live Set</figcaption></figure>
+      <figure class="wide"><img src="../assets/auditorium-led-stage-1280x680.jpeg" alt=""><figcaption>Auditorium · LED Production</figcaption></figure>
+      <figure><img src="../assets/college-outdoor-stage-1280x960.jpeg" alt=""><figcaption>College · Open-Air Stage</figcaption></figure>
+      <figure><img src="../assets/concert-stage-purple-1280x575.jpeg" alt=""><figcaption>Concert · Stage Lights</figcaption></figure>
+      <figure class="wide"><img src="../assets/auditorium-audience-fullhouse-1600x1202.jpeg" alt=""><figcaption>Auditorium · Full House</figcaption></figure>
+      <figure><img src="../assets/comedy-show-performer-blue-960x1280.jpeg" alt=""><figcaption>Comedy Night · Headliner</figcaption></figure>
+    </div>
+  </div>
+  <div class="pagenum">03</div>
+</section>
+
+<!-- ========== PAGE 4 — TESTIMONIALS + PARTNERS ========== -->
+<section class="page">
+  <div class="pad">
+    <div class="sec-head">
+      <div class="eyebrow">In Their Words</div>
+      <h2>What Organizers <span class="accent">Tell Us.</span></h2>
+    </div>
+    <div class="quotes">
+      <div class="quote"><p>"Best college fest we've had in years. The lineup was insane and the production quality was top tier."</p><div class="who">— Fest Coordinator</div></div>
+      <div class="quote"><p>"From concept to execution, everything was flawless. Our corporate gala was the talk of the office for weeks."</p><div class="who">— Corporate Client</div></div>
+      <div class="quote"><p>"The comedy night they organized for our fest was legendary. Still getting messages about it months later."</p><div class="who">— Student Organizer</div></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:12mm">
+      <div class="eyebrow">Trusted Alongside</div>
+      <h2 style="font-size:26px">Strategic <span class="accent">Partners.</span></h2>
+    </div>
+    <div class="partners">
+      <div class="pill"><img src="../assets/logo-oml.png" alt="OML"></div>
+      <div class="pill"><img src="../assets/logo-oriole.png" alt="Oriole Entertainment"></div>
+      <div class="pill text">VIGOR MENTORS · Sound &amp; Lighting</div>
+    </div>
+  </div>
+  <div class="pagenum">04</div>
+</section>
+
+<!-- ========== PAGE 5 — CTA / CONTACT ========== -->
+<section class="page cta">
+  <div class="cta-bg"><img src="../assets/audience-crowd-1200x1600.jpeg" alt=""></div>
+  <div class="cta-grad"></div>
+  <div class="cta-inner">
+    <div class="eyebrow">Let's Build Your Show</div>
+    <h2 style="margin-top:14px">Tell Us Your Budget.<br>We'll Curate The <span class="accent">Artists.</span></h2>
+    <p class="sub">No price lists, no guesswork. Share what you're working with and we'll design a lineup and production plan that fits — whether it's a campus fest, a corporate gala or a full auditorium show.</p>
+    <div class="budget">📩 <strong>Just reply with your budget and event date</strong>, and we'll send you a curated artist lineup and proposal within a couple of days.</div>
+    <div class="contact">
+      <div class="lead">Get In Touch</div>
+      <a href="mailto:contact@theshowcompany.in">contact@theshowcompany.in</a>
+      <span>+91-70602-93132</span>
+      <a href="https://www.theshowcompany.in">www.theshowcompany.in</a>
+      <span>Instagram · @the_show_company</span>
+    </div>
+  </div>
+  <div class="footer-mark">The Show Company · Live · Production · Comedy · Pan-India</div>
+</section>
+
+</body>
+</html>
