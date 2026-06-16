@@ -1,21 +1,30 @@
-*.agents
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+.astro
+
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Env / secrets
 env
 .env
-dist
-dist-ssr
+*.env
 *.local
+.indexnow-key
 
-# Editor directories and files
+# Privacy: never commit customer data
+deliverables/leads.md
+
+# Editor / OS
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -25,9 +34,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-*.env
-*.agents
-*.windsurf
-.playwright-mcp
+
+# Tooling / agent cruft
 .claude
 .gstack/
+.playwright-mcp
+*.agents
+*.windsurf
+scripts/
+screenshots/
+*.md

@@ -1,0 +1,18 @@
+{
+  "name": "the-show-company-live",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Show Company — live entertainment, stand-up comedy & events across India",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o public/assets/tailwind.min.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/input.css -o public/assets/tailwind.min.css --watch"
+  },
+  "devDependencies": {
+    "astro": "^5.6.0",
+    "tailwindcss": "^3.4.17"
+  }
+}
