@@ -610,6 +610,7 @@
       <div class="hidden md:flex gap-8 pointer-events-auto reveal-hidden items-center" style="transition-delay:200ms">
         <a href="#about"   class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">About</a>
         <a href="#shows"   class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">Services</a>
+        <a href="#recent-events" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">Recent</a>
         <a href="#events"  class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">Events</a>
         <a href="#faqs"    class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">FAQs</a>
         <a href="#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
@@ -625,6 +626,7 @@
       <div class="flex flex-col gap-6">
         <a href="#about"   class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c] transition-colors">About</a>
         <a href="#shows"   class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c] transition-colors">Services</a>
+        <a href="#recent-events" class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c] transition-colors">Recent Events</a>
         <a href="#events"  class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c] transition-colors">Events</a>
         <a href="#faqs"    class="mobile-nav-link text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c] transition-colors">FAQs</a>
         <a href="#contact" class="mobile-nav-link mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
@@ -883,6 +885,47 @@
           <div class="slide-dot"        onclick="switchShowSlide(1)"></div>
           <div class="slide-dot"        onclick="switchShowSlide(2)"></div>
           <div class="slide-dot"        onclick="switchShowSlide(3)"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         RECENT EVENTS — PHOTO GALLERY
+    ════════════════════════════════════════════════ -->
+    <section id="recent-events" class="py-28 border-t border-white/5">
+      <div class="px-6 md:px-12 max-w-screen-xl mx-auto">
+        <div class="mb-16 text-center reveal-hidden">
+          <span class="text-xs text-[#c6a87c] uppercase tracking-[0.2em]">Live at BITS Pilani</span>
+          <h2 class="font-cinematic text-3xl md:text-4xl text-slate-100 mt-4">Recent Events</h2>
+          <p class="text-slate-400 text-sm mt-4 max-w-2xl mx-auto">Moments from our latest live show at BITS Pilani — captured under the spotlight.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:auto-rows-[clamp(190px,21vw,290px)] reveal-hidden">
+
+          <!-- Wide landscape -->
+          <div class="group relative overflow-hidden rounded-sm border border-white/5 hover:border-[#c6a87c]/30 transition-colors duration-500 aspect-[3/2] md:aspect-auto md:col-span-2">
+            <img src="assets/recent-event-standup-crouch-1600x1066.jpeg" class="w-full h-full object-cover object-center group-hover:scale-[1.04] transition-transform duration-[1.5s] ease-out" alt="Comedian crouching with the mic during a live standup set" width="1600" height="1066" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+
+          <!-- Tall portrait -->
+          <div class="group relative overflow-hidden rounded-sm border border-white/5 hover:border-[#c6a87c]/30 transition-colors duration-500 aspect-[2/3] md:aspect-auto md:row-span-2">
+            <img src="assets/recent-event-standup-pointing-1066x1600.jpeg" class="w-full h-full object-cover object-center group-hover:scale-[1.04] transition-transform duration-[1.5s] ease-out" alt="Comedian pointing at the crowd mid-punchline" width="1066" height="1600" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+
+          <!-- Landscape -->
+          <div class="group relative overflow-hidden rounded-sm border border-white/5 hover:border-[#c6a87c]/30 transition-colors duration-500 aspect-[3/2] md:aspect-auto">
+            <img src="assets/recent-event-standup-arms-crossed-1600x1066.jpeg" class="w-full h-full object-cover object-center group-hover:scale-[1.04] transition-transform duration-[1.5s] ease-out" alt="Comedian with arms crossed delivering a deadpan moment" width="1600" height="1066" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+
+          <!-- Landscape -->
+          <div class="group relative overflow-hidden rounded-sm border border-white/5 hover:border-[#c6a87c]/30 transition-colors duration-500 aspect-[3/2] md:aspect-auto">
+            <img src="assets/recent-event-standup-gesture-1600x1066.jpeg" class="w-full h-full object-cover object-center group-hover:scale-[1.04] transition-transform duration-[1.5s] ease-out" alt="Comedian gesturing to the audience during a bit" width="1600" height="1066" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1637,6 +1680,7 @@
         <div class="flex flex-wrap justify-center gap-8 md:gap-14 text-[10px] text-slate-500 uppercase tracking-widest">
           <a href="#about"    class="hover:text-[#c6a87c] transition-colors duration-500">About</a>
           <a href="#shows"    class="hover:text-[#c6a87c] transition-colors duration-500">Services</a>
+          <a href="#recent-events" class="hover:text-[#c6a87c] transition-colors duration-500">Recent Events</a>
           <a href="#events"   class="hover:text-[#c6a87c] transition-colors duration-500">Events</a>
           <a href="#faqs"     class="hover:text-[#c6a87c] transition-colors duration-500">FAQs</a>
           <a href="#contact"  class="hover:text-[#c6a87c] transition-colors duration-500">Contact</a>
