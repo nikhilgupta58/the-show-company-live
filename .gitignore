@@ -44,3 +44,5 @@ deliverables/leads.md
 scripts/
 screenshots/
 *.md
+.vercel
+.env*.local

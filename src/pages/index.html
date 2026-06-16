@@ -4,15 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M92VS6TS');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) — GA4 -->
+    <!-- Google tag (gtag.js) — GA4 (single source of analytics; GTM removed to avoid duplicate loading) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -80,9 +72,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
-      rel="stylesheet"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+      />
+    </noscript>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -93,7 +93,9 @@
         "url": "https://www.theshowcompany.in/",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://www.theshowcompany.in/assets/logo.png"
+          "url": "https://www.theshowcompany.in/assets/logo.png",
+          "width": 605,
+          "height": 367
         },
         "image": {
           "@type": "ImageObject",
@@ -183,7 +185,9 @@
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.theshowcompany.in/" }
           ]
         },
-        "inLanguage": "en-IN"
+        "inLanguage": "en-IN",
+        "datePublished": "2026-03-06",
+        "dateModified": "2026-06-16"
       }
     </script>
     <script type="application/ld+json">
@@ -199,7 +203,7 @@
           {
             "@type": "Question",
             "name": "How do I book a show for my college or company?",
-            "acceptedAnswer": { "@type": "Answer", "text": "You can reach us through the enquiry form on this website, email us at contact@theshowcompany.in, or call us directly. For college shows, we recommend booking 2-3 months in advance. For corporate events, we can accommodate shorter timelines depending on availability. Our team will work with you to understand your requirements and create a customized proposal that fits your budget and vision." }
+            "acceptedAnswer": { "@type": "Answer", "text": "You can reach us through the enquiry form on this website, email us at contact@theshowcompany.in, or call us directly. For college shows, we recommend booking 2–3 months in advance. For corporate events, we can accommodate shorter timelines depending on availability. Our team will work with you to understand your requirements and create a customized proposal that fits your budget and vision." }
           },
           {
             "@type": "Question",
@@ -219,7 +223,7 @@
           {
             "@type": "Question",
             "name": "How far in advance should I book?",
-            "acceptedAnswer": { "@type": "Answer", "text": "For major events with headlining artists, we recommend 3-6 months in advance to secure the best talent and venues. College fests typically require 1-3 months of lead time, and corporate events can sometimes be accommodated in as little as 2-4 weeks depending on complexity. The earlier you reach out, the better the artist selection and venue availability." }
+            "acceptedAnswer": { "@type": "Answer", "text": "For major events with headlining artists, we recommend 3–6 months in advance to secure the best talent and venues. College fests typically require 1–3 months of lead time, and corporate events can sometimes be accommodated in as little as 2–4 weeks depending on complexity. The earlier you reach out, the better the artist selection and venue availability." }
           }
         ]
       }
@@ -692,11 +696,6 @@
     </script>
   </head>
   <body class="font-body antialiased selection:bg-[#c6a87c]/20 selection:text-[#c6a87c] overflow-x-hidden">
-
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M92VS6TS"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
 
     <!-- Skip to content (a11y) -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:bg-[#c6a87c] focus:text-black focus:px-4 focus:py-2 focus:rounded">Skip to main content</a>
@@ -1675,38 +1674,38 @@
         <form id="booking-form" class="space-y-7" onsubmit="handleBookingSubmit(event)">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Your Name <span class="required-star">*</span></label>
-              <input type="text" name="name" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Your Name" />
+              <label for="bk-name" class="text-[10px] uppercase tracking-widest text-slate-500">Your Name <span class="required-star">*</span></label>
+              <input id="bk-name" type="text" name="name" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Your Name" />
             </div>
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Organization / College <span class="required-star">*</span></label>
-              <input type="text" name="organization" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Organization / College" />
+              <label for="bk-organization" class="text-[10px] uppercase tracking-widest text-slate-500">Organization / College <span class="required-star">*</span></label>
+              <input id="bk-organization" type="text" name="organization" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Organization / College" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Email Address <span class="required-star">*</span></label>
-              <input type="email" name="email" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Email Address" />
+              <label for="bk-email" class="text-[10px] uppercase tracking-widest text-slate-500">Email Address <span class="required-star">*</span></label>
+              <input id="bk-email" type="email" name="email" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Email Address" />
             </div>
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
-              <input type="tel" name="phone" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Phone Number" />
+              <label for="bk-phone" class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
+              <input id="bk-phone" type="tel" name="phone" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Phone Number" />
             </div>
           </div>
 
           <div class="space-y-2">
-            <label class="text-[10px] uppercase tracking-widest text-slate-500">Artist / Genre Preference <span class="required-star">*</span></label>
-            <input type="text" name="artist_preference" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Artist / Genre Preference (e.g. Standup Comedy, EDM DJ, Rock Band)" />
+            <label for="bk-artist_preference" class="text-[10px] uppercase tracking-widest text-slate-500">Artist / Genre Preference <span class="required-star">*</span></label>
+            <input id="bk-artist_preference" type="text" name="artist_preference" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" placeholder="Enter Artist / Genre Preference (e.g. Standup Comedy, EDM DJ, Rock Band)" />
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Event Date <span class="required-star">*</span></label>
-              <input type="date" name="event_date" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" />
+              <label for="bk-event_date" class="text-[10px] uppercase tracking-widest text-slate-500">Event Date <span class="required-star">*</span></label>
+              <input id="bk-event_date" type="date" name="event_date" required class="w-full border border-white/[0.1] rounded-sm px-4 py-3.5 text-slate-100 focus:border-[#c6a87c]/60 transition-all bg-white/[0.025] hover:border-white/[0.18] text-sm" />
             </div>
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Approx. Budget (₹)</label>
+              <label for="budget-input" class="text-[10px] uppercase tracking-widest text-slate-500">Approx. Budget (₹)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">₹</span>
                 <input type="text" name="budget" id="budget-input" class="w-full border border-white/10 rounded-sm px-4 py-3.5 text-slate-200 focus:border-[#c6a87c] transition-colors input-with-prefix" placeholder="Enter Budget" oninput="formatBudget(this)" />
@@ -1731,24 +1730,24 @@
 
           <form id="query-form" class="space-y-7" onsubmit="handleQuerySubmit(event)">
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Name <span class="required-star">*</span></label>
-              <input type="text" name="name" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Name" />
+              <label for="q-name" class="text-[10px] uppercase tracking-widest text-slate-500">Name <span class="required-star">*</span></label>
+              <input id="q-name" type="text" name="name" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Name" />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
               <div class="space-y-2">
-                <label class="text-[10px] uppercase tracking-widest text-slate-500">Email <span class="required-star">*</span></label>
-                <input type="email" name="email" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Email" />
+                <label for="q-email" class="text-[10px] uppercase tracking-widest text-slate-500">Email <span class="required-star">*</span></label>
+                <input id="q-email" type="email" name="email" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Email" />
               </div>
               <div class="space-y-2">
-                <label class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
-                <input type="tel" name="phone" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Phone Number" />
+                <label for="q-phone" class="text-[10px] uppercase tracking-widest text-slate-500">Phone Number <span class="required-star">*</span></label>
+                <input id="q-phone" type="tel" name="phone" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors" placeholder="Enter Phone Number" />
               </div>
             </div>
 
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Subject <span class="required-star">*</span></label>
-              <select name="subject" required class="w-full border-b border-slate-700 py-3 text-slate-500 focus:border-[#c6a87c] transition-colors bg-transparent">
+              <label for="q-subject" class="text-[10px] uppercase tracking-widest text-slate-500">Subject <span class="required-star">*</span></label>
+              <select id="q-subject" name="subject" required class="w-full border-b border-slate-700 py-3 text-slate-500 focus:border-[#c6a87c] transition-colors bg-transparent">
                 <option class="bg-black" value="">Select a topic</option>
                 <option class="bg-black" value="General Inquiry">General Inquiry</option>
                 <option class="bg-black" value="Book a Show">Book a Show</option>
@@ -1758,8 +1757,8 @@
             </div>
 
             <div class="space-y-2">
-              <label class="text-[10px] uppercase tracking-widest text-slate-500">Message <span class="required-star">*</span></label>
-              <textarea name="message" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors resize-none h-28" placeholder="Enter Message"></textarea>
+              <label for="q-message" class="text-[10px] uppercase tracking-widest text-slate-500">Message <span class="required-star">*</span></label>
+              <textarea id="q-message" name="message" required class="w-full border-b border-slate-700 py-3 text-slate-200 focus:border-[#c6a87c] transition-colors resize-none h-28" placeholder="Enter Message"></textarea>
             </div>
 
             <button type="submit" class="btn-outline-gold w-full py-4 text-xs uppercase tracking-[0.2em] rounded-sm hover:bg-[#c6a87c]/15">
