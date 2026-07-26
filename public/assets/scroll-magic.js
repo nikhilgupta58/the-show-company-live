@@ -170,7 +170,36 @@
         });
     }
   }
-  function marqueeScene() {}
+  function marqueeScene() {
+    var track = document.querySelector('.marquee-track');
+    if (!track || !track.getAnimations) return;
+    var lanes = Array.prototype.slice.call(track.children);
+    var state = { rate: 1, skew: 0 };
+    var decay = null;
+
+    function apply() {
+      var anim = track.getAnimations()[0];
+      if (anim) anim.playbackRate = state.rate;
+      lanes.forEach(function (lane) {
+        lane.style.transform = 'skewX(' + state.skew + 'deg)';
+      });
+    }
+
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: function (self) {
+        var v = self.getVelocity();
+        state.rate = gsap.utils.clamp(1, 5, 1 + Math.abs(v) / 600);
+        state.skew = gsap.utils.clamp(-4, 4, v / -350);
+        apply();
+        if (decay) decay.kill();
+        decay = gsap.to(state, {
+          rate: 1, skew: 0, duration: 0.9, ease: 'power2.out', onUpdate: apply
+        });
+      }
+    });
+  }
 
   // recalc pin positions once all images are in
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
