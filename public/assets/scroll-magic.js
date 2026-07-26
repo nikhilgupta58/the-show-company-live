@@ -97,7 +97,36 @@
       });
     });
   }
-  function showsScene() {}
+  function showsScene() {
+    // Desktop only: scroll drives the slides. Mobile keeps the autoplay carousel.
+    if (!ctx.isDesktop) return;
+    var section = document.getElementById('shows');
+    if (!section || typeof window.switchShowSlide !== 'function') return;
+
+    // hand control from the autoplay timer to the scrollbar
+    if (window.stopShowsAutoScroll) window.stopShowsAutoScroll();
+    var wrap = document.getElementById('shows-carousel-wrapper');
+    if (wrap) {
+      wrap.removeEventListener('mouseenter', window.stopShowsAutoScroll);
+      wrap.removeEventListener('mouseleave', window.startShowsAutoScroll);
+    }
+
+    var lastIdx = -1;
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: '+=1600',
+      pin: true,
+      anticipatePin: 1,
+      onUpdate: function (self) {
+        var idx = Math.min(3, Math.floor(self.progress * 4));
+        if (idx !== lastIdx) {
+          lastIdx = idx;
+          window.switchShowSlide(idx);
+        }
+      }
+    });
+  }
   function depthScene() {}
   function marqueeScene() {}
 
