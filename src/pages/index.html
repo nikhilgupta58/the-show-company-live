@@ -764,8 +764,8 @@
     <!-- ═══════════════════════════════════════════════
          HERO SECTION
     ════════════════════════════════════════════════ -->
-    <header class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
-      <div class="absolute inset-0 z-0 pointer-events-none">
+    <header id="hero" class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
+      <div id="hero-bg" class="absolute inset-0 z-0 pointer-events-none">
         <img
           src="assets/stage-lighting-1600x1200.webp?v=2"
           class="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
@@ -776,7 +776,11 @@
         <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-[#050505]"></div>
       </div>
 
-      <div class="relative z-10 text-center max-w-6xl space-y-8 mt-20">
+      <!-- Stage curtains: part as you scroll (scroll-magic.js) -->
+      <div id="curtain-left" class="absolute inset-y-0 left-0 w-[38%] z-[5] pointer-events-none bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent"></div>
+      <div id="curtain-right" class="absolute inset-y-0 right-0 w-[38%] z-[5] pointer-events-none bg-gradient-to-l from-[#050505] via-[#050505]/60 to-transparent"></div>
+
+      <div id="hero-content" class="relative z-10 text-center max-w-6xl space-y-8 mt-20">
         <div class="reveal-hidden" style="transition-delay:300ms">
           <div class="flex items-center justify-center gap-3 text-[#c6a87c] opacity-90">
             <iconify-icon icon="solar:star-fall-linear" width="16"></iconify-icon>
@@ -803,7 +807,7 @@
         </div>
       </div>
       <!-- Scroll indicator -->
-      <div class="absolute bottom-10 w-full  flex flex-col items-center gap-2 opacity-40 animate-bounce z-10">
+      <div id="hero-scroll-hint" class="absolute bottom-10 w-full  flex flex-col items-center gap-2 opacity-40 animate-bounce z-10">
         <span class="text-[9px] uppercase tracking-[0.3em] text-[#c6a87c]">Scroll</span>
         <div class="w-px h-8 bg-gradient-to-b from-[#c6a87c] to-transparent"></div>
       </div>

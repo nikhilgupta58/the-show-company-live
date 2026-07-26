@@ -47,7 +47,34 @@
   depthScene();
   marqueeScene();
 
-  function heroScene() {}
+  function heroScene() {
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+
+    // the hero's own reveal elements must not fight the scrub:
+    // force them visible and kill their CSS transitions
+    hero.querySelectorAll('.reveal-hidden').forEach(function (el) {
+      el.classList.add('reveal-visible');
+      el.style.transition = 'none';
+    });
+
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: hero,
+        start: 'top top',
+        end: ctx.isDesktop ? '+=160%' : '+=100%',
+        scrub: 0.5,
+        pin: true,
+        anticipatePin: 1
+      }
+    });
+
+    tl.to('#hero-bg img', { scale: 1.22, ease: 'none' }, 0)
+      .to('#curtain-left', { xPercent: -85, ease: 'none' }, 0)
+      .to('#curtain-right', { xPercent: 85, ease: 'none' }, 0)
+      .to('#hero-scroll-hint', { opacity: 0, ease: 'none' }, 0)
+      .to('#hero-content', { scale: 1.1, yPercent: -22, opacity: 0, ease: 'none' }, 0.25);
+  }
   function aboutScene() {}
   function showsScene() {}
   function depthScene() {}
