@@ -37,13 +37,23 @@
     scrollTrigger: { start: 'top top', end: 'max', scrub: 0.3 }
   });
 
-  // ── Scenes that don't depend on viewport/pointer: created once ──
-  aboutScene();
-  depthScene();
-  marqueeScene();
-
   // ── Resize-adaptive scenes: rebuilt whenever the desktop/mobile media
-  //    query flips, via gsap.matchMedia() ──
+  //    query flips, via gsap.matchMedia(). These create PINNED triggers
+  //    (hero spacer, shows spacer) that inflate document height for
+  //    everything below them. They are registered BEFORE the once-only
+  //    scenes further down so ScrollTrigger's internal (creation-order)
+  //    refresh list already contains the pins when it processes the
+  //    non-pinned triggers — refresh() only folds a pin's spacer distance
+  //    into triggers that come AFTER it in that list.
+  //
+  //    That alone isn't enough on its own, though: mm.add() callbacks
+  //    re-fire on every resize that crosses the breakpoint, tearing down
+  //    and recreating the hero/shows pins — which re-appends them to the
+  //    END of ScrollTrigger's list, AFTER the (untouched, never-recreated)
+  //    once-scenes. ScrollTrigger.sort() re-derives the list order from
+  //    each trigger's real, unpinned document position, so calling it
+  //    (then refresh()) right after (re)creating the pins guarantees
+  //    correct ordering no matter how many resizes have happened. ──
   var mm = gsap.matchMedia();
 
   mm.add('(min-width: 768px) and (pointer: fine)', function () {
@@ -60,6 +70,11 @@
 
     heroScene();
     var showsWrap = showsScene();
+
+    // pins were just (re)created — re-sort so the refresh order matches
+    // document order regardless of when this context fired
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
 
     return function () {
       if (tickerFn) gsap.ticker.remove(tickerFn);
@@ -83,10 +98,22 @@
     // showsScene() is a no-op here (ctx.isDesktop is false); the autoplay
     // carousel keeps driving the shows section on mobile/touch.
 
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+
     return function () {
       // nothing external to GSAP's own context was created on this branch
     };
   });
+
+  // ── Scenes that don't depend on viewport/pointer: created once, AFTER
+  //    the matchMedia pins above so their start/end positions account for
+  //    the pin spacers' extra document height from the moment they're
+  //    created ──
+  aboutScene();
+  depthScene();
+  marqueeScene();
+  ScrollTrigger.sort();
 
   function heroScene() {
     var hero = document.getElementById('hero');
@@ -247,6 +274,7 @@
   // recalc pin positions once all images are in, then land on any hash
   // deep link *after* the pin spacers (hero ~160vh, shows 1600px) exist
   window.addEventListener('load', function () {
+    ScrollTrigger.sort();
     ScrollTrigger.refresh();
     if (location.hash && document.querySelector(location.hash)) {
       requestAnimationFrame(function () {
