@@ -1,0 +1,162 @@
+# ----------------------------------------
+# Generate leads overview
+# Account: theshowcompany
+# Property: The Show Company
+# ----------------------------------------
+#  
+# Start date: 20260427
+# End date: 20260725
+Nth week,New users
+0007,15
+0008,16
+0009,7
+0010,17
+0011,11
+0012,19
+
+# Start date: 20260427
+# End date: 20260725
+Nth week,Returning users
+0007,2
+0008,4
+0009,2
+0010,4
+0011,3
+0012,1
+
+# Start date: 20260427
+# End date: 20260725
+Nth week,Qualified leads
+0007,0
+0008,0
+0009,0
+0010,0
+0011,0
+0012,0
+
+# Start date: 20260427
+# End date: 20260725
+Nth week,Converted leads
+0007,0
+0008,0
+0009,0
+0010,0
+0011,0
+0012,0
+
+#  
+# Start date: 20260427
+# End date: 20260725
+Platform,Key events
+
+
+#  
+# Start date: 20260427
+# End date: 20260725
+First user primary channel group (Default Channel Group),New users
+Direct,41
+AI Assistant,30
+Organic Search,11
+Organic Social,3
+
+# How well do you retain your users?
+# Start date: 20260614
+# End date: 20260725
+Date,Week 0,Week 1,Week 2,Week 3,Week 4,Week 5
+Jun 14 - Jun 20,15,1,1,0,0
+Jun 21 - Jun 27,16,1,1,1,1
+Jun 28 - Jul 4,7,1,1,0,-1
+Jul 5 - Jul 11,17,0,0,-1,-1
+Jul 12 - Jul 18,11,0,-1,-1,-1
+Jul 19 - Jul 25,19,-1,-1,-1,-1
+
+#  
+# Start date: 20260427
+# End date: 20260725
+Audience name,Active users
+All Users,85
+
+#  
+# Start date: 20260427
+# End date: 20260725
+City,Active users
+Mumbai,9
+Dehradun,6
+Delhi,5
+Bengaluru,4
+Jaipur,3
+New Delhi,3
+Anantapur,2
+Council Bluffs,2
+Glenview,2
+Gurugram,2
+Lucknow,2
+Pune,2
+Shivamogga,2
+Surat,2
+Xiamen,2
+Adoor,1
+Agra,1
+Ahmedabad,1
+Aspen,1
+Balangir,1
+Balasore,1
+Bhabat,1
+Bhimavaram,1
+Bhiwani,1
+Bikaner,1
+Charlotte,1
+Cleveland,1
+Cooch Behar,1
+Dallas,1
+Decatur,1
+Dhule,1
+Faridabad,1
+Forest City,1
+Frankfurt am Main,1
+Genesee,1
+Ghaziabad,1
+Hyderabad,1
+Islamabad,1
+Kalyan,1
+Kanpur,1
+Khammam,1
+Kolkata,1
+Korba,1
+Lille,1
+Los Angeles,1
+Ludhiana,1
+Lunglei,1
+Maheshtala,1
+Meerut,1
+Mehsana,1
+Muzaffarnagar,1
+Mysuru,1
+Nashik,1
+New York,1
+Orlando,1
+Rajkot,1
+Salem,1
+Sangli Miraj Kupwad,1
+Shanghai,1
+Sharjah,1
+Siliguri,1
+Sivakasi,1
+Udaipur,1
+Varanasi,1
+Visakhapatnam,1
+
+#  
+# Start date: 20260427
+# End date: 20260725
+Session manual source,Sessions
+chatgpt.com,38
+google,13
+ig,2
+bing,1
+facebook.com,1
+
+#  
+# Start date: 20260427
+# End date: 20260725
+Nth day
