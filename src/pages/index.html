@@ -694,11 +694,20 @@
         if (window.emailjs) emailjs.init('ypAwRD-OQwNtchzlS');
       });
     </script>
+
+    <!-- Scrollytelling: GSAP + ScrollTrigger + Lenis (all deferred; page works without them) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
+    <script src="assets/scroll-magic.js" defer></script>
   </head>
   <body class="font-body antialiased selection:bg-[#c6a87c]/20 selection:text-[#c6a87c] overflow-x-hidden">
 
     <!-- Skip to content (a11y) -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:bg-[#c6a87c] focus:text-black focus:px-4 focus:py-2 focus:rounded">Skip to main content</a>
+
+    <!-- Scroll progress (scrubbed by scroll-magic.js; invisible without it) -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-[2px] w-full z-[60] origin-left scale-x-0 bg-gradient-to-r from-[#c6a87c] to-[#e8d5b0] pointer-events-none"></div>
 
     <!-- Loader -->
     <div id="magic-loader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050505] transition-opacity duration-1000">
@@ -755,8 +764,8 @@
     <!-- ═══════════════════════════════════════════════
          HERO SECTION
     ════════════════════════════════════════════════ -->
-    <header class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
-      <div class="absolute inset-0 z-0 pointer-events-none">
+    <header id="hero" class="min-h-screen flex flex-col relative items-center justify-center px-6 overflow-hidden">
+      <div id="hero-bg" class="absolute inset-0 z-0 pointer-events-none">
         <img
           src="assets/stage-lighting-1600x1200.webp?v=2"
           class="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-[3s] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
@@ -767,7 +776,11 @@
         <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-[#050505]"></div>
       </div>
 
-      <div class="relative z-10 text-center max-w-6xl space-y-8 mt-20">
+      <!-- Stage curtains: part as you scroll (scroll-magic.js) -->
+      <div id="curtain-left" class="absolute inset-y-0 left-0 w-[38%] z-[5] pointer-events-none bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent"></div>
+      <div id="curtain-right" class="absolute inset-y-0 right-0 w-[38%] z-[5] pointer-events-none bg-gradient-to-l from-[#050505] via-[#050505]/60 to-transparent"></div>
+
+      <div id="hero-content" class="relative z-10 text-center max-w-6xl space-y-8 mt-20">
         <div class="reveal-hidden" style="transition-delay:300ms">
           <div class="flex items-center justify-center gap-3 text-[#c6a87c] opacity-90">
             <iconify-icon icon="solar:star-fall-linear" width="16"></iconify-icon>
@@ -794,7 +807,7 @@
         </div>
       </div>
       <!-- Scroll indicator -->
-      <div class="absolute bottom-10 w-full  flex flex-col items-center gap-2 opacity-40 animate-bounce z-10">
+      <div id="hero-scroll-hint" class="absolute bottom-10 w-full  flex flex-col items-center gap-2 opacity-40 animate-bounce z-10">
         <span class="text-[9px] uppercase tracking-[0.3em] text-[#c6a87c]">Scroll</span>
         <div class="w-px h-8 bg-gradient-to-b from-[#c6a87c] to-transparent"></div>
       </div>
@@ -858,7 +871,7 @@
           Great laughter brings<br />
   <em class="font-display not-italic" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(198,168,124,0.45);">people together.</em>
         </h2>
-        <div class="border-t border-white/5 pt-10 text-slate-400 font-light leading-loose text-base md:text-lg space-y-5">
+        <div id="about-copy" class="border-t border-white/5 pt-10 text-slate-400 font-light leading-loose text-base md:text-lg space-y-5">
           <!-- GEO citability block: clear definition for AI citation -->
           <p>
             The Show Company is a live entertainment production company based in India, founded to curate and deliver premium stand-up comedy shows, college fests, corporate events, and large-scale auditorium productions across the country. Operating in 50+ cities pan-India with 500+ shows produced and 100+ artists booked, The Show Company handles every detail from artist booking and stage design to sound, lighting, and post-event support.
@@ -869,6 +882,20 @@
           <p>
             Our mission is simple: to create high-quality, memorable entertainment that connects audiences, celebrates creativity, and leaves every crowd smiling long after the curtains close. We are also expanding into advertising and brand collaborations, helping companies connect with audiences through the power of live entertainment.
           </p>
+        </div>
+        <div id="about-stats" class="mt-12 grid grid-cols-3 gap-6 max-w-xl">
+          <div>
+            <div class="stat-num font-ancient text-3xl md:text-5xl text-[#c6a87c]" data-count="50">50+</div>
+            <div class="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-500">Cities Pan-India</div>
+          </div>
+          <div>
+            <div class="stat-num font-ancient text-3xl md:text-5xl text-[#c6a87c]" data-count="500">500+</div>
+            <div class="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-500">Shows Produced</div>
+          </div>
+          <div>
+            <div class="stat-num font-ancient text-3xl md:text-5xl text-[#c6a87c]" data-count="100">100+</div>
+            <div class="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-500">Artists Booked</div>
+          </div>
         </div>
         <div class="mt-10 flex flex-wrap gap-4 text-xs uppercase tracking-widest">
           <div class="flex items-center gap-2">
@@ -1924,20 +1951,25 @@
       })();
 
       // ── FAQ Toggle (details/summary — accordion with animation) ──
+      // Handled on the summary's click (not the details' toggle event): programmatically
+      // closing a sibling <details> fires its own async 'toggle' event, and a listener on
+      // that event would re-run this same close-others logic, closing the item that was
+      // just opened too. Intercepting the click keeps open/close state deterministic.
       document.querySelectorAll('details.faq-item').forEach(details => {
-        details.addEventListener('toggle', () => {
-          const content = details.querySelector('.faq-content');
-          // Close all others
+        const summary = details.querySelector('summary');
+        if (!summary) return;
+        summary.addEventListener('click', e => {
+          e.preventDefault();
+          const opening = !details.open;
           document.querySelectorAll('details.faq-item').forEach(d => {
-            if (d !== details && d.open) {
-              d.open = false;
-              d.querySelector('.faq-content').classList.remove('open');
-            }
+            d.open = false;
+            const c = d.querySelector('.faq-content');
+            if (c) c.classList.remove('open');
           });
-          if (details.open) {
-            content.classList.add('open');
-          } else {
-            content.classList.remove('open');
+          if (opening) {
+            details.open = true;
+            const content = details.querySelector('.faq-content');
+            if (content) content.classList.add('open');
           }
         });
       });
