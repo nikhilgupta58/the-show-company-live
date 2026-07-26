@@ -127,7 +127,49 @@
       }
     });
   }
-  function depthScene() {}
+  function depthScene() {
+    // recent-events collage: each photo drifts at its own depth.
+    // Images are pre-scaled so the drift never exposes container edges.
+    var depths = [-7, 9, -11, 7];
+    gsap.utils.toArray('#recent-events .grid > div').forEach(function (card, i) {
+      var img = card.querySelector('img');
+      if (!img) return;
+      gsap.set(img, { scale: 1.18 });
+      gsap.to(img, {
+        yPercent: depths[i % depths.length], ease: 'none',
+        scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 0.6 }
+      });
+    });
+
+    // ghost typography drifts against scroll for depth
+    gsap.utils.toArray('.ghost-num').forEach(function (el) {
+      gsap.to(el, {
+        yPercent: -30, ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.8 }
+      });
+    });
+
+    // team portraits unmask as they enter
+    gsap.utils.toArray('#team .group img').forEach(function (img) {
+      gsap.fromTo(img,
+        { clipPath: 'inset(12% 12% 12% 12%)', scale: 1.12 },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)', scale: 1, ease: 'none',
+          scrollTrigger: { trigger: img, start: 'top 95%', end: 'top 55%', scrub: 0.5 }
+        });
+    });
+
+    // footer wordmark rises like an end-credits title card
+    var ghost = document.querySelector('.footer-ghost');
+    if (ghost) {
+      gsap.fromTo(ghost,
+        { yPercent: 60, opacity: 0.35 },
+        {
+          yPercent: 0, opacity: 1, ease: 'none',
+          scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: 0.5 }
+        });
+    }
+  }
   function marqueeScene() {}
 
   // recalc pin positions once all images are in
