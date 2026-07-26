@@ -9,43 +9,84 @@
   gsap.registerPlugin(ScrollTrigger);
 
   var ctx = {
-    isDesktop: window.matchMedia('(min-width: 768px) and (pointer: fine)').matches,
+    isDesktop: false,
     lenis: null
   };
 
-  // ── Lenis smooth scroll (desktop pointer devices only) ──
-  if (ctx.isDesktop && window.Lenis) {
-    ctx.lenis = new Lenis({ lerp: 0.09 });
-    ctx.lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function (time) { ctx.lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-
-    // route anchor clicks through Lenis so pinned sections resolve correctly
-    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var sel = a.getAttribute('href');
-        if (!sel || sel.length < 2) return;
-        var target = document.querySelector(sel);
-        if (!target) return;
-        e.preventDefault();
-        ctx.lenis.scrollTo(target);
-      });
+  // ── Anchor click intercept (registered once; guarded at click-time by
+  //    ctx.lenis so it only engages when Lenis smooth-scroll is active) ──
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    // the skip-to-content a11y link must keep native jump-and-focus behavior
+    if (a.getAttribute('href') === '#main-content') return;
+    a.addEventListener('click', function (e) {
+      if (!ctx.lenis) return; // no smooth-scroll active (mobile / reduced motion) — let the browser handle it natively
+      var sel = a.getAttribute('href');
+      if (!sel || sel.length < 2) return;
+      var target = document.querySelector(sel);
+      if (!target) return;
+      e.preventDefault();
+      ctx.lenis.scrollTo(target);
+      history.pushState(null, '', sel);
     });
-  }
+  });
 
-  // ── Page scroll progress bar ──
+  // ── Page scroll progress bar (viewport-independent: created once) ──
   gsap.to('#scroll-progress', {
     scaleX: 1,
     ease: 'none',
     scrollTrigger: { start: 'top top', end: 'max', scrub: 0.3 }
   });
 
-  // ── Scenes (filled in by later tasks) ──
-  heroScene();
+  // ── Scenes that don't depend on viewport/pointer: created once ──
   aboutScene();
-  showsScene();
   depthScene();
   marqueeScene();
+
+  // ── Resize-adaptive scenes: rebuilt whenever the desktop/mobile media
+  //    query flips, via gsap.matchMedia() ──
+  var mm = gsap.matchMedia();
+
+  mm.add('(min-width: 768px) and (pointer: fine)', function () {
+    ctx.isDesktop = true;
+
+    var tickerFn = null;
+    if (window.Lenis) {
+      ctx.lenis = new Lenis({ lerp: 0.09 });
+      ctx.lenis.on('scroll', ScrollTrigger.update);
+      tickerFn = function (time) { ctx.lenis.raf(time * 1000); };
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    heroScene();
+    var showsWrap = showsScene();
+
+    return function () {
+      if (tickerFn) gsap.ticker.remove(tickerFn);
+      if (ctx.lenis) {
+        ctx.lenis.destroy();
+        ctx.lenis = null;
+      }
+      // hand control back to the autoplay carousel
+      if (showsWrap) {
+        showsWrap.addEventListener('mouseenter', window.stopShowsAutoScroll);
+        showsWrap.addEventListener('mouseleave', window.startShowsAutoScroll);
+      }
+      if (window.startShowsAutoScroll) window.startShowsAutoScroll();
+    };
+  });
+
+  mm.add('(max-width: 767.98px), (pointer: coarse)', function () {
+    ctx.isDesktop = false;
+
+    heroScene();
+    // showsScene() is a no-op here (ctx.isDesktop is false); the autoplay
+    // carousel keeps driving the shows section on mobile/touch.
+
+    return function () {
+      // nothing external to GSAP's own context was created on this branch
+    };
+  });
 
   function heroScene() {
     var hero = document.getElementById('hero');
@@ -99,9 +140,9 @@
   }
   function showsScene() {
     // Desktop only: scroll drives the slides. Mobile keeps the autoplay carousel.
-    if (!ctx.isDesktop) return;
+    if (!ctx.isDesktop) return null;
     var section = document.getElementById('shows');
-    if (!section || typeof window.switchShowSlide !== 'function') return;
+    if (!section || typeof window.switchShowSlide !== 'function') return null;
 
     // hand control from the autoplay timer to the scrollbar
     if (window.stopShowsAutoScroll) window.stopShowsAutoScroll();
@@ -126,6 +167,8 @@
         }
       }
     });
+
+    return wrap;
   }
   function depthScene() {
     // recent-events collage: each photo drifts at its own depth.
@@ -134,7 +177,7 @@
     gsap.utils.toArray('#recent-events .grid > div').forEach(function (card, i) {
       var img = card.querySelector('img');
       if (!img) return;
-      gsap.set(img, { scale: 1.18 });
+      gsap.set(img, { scale: 1.24 });
       gsap.to(img, {
         yPercent: depths[i % depths.length], ease: 'none',
         scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 0.6 }
@@ -201,6 +244,15 @@
     });
   }
 
-  // recalc pin positions once all images are in
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  // recalc pin positions once all images are in, then land on any hash
+  // deep link *after* the pin spacers (hero ~160vh, shows 1600px) exist
+  window.addEventListener('load', function () {
+    ScrollTrigger.refresh();
+    if (location.hash && document.querySelector(location.hash)) {
+      requestAnimationFrame(function () {
+        var t = document.querySelector(location.hash);
+        if (t) (ctx.lenis ? ctx.lenis.scrollTo(t, { immediate: true }) : t.scrollIntoView());
+      });
+    }
+  });
 })();
