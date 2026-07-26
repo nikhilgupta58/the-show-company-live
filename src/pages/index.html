@@ -1951,20 +1951,25 @@
       })();
 
       // ── FAQ Toggle (details/summary — accordion with animation) ──
+      // Handled on the summary's click (not the details' toggle event): programmatically
+      // closing a sibling <details> fires its own async 'toggle' event, and a listener on
+      // that event would re-run this same close-others logic, closing the item that was
+      // just opened too. Intercepting the click keeps open/close state deterministic.
       document.querySelectorAll('details.faq-item').forEach(details => {
-        details.addEventListener('toggle', () => {
-          const content = details.querySelector('.faq-content');
-          // Close all others
+        const summary = details.querySelector('summary');
+        if (!summary) return;
+        summary.addEventListener('click', e => {
+          e.preventDefault();
+          const opening = !details.open;
           document.querySelectorAll('details.faq-item').forEach(d => {
-            if (d !== details && d.open) {
-              d.open = false;
-              d.querySelector('.faq-content').classList.remove('open');
-            }
+            d.open = false;
+            const c = d.querySelector('.faq-content');
+            if (c) c.classList.remove('open');
           });
-          if (details.open) {
-            content.classList.add('open');
-          } else {
-            content.classList.remove('open');
+          if (opening) {
+            details.open = true;
+            const content = details.querySelector('.faq-content');
+            if (content) content.classList.add('open');
           }
         });
       });
