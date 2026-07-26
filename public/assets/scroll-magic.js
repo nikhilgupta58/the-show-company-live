@@ -75,7 +75,28 @@
       .to('#hero-scroll-hint', { opacity: 0, ease: 'none' }, 0)
       .to('#hero-content', { scale: 1.1, yPercent: -22, opacity: 0, ease: 'none' }, 0.25);
   }
-  function aboutScene() {}
+  function aboutScene() {
+    // manifesto: each paragraph brightens as it passes through the viewport
+    gsap.utils.toArray('#about-copy p').forEach(function (p) {
+      gsap.fromTo(p,
+        { opacity: 0.15, y: 24 },
+        {
+          opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: p, start: 'top 90%', end: 'top 45%', scrub: 0.4 }
+        });
+    });
+
+    // stat counters driven by scroll position (not time)
+    gsap.utils.toArray('#about-stats .stat-num').forEach(function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var obj = { v: 0 };
+      gsap.to(obj, {
+        v: target, ease: 'none',
+        scrollTrigger: { trigger: '#about-stats', start: 'top 90%', end: 'top 45%', scrub: 0.5 },
+        onUpdate: function () { el.textContent = Math.round(obj.v) + '+'; }
+      });
+    });
+  }
   function showsScene() {}
   function depthScene() {}
   function marqueeScene() {}
