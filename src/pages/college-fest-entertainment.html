@@ -43,20 +43,13 @@
 
     <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      />
-    </noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <script type="application/ld+json">
       {
@@ -65,12 +58,18 @@
         "@id": "https://www.theshowcompany.in/college-fest-entertainment/#service",
         "name": "College Fest Artist Booking & Entertainment",
         "serviceType": "College Event Entertainment",
-        "provider": { "@id": "https://www.theshowcompany.in/#organization" },
+        "provider": {
+          "@type": "Organization",
+          "@id": "https://www.theshowcompany.in/#organization",
+          "name": "The Show Company",
+          "url": "https://www.theshowcompany.in/",
+          "logo": "https://www.theshowcompany.in/assets/logo.png"
+        },
         "areaServed": [
           { "@type": "Country", "name": "India" },
           { "@type": "City", "name": "Delhi" },
           { "@type": "City", "name": "Mumbai" },
-          { "@type": "City", "name": "Bengaluru" },
+          { "@type": "City", "name": "Bangalore" },
           { "@type": "City", "name": "Dehradun" },
           { "@type": "City", "name": "Jaipur" },
           { "@type": "City", "name": "Lucknow" }
@@ -86,6 +85,46 @@
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.theshowcompany.in/" },
           { "@type": "ListItem", "position": 2, "name": "College Fest Entertainment", "item": "https://www.theshowcompany.in/college-fest-entertainment/" }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What budget do we need for a fest headliner?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Emerging comedians and DJs start around ₹50,000–₹1.5 lakh; well-known touring names typically run ₹2–8 lakh plus production and travel. Share your real budget and we'll show you the strongest line-up it buys — see the pricing guide for detail."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you work with our college's payment process?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — we regularly work with institutional advance/settlement cycles, purchase orders and GST invoicing. Tell us your process during the enquiry and we'll structure the contract to match."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you bring sound and lighting or use ours?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Either. Our partner VIGOR MENTORS can deliver the full rig, or our production team can audit and run your existing campus setup against the artist's technical rider."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should we start planning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1–3 months before your fest. Earlier is cheaper: artist calendars for fest season fill months ahead, and confirmed dates unlock better rates."
+            }
+          }
         ]
       }
     </script>
@@ -196,7 +235,7 @@
     <section class="py-16 px-6 md:px-12 border-t border-white/5">
       <div class="max-w-3xl mx-auto space-y-6 text-slate-300 leading-relaxed">
         <p>
-          Every fest committee faces the same three problems: artists who don't reply, quotes that change after the first call, and production vendors who've never done a campus show. The Show Company fixes all three. We've produced <strong class="text-slate-100">500+ shows</strong> including campus events across India, and we work with student committees the way a professional promoter would — written quotes, signed contracts, and a production team that has actually built stages on college grounds.
+          Every fest committee faces the same three problems: artists who don't reply, quotes that change after the first call, and production vendors who've never done a campus show. The Show Company fixes all three. We've produced <strong class="text-slate-100">500+ shows</strong> including campus events across India, and we work with student committees the way a professional promoter would — written quotes, signed contracts, and a production team that has actually built stages on college grounds. For college shows, we have worked with institutions like <strong class="text-slate-100">Graphic Era</strong>, DPS, and many more.
         </p>
         <p>
           Tell us your fest dates, expected footfall and budget, and we'll propose a line-up that fits: a headline comedian for your comedy night, an EDM or DJ night with club-grade sound and lighting, singers and live bands for pro-nights, and anchors to run the show. Our partners include OML and Oriole Entertainment on the artist side and VIGOR MENTORS for sound and lighting, so quality doesn't depend on whichever local vendor is free that weekend.
@@ -257,6 +296,21 @@
             <p class="text-sm text-slate-400 leading-relaxed">Confirmed artists, backup plans, and a producer on campus on show day. Your fest doesn't rest on one phone number.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <section class="py-20 px-6 md:px-12 border-t border-white/5">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="flex justify-center gap-1 mb-6 text-[#c6a87c]" aria-hidden="true">
+          <iconify-icon icon="solar:star-bold" width="18"></iconify-icon>
+          <iconify-icon icon="solar:star-bold" width="18"></iconify-icon>
+          <iconify-icon icon="solar:star-bold" width="18"></iconify-icon>
+          <iconify-icon icon="solar:star-bold" width="18"></iconify-icon>
+          <iconify-icon icon="solar:star-bold" width="18"></iconify-icon>
+        </div>
+        <p class="font-display text-2xl md:text-3xl text-slate-200 italic leading-relaxed">"The comedy night they organized for our fest was legendary. Still getting messages about it months later!"</p>
+        <p class="mt-6 text-xs uppercase tracking-widest text-slate-500">Sneha P., Fest Coordinator, Graphic Era</p>
       </div>
     </section>
 

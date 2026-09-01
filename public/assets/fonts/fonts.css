@@ -1,0 +1,63 @@
+/*
+ * Self-hosted Google Fonts (replaces fonts.googleapis.com network round-trip).
+ * Source families/weights match the original Google Fonts request:
+ *   Cinzel:wght@400;500;600;700
+ *   Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600
+ *   Inter:wght@300;400;500
+ *   Playfair+Display:ital,wght@0,400;0,500;1,400
+ *
+ * Each family below is a variable font — Google serves ONE physical woff2
+ * per family+style covering its full weight range, so each @font-face rule
+ * declares a font-weight RANGE (matching what Google's own CSS does) rather
+ * than one file per weight. This avoids downloading duplicate bytes under
+ * different filenames. Family names are unchanged, so no other CSS/HTML
+ * needs to change beyond swapping the <link> tags in <head>.
+ */
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/cinzel-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url('/assets/fonts/cormorant-garamond-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url('/assets/fonts/cormorant-garamond-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url('/assets/fonts/inter-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/assets/fonts/playfair-display-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/playfair-display-italic.woff2') format('woff2');
+}

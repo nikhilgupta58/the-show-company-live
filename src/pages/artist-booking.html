@@ -43,20 +43,13 @@
 
     <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      />
-    </noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <script type="application/ld+json">
       {
@@ -65,7 +58,13 @@
         "@id": "https://www.theshowcompany.in/artist-booking/#service",
         "name": "Artist Booking & Management",
         "serviceType": "Artist Booking Agency",
-        "provider": { "@id": "https://www.theshowcompany.in/#organization" },
+        "provider": {
+          "@type": "Organization",
+          "@id": "https://www.theshowcompany.in/#organization",
+          "name": "The Show Company",
+          "url": "https://www.theshowcompany.in/",
+          "logo": "https://www.theshowcompany.in/assets/logo.png"
+        },
         "areaServed": { "@type": "Country", "name": "India" },
         "description": "End-to-end artist booking across India: stand-up comedians, singers, DJs, live bands and emcees. Curated shortlists, transparent quotes, contracts, travel and rider management.",
         "url": "https://www.theshowcompany.in/artist-booking/"
@@ -78,6 +77,46 @@
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.theshowcompany.in/" },
           { "@type": "ListItem", "position": 2, "name": "Artist Booking", "item": "https://www.theshowcompany.in/artist-booking/" }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do artist fees work in India?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fees vary by profile, date, city and format — a weekday club set and a Saturday fest headline slot from the same artist can differ 2–3x. We quote a total that includes fee, travel and production so you can compare options honestly. Detailed ranges are in our booking cost guide."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you get a specific artist we have in mind?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually, yes — name the artist in your enquiry and we'll come back with their real availability and fee. If they're outside your budget or unavailable, we'll propose comparable artists your audience will love."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you only book, or also produce the event?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both. Booking-only is fine if you have production covered; otherwise we deliver the full show — stage, sound, lighting and show-calling — through our production team and partners."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What if an artist cancels?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cancellation terms are written into every contract, and for every booking we maintain a backup option of comparable profile. In the rare case of a cancellation, you get the replacement or the refund — your event doesn't absorb the risk."
+            }
+          }
         ]
       }
     </script>

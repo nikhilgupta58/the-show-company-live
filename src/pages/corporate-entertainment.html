@@ -43,20 +43,13 @@
 
     <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      />
-    </noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <script type="application/ld+json">
       {
@@ -65,12 +58,18 @@
         "@id": "https://www.theshowcompany.in/corporate-entertainment/#service",
         "name": "Corporate Event Entertainment",
         "serviceType": "Corporate Entertainment Production",
-        "provider": { "@id": "https://www.theshowcompany.in/#organization" },
+        "provider": {
+          "@type": "Organization",
+          "@id": "https://www.theshowcompany.in/#organization",
+          "name": "The Show Company",
+          "url": "https://www.theshowcompany.in/",
+          "logo": "https://www.theshowcompany.in/assets/logo.png"
+        },
         "areaServed": [
           { "@type": "Country", "name": "India" },
           { "@type": "City", "name": "Delhi" },
           { "@type": "City", "name": "Mumbai" },
-          { "@type": "City", "name": "Bengaluru" },
+          { "@type": "City", "name": "Bangalore" },
           { "@type": "City", "name": "Hyderabad" },
           { "@type": "City", "name": "Pune" },
           { "@type": "City", "name": "Gurugram" }
@@ -86,6 +85,46 @@
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.theshowcompany.in/" },
           { "@type": "ListItem", "position": 2, "name": "Corporate Entertainment", "item": "https://www.theshowcompany.in/corporate-entertainment/" }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does corporate entertainment cost in India?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most mid-size corporate events land between ₹2–8 lakh for a headline act plus production; intimate offsites can start under ₹1 lakh. Our pricing guide breaks down what moves the number."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can the content be kept corporate-appropriate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We brief every artist on your audience, industry and red lines before the show, and we only shortlist performers with a track record in corporate rooms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work outside the metros?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — we've produced events in 50+ cities including Dehradun, Jaipur, Lucknow and Indore. Artist travel is built into the quote so there are no surprise costs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How far in advance should we book?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "2–4 weeks for most events; 6–8 weeks for December and year-end dates, when artist calendars fill fastest."
+            }
+          }
         ]
       }
     </script>

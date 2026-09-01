@@ -6,6 +6,7 @@
   "description": "The Show Company — live entertainment, stand-up comedy & events across India",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node build-tools/update-sitemap-lastmod.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o public/assets/tailwind.min.css --minify",

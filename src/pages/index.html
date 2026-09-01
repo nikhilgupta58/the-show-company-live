@@ -5,20 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google tag (gtag.js) — GA4 (single source of analytics; GTM removed to avoid duplicate loading) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
+    <!-- dataLayer/gtag stub defined synchronously so inline gtag() calls elsewhere never error; -->
+    <!-- the actual network script is deferred until after load + idle so it doesn't block render/TBT. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-Y5FKNQX4H0');
+
+      function loadGA() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0';
+        document.head.appendChild(s);
+      }
+      window.addEventListener('load', function () {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(loadGA, { timeout: 2000 });
+        } else {
+          setTimeout(loadGA, 2000);
+        }
+      });
     </script>
     <!-- End Google tag (gtag.js) -->
     <title>
-      The Show Company India | Stand-Up Comedy, College &amp; Corporate Events
+      The Show Company | India's Event Management &amp; Live Entertainment Company
     </title>
     <meta
       name="description"
-      content="The Show Company curates stand-up comedy, college fests, corporate events &amp; auditorium productions across India. Book artists for your next show."
+      content="The Show Company is a pan-India event management and live entertainment company — curating stand-up comedy, college fests, corporate events, auditorium productions &amp; artist bookings for audiences nationwide."
     />
     <meta
       name="robots"
@@ -38,11 +53,11 @@
     <meta property="og:locale" content="en_IN" />
     <meta
       property="og:title"
-      content="The Show Company India | Stand-Up Comedy, College &amp; Corporate Events"
+      content="The Show Company | India's Event Management &amp; Live Entertainment Company"
     />
     <meta
       property="og:description"
-      content="Book premium stand-up comedy, college shows, corporate events, and live productions with The Show Company. Curating unforgettable live experiences across India."
+      content="A pan-India event management and live entertainment company — stand-up comedy, college fests, corporate events &amp; artist bookings. Curating unforgettable live experiences nationwide."
     />
     <meta property="og:url" content="https://www.theshowcompany.in/" />
     <meta
@@ -57,11 +72,11 @@
     <meta name="twitter:site" content="@theshowcompany" />
     <meta
       name="twitter:title"
-      content="The Show Company India | Stand-Up Comedy, College &amp; Corporate Events"
+      content="The Show Company | India's Event Management &amp; Live Entertainment Company"
     />
     <meta
       name="twitter:description"
-      content="Curating unforgettable comedy and live entertainment experiences across India. Book artists, college shows, corporate events &amp; auditorium productions."
+      content="India's event management &amp; live entertainment company — curating stand-up comedy, college fests, corporate events, artist bookings &amp; auditorium productions nationwide."
     />
     <meta
       name="twitter:image"
@@ -71,20 +86,13 @@
 
     <link rel="stylesheet" href="assets/tailwind.min.css?v=2" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
-      />
-    </noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -128,8 +136,7 @@
           ]
         },
         "sameAs": [
-          "https://www.instagram.com/the_show_company/",
-          "https://www.linkedin.com/company/theshowcompany"
+          "https://www.instagram.com/the_show_company/"
         ],
         "founder": [
           {
@@ -725,7 +732,7 @@
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 px-6 py-[26px] md:px-12 md:py-[34px] flex justify-between items-center mix-blend-difference pointer-events-none transition-all duration-500">
       <div class="reveal-hidden pointer-events-auto flex items-center gap-3">
         <a href="/" class="group cursor-pointer">
-          <img src="assets/logo.png?v=2" alt="The Show Company" class="h-16 w-auto object-contain group-hover:opacity-80 transition-opacity bg-transparent" />
+          <img src="assets/logo.png?v=2" alt="The Show Company logo" class="h-16 w-auto object-contain group-hover:opacity-80 transition-opacity bg-transparent" />
         </a>
       </div>
       <div class="hidden md:flex gap-8 pointer-events-auto reveal-hidden items-center" style="transition-delay:200ms">
@@ -734,10 +741,10 @@
         <a href="#recent-events" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">Recent</a>
         <a href="#events"  class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">Events</a>
         <a href="#faqs"    class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors duration-500">FAQs</a>
-        <a href="#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
+        <a href="#contact" class="px-5 py-4 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
       </div>
       <!-- Mobile Toggle -->
-      <button id="mobile-menu-button" type="button" class="md:hidden pointer-events-auto text-[#c6a87c] inline-flex items-center justify-center" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+      <button id="mobile-menu-button" type="button" class="md:hidden pointer-events-auto text-[#c6a87c] inline-flex items-center justify-center p-[10px]" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
         <iconify-icon id="mobile-menu-icon" icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
       </button>
     </nav>
@@ -960,7 +967,7 @@
             <div class="carousel-slide">
               <div class="group relative overflow-hidden bg-[#050505] border border-white/5 h-[480px] md:h-[520px] flex flex-col justify-end cursor-none">
                 <div class="slide-counter">03 / 04</div>
-                <img src="assets/hero-corporate-1920.webp" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-700" alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+                <img src="assets/hero-corporate-1920.webp" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-700" alt="Corporate event entertainment and stage production" width="1920" height="1080" loading="lazy" decoding="async" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
                 <div class="relative z-10 p-10 md:p-14">
                   <div class="flex items-center gap-2 mb-3 text-[#c6a87c]">
@@ -1638,11 +1645,6 @@
             <iconify-icon icon="mdi:instagram" width="16"></iconify-icon>
             <span>Instagram</span>
           </a>
-          <a href="https://www.linkedin.com/company/theshowcompany" target="_blank" rel="noopener noreferrer"
-             class="group flex items-center gap-2.5 px-5 py-2.5 border border-white/10 rounded-sm text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all text-xs uppercase tracking-widest">
-            <iconify-icon icon="mdi:linkedin" width="16"></iconify-icon>
-            <span>LinkedIn</span>
-          </a>
           <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer"
              class="group flex items-center gap-2.5 px-5 py-2.5 border border-white/10 rounded-sm text-slate-400 hover:text-[#c6a87c] hover:border-[#c6a87c]/40 transition-all text-xs uppercase tracking-widest">
             <iconify-icon icon="mdi:whatsapp" width="16"></iconify-icon>
@@ -1788,7 +1790,10 @@
       </div>
       <div class="relative z-10 flex flex-col items-center justify-center text-center space-y-10 reveal-hidden">
         <!-- Logo -->
-        <img src="assets/logo.png?v=2" alt="The Show Company" class="h-28 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity bg-transparent" />
+        <picture>
+          <source srcset="assets/logo.webp" type="image/webp" />
+          <img src="assets/logo.png?v=2" alt="The Show Company logo" class="h-28 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity bg-transparent" />
+        </picture>
 
         <!-- Nav Links -->
         <div class="flex flex-wrap justify-center gap-8 md:gap-14 text-[10px] text-slate-500 uppercase tracking-widest">
@@ -1816,12 +1821,6 @@
               <iconify-icon icon="mdi:instagram" width="18"></iconify-icon>
             </div>
             <span class="text-[9px] uppercase tracking-widest">Instagram</span>
-          </a>
-          <a href="https://www.linkedin.com/company/theshowcompany" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
-            <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">
-              <iconify-icon icon="mdi:linkedin" width="18"></iconify-icon>
-            </div>
-            <span class="text-[9px] uppercase tracking-widest">LinkedIn</span>
           </a>
           <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 text-slate-500 hover:text-[#c6a87c] transition-colors">
             <div class="w-10 h-10 rounded-full border border-white/10 group-hover:border-[#c6a87c]/40 flex items-center justify-center transition-colors">

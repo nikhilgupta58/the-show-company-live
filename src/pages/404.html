@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en-IN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google tag (gtag.js) — GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5FKNQX4H0');
+    </script>
+
+    <title>Page Not Found | The Show Company</title>
+    <meta
+      name="description"
+      content="This page doesn't exist. Find stand-up comedy shows, corporate entertainment, college fests, artist booking &amp; pricing guides from The Show Company."
+    />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/assets/logo.png?v=2" />
+
+    <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
+
+    <!-- Self-hosted fonts (see public/assets/fonts/fonts.css) -->
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+
+    <style>
+      :root {
+        --gold: #c6a87c;
+        --gold-light: #e8d5b0;
+        --gold-dim: rgba(198,168,124,0.35);
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: #050505; color: #d0d0e0; overflow-x: hidden; font-feature-settings: "kern" 1, "liga" 1; }
+      .font-ancient { font-family: "Cinzel", serif; }
+      .font-body { font-family: "Inter", sans-serif; }
+      .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
+      ::-webkit-scrollbar { width: 3px; }
+      ::-webkit-scrollbar-track { background: #050505; }
+      ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+      .gold-shimmer {
+        background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 35%, var(--gold) 50%, #a8885c 75%, var(--gold) 100%);
+        background-size: 250% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 5s linear infinite;
+      }
+      @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 250% center; } }
+      .btn-outline-gold {
+        position: relative; overflow: hidden;
+        border: 1px solid rgba(198,168,124,0.4);
+        color: var(--gold);
+        transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+      }
+      .btn-outline-gold:hover { border-color: rgba(198,168,124,0.7); background: rgba(198,168,124,0.06); }
+    </style>
+  </head>
+
+  <body class="font-body antialiased">
+    <!-- NAV -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-5 md:px-12 flex justify-between items-center bg-[#050505]/85 backdrop-blur-md border-b border-white/5">
+      <a href="/" class="group">
+        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-12 w-auto object-contain group-hover:opacity-80 transition-opacity" />
+      </a>
+      <div class="hidden md:flex gap-7 items-center">
+        <a href="/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Home</a>
+        <a href="/stand-up-comedy-shows/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Comedy</a>
+        <a href="/corporate-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Corporate</a>
+        <a href="/college-fest-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">College Fests</a>
+        <a href="/artist-booking/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
+        <a href="/#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
+      </div>
+      <button id="mobile-menu-button" type="button" class="md:hidden text-[#c6a87c]" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+        <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
+      </button>
+    </nav>
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-md px-6 pt-28 pb-10 hidden md:hidden">
+      <div class="flex flex-col gap-6">
+        <a href="/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Home</a>
+        <a href="/stand-up-comedy-shows/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Stand-Up Comedy</a>
+        <a href="/corporate-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Corporate Entertainment</a>
+        <a href="/college-fest-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">College Fests</a>
+        <a href="/artist-booking/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Artist Booking</a>
+        <a href="/comedian-booking-cost-india/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Pricing Guide</a>
+        <a href="/#contact" class="mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c]">Enquire</a>
+      </div>
+    </div>
+
+    <!-- 404 -->
+    <header class="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-20 relative overflow-hidden text-center">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-transparent pointer-events-none"></div>
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <p class="text-xs uppercase tracking-[0.4em] text-[#c6a87c] mb-6">The Show Company</p>
+        <h1 class="font-ancient text-6xl md:text-8xl font-bold text-slate-100 leading-none">
+          <span class="gold-shimmer">404</span>
+        </h1>
+        <p class="font-display text-xl md:text-2xl text-slate-300 font-light italic mt-6 leading-relaxed">
+          This page has taken its final bow &mdash; it doesn&rsquo;t exist, or the curtain has already closed on it.
+        </p>
+        <p class="font-body text-sm text-slate-500 mt-4">
+          Check the link you followed, or find your way back to one of the pages below.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4 justify-center">
+          <a href="/" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
+            <iconify-icon icon="solar:home-2-linear"></iconify-icon>
+            Back to Homepage
+          </a>
+          <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
+            Enquire About a Show
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </a>
+        </div>
+
+        <div class="mt-16 pt-10 border-t border-white/5">
+          <p class="text-[10px] uppercase tracking-widest text-slate-500 mb-6">Or explore our services</p>
+          <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[11px] uppercase tracking-widest">
+            <a href="/stand-up-comedy-shows/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Stand-Up Comedy Shows</a>
+            <a href="/corporate-entertainment/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Corporate Entertainment</a>
+            <a href="/college-fest-entertainment/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">College Fest Entertainment</a>
+            <a href="/artist-booking/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
+            <a href="/comedian-booking-cost-india/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Booking Cost Guide</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- FOOTER -->
+    <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-[#030303]">
+      <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center space-y-8">
+        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-20 w-auto object-contain opacity-90" />
+        <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] text-slate-500 uppercase tracking-widest">
+          <a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a>
+          <a href="/stand-up-comedy-shows/" class="hover:text-[#c6a87c] transition-colors">Stand-Up Comedy</a>
+          <a href="/corporate-entertainment/" class="hover:text-[#c6a87c] transition-colors">Corporate</a>
+          <a href="/college-fest-entertainment/" class="hover:text-[#c6a87c] transition-colors">College Fests</a>
+          <a href="/artist-booking/" class="hover:text-[#c6a87c] transition-colors">Artist Booking</a>
+          <a href="/comedian-booking-cost-india/" class="hover:text-[#c6a87c] transition-colors">Pricing Guide</a>
+          <a href="/#contact" class="hover:text-[#c6a87c] transition-colors">Contact</a>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 text-[10px] text-slate-500 uppercase tracking-widest">
+          <a href="mailto:contact@theshowcompany.in" class="hover:text-[#c6a87c] transition-colors">contact@theshowcompany.in</a>
+          <a href="tel:+917060293132" class="hover:text-[#c6a87c] transition-colors">+91 70602 93132</a>
+          <span>Based in India · Operating pan-India</span>
+        </div>
+        <p class="text-[10px] text-slate-600 uppercase tracking-widest">© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.getElementById('mobile-menu-button');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const open = menu.classList.toggle('hidden') === false;
+          btn.setAttribute('aria-expanded', String(open));
+        });
+      }
+    </script>
+  </body>
+</html>

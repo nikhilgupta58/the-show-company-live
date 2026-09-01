@@ -43,20 +43,13 @@
 
     <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
-      />
-    </noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <script type="application/ld+json">
       {
@@ -65,12 +58,18 @@
         "@id": "https://www.theshowcompany.in/stand-up-comedy-shows/#service",
         "name": "Stand-Up Comedy Show Booking & Production",
         "serviceType": "Stand-Up Comedy Booking",
-        "provider": { "@id": "https://www.theshowcompany.in/#organization" },
+        "provider": {
+          "@type": "Organization",
+          "@id": "https://www.theshowcompany.in/#organization",
+          "name": "The Show Company",
+          "url": "https://www.theshowcompany.in/",
+          "logo": "https://www.theshowcompany.in/assets/logo.png"
+        },
         "areaServed": [
           { "@type": "Country", "name": "India" },
           { "@type": "City", "name": "Delhi" },
           { "@type": "City", "name": "Mumbai" },
-          { "@type": "City", "name": "Bengaluru" },
+          { "@type": "City", "name": "Bangalore" },
           { "@type": "City", "name": "Hyderabad" },
           { "@type": "City", "name": "Chennai" },
           { "@type": "City", "name": "Jaipur" },
@@ -87,6 +86,46 @@
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.theshowcompany.in/" },
           { "@type": "ListItem", "position": 2, "name": "Stand-Up Comedy Shows", "item": "https://www.theshowcompany.in/stand-up-comedy-shows/" }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does it cost to book a stand-up comedian in India?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Emerging comedians typically start around ₹50,000–₹1 lakh; established touring names range ₹2–8 lakh; national headliners go well beyond. The venue, city, date and format all move the number — see our comedian booking cost guide for detailed ranges."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you suggest comedians that fit our audience and budget?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — that's the core of what we do. Share your city, audience profile and budget band and we'll send a curated shortlist with real availability, instead of a generic roster page."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you handle sound, lighting and the stage too?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Through our sound and lighting partner VIGOR MENTORS we deliver full technical production — PA, monitors, stage wash, backdrop and show cues — alongside the artist booking."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which cities do you cover?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We operate pan-India — Delhi NCR, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Jaipur, Dehradun and 50+ cities so far. If your city has a venue, we can produce a show in it."
+            }
+          }
         ]
       }
     </script>
@@ -300,7 +339,7 @@
               Which cities do you cover?
               <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
             </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">We operate pan-India — Delhi NCR, Mumbai, Bengaluru, Hyderabad, Chennai, Kolkata, Jaipur, Dehradun and 50+ cities so far. If your city has a venue, we can produce a show in it.</p>
+            <p class="text-sm text-slate-400 leading-relaxed mt-4">We operate pan-India — Delhi NCR, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Jaipur, Dehradun and 50+ cities so far. If your city has a venue, we can produce a show in it.</p>
           </details>
         </div>
       </div>
