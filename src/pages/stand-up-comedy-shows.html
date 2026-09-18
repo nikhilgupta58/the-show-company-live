@@ -49,7 +49,8 @@
     <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="preload" href="/assets/fonts/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/fonts/fonts.css"></noscript>
 
     <script type="application/ld+json">
       {
