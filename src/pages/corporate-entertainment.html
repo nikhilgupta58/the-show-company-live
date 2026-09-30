@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en-IN" class="scroll-smooth">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>(function(d){d.classList.add('js');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement)</script>
 
     <!-- Google tag (gtag.js) — GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
@@ -41,16 +42,14 @@
     <meta name="twitter:description" content="Stand-up comedy, live music and full-production entertainment for corporate events across India." />
     <meta name="twitter:image" content="https://www.theshowcompany.in/assets/og-image.png" />
 
-    <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/fonts/fonts.css"></noscript>
+
+    <!-- House Lights design system: CSS + non-blocking fonts + motion -->
+    <link rel="stylesheet" href="/assets/tailwind.min.css?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" /></noscript>
+    <script src="/assets/motion.js?v=2" defer></script>
 
     <script type="application/ld+json">
       {
@@ -129,269 +128,306 @@
         ]
       }
     </script>
-
-    <style>
-      :root {
-        --gold: #c6a87c;
-        --gold-light: #e8d5b0;
-        --gold-dim: rgba(198,168,124,0.35);
-      }
-      *, *::before, *::after { box-sizing: border-box; margin: 0; }
-      html { scroll-behavior: smooth; }
-      body { background: #050505; color: #d0d0e0; overflow-x: hidden; font-feature-settings: "kern" 1, "liga" 1; }
-      .font-ancient { font-family: "Cinzel", serif; }
-      .font-body { font-family: "Inter", sans-serif; }
-      .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
-      ::-webkit-scrollbar { width: 3px; }
-      ::-webkit-scrollbar-track { background: #050505; }
-      ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
-      .gold-shimmer {
-        background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 35%, var(--gold) 50%, #a8885c 75%, var(--gold) 100%);
-        background-size: 250% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: shimmer 5s linear infinite;
-      }
-      @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 250% center; } }
-      .btn-outline-gold {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(198,168,124,0.4);
-        color: var(--gold);
-        transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
-      }
-      .btn-outline-gold:hover { border-color: rgba(198,168,124,0.7); background: rgba(198,168,124,0.06); }
-      details > summary { list-style: none; cursor: pointer; }
-      details > summary::-webkit-details-marker { display: none; }
-      details[open] .faq-chevron { transform: rotate(180deg); }
-    </style>
   </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-gold focus:px-5 focus:py-3 focus:text-ink">Skip to main content</a>
+    <div class="progress-bar" aria-hidden="true"></div>
 
-  <body class="font-body antialiased">
-    <!-- NAV -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-5 md:px-12 flex justify-between items-center bg-[#050505]/85 backdrop-blur-md border-b border-white/5">
-      <a href="/" class="group">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-12 w-auto object-contain group-hover:opacity-80 transition-opacity" />
-      </a>
-      <div class="hidden md:flex gap-7 items-center">
-        <a href="/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Comedy</a>
-        <a href="/corporate-entertainment/" class="text-[10px] uppercase tracking-widest text-[#c6a87c]">Corporate</a>
-        <a href="/college-fest-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">College Fests</a>
-        <a href="/artist-booking/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-        <a href="/#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
-      </div>
-      <button id="mobile-menu-button" type="button" class="md:hidden text-[#c6a87c]" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-        <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
-      </button>
-    </nav>
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-md px-6 pt-28 pb-10 hidden md:hidden">
-      <div class="flex flex-col gap-6">
-        <a href="/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Stand-Up Comedy</a>
-        <a href="/corporate-entertainment/" class="text-sm uppercase tracking-[0.2em] text-[#c6a87c]">Corporate Entertainment</a>
-        <a href="/college-fest-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">College Fests</a>
-        <a href="/artist-booking/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Artist Booking</a>
-        <a href="/comedian-booking-cost-india/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Pricing Guide</a>
-        <a href="/#contact" class="mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c]">Enquire</a>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <header class="pt-40 pb-20 px-6 md:px-12 relative overflow-hidden">
-      <picture>
-        <source srcset="/assets/hero-corporate-1920.webp" type="image/webp">
-        <img src="/assets/hero-corporate-1920.jpg" alt="Corporate event entertainment and stage production" width="1920" height="1080"
-             class="absolute inset-0 w-full h-full object-cover opacity-42"
-             fetchpriority="high" decoding="async">
-      </picture>
-      <div class="absolute inset-0 bg-[#050505]/42 pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-[#050505] pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-transparent pointer-events-none"></div>
-      <div class="max-w-screen-xl mx-auto relative z-10">
-        <nav aria-label="Breadcrumb" class="mb-8">
-          <ol class="flex gap-2 text-[10px] uppercase tracking-widest text-slate-500">
-            <li><a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a></li>
-            <li aria-hidden="true">/</li>
-            <li class="text-[#c6a87c]">Corporate Entertainment</li>
-          </ol>
+    <!-- ═══ SITE HEADER (shared) ═══ -->
+    <header class="site-header">
+      <div class="site-header__bar">
+        <a href="/" class="flex items-center gap-3 rounded-full pl-2" aria-label="The Show Company — home">
+          <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" class="h-9 w-auto sm:h-10" />
+        </a>
+        <nav aria-label="Primary" class="hidden items-center gap-1 lg:flex">
+          <a class="nav-link" href="/#about">About</a>
+          <a class="nav-link" href="/#shows">Services</a>
+          <a class="nav-link" href="/#recent-events">Recent</a>
+          <a class="nav-link" href="/#events">Events</a>
+          <a class="nav-link" href="/#faqs">FAQs</a>
         </nav>
-        <p class="text-xs uppercase tracking-[0.4em] text-[#c6a87c] mb-6">Corporate Events · Pan-India</p>
-        <h1 class="font-ancient text-4xl md:text-6xl font-bold text-slate-100 leading-tight max-w-4xl">
-          Corporate Event Entertainment <span class="gold-shimmer">That People Remember</span>
-        </h1>
-        <p class="font-display text-xl md:text-2xl text-slate-300 font-light italic mt-6 max-w-2xl leading-relaxed">
-          Annual days, offsites, galas and client evenings — curated line-ups with full production, delivered on brief and on time.
-        </p>
-        <div class="mt-10 flex flex-wrap gap-4">
-          <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-            Plan Your Event
-            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="hidden h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper transition-colors hover:border-gold hover:text-gold sm:grid" aria-label="Chat with us on WhatsApp">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.2 4.2 4.8 4.9l1-1.1 1.9.8-.3 1.6c-3.9.4-8-3.4-8.1-7.3l1.5-.4.9 1.8z" fill="currentColor" stroke="none"/></svg>
           </a>
+          <a href="/#contact" class="btn-primary !min-h-[44px] !px-5 !py-2 !text-xs" data-magnetic>Book a show</a>
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper lg:hidden" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" data-menu-open>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          </button>
         </div>
       </div>
     </header>
 
-    <!-- INTRO -->
-    <section class="py-16 px-6 md:px-12 border-t border-white/5">
-      <div class="max-w-3xl mx-auto space-y-6 text-slate-300 leading-relaxed">
-        <p>
-          The hardest part of a corporate event isn't the venue or the catering — it's the hour where the room either comes alive or checks its phones. The Show Company builds that hour. We are a live entertainment production company with <strong class="text-slate-100">500+ shows</strong> delivered across India, working with HR teams, admin teams and event agencies to put the right entertainment in front of the right audience.
-        </p>
-        <p>
-          One brief gets you a curated menu of options — a corporate-safe stand-up comedian, a live band, a DJ-led evening, an emcee to hold the run-of-show together, or a combination. We then execute end-to-end: artist contracts, travel, technical production with our partner VIGOR MENTORS, stage and backdrop design, and a producer on the ground on event day. You get one point of contact and one invoice.
-        </p>
-        <p>
-          Booking lead time for corporate events is typically 2–4 weeks depending on complexity; peak season dates (December, financial-year-end) are best locked 6–8 weeks out.
-        </p>
-      </div>
-    </section>
-
-    <!-- FORMATS -->
-    <section class="py-20 px-6 md:px-12 bg-[#08080a] border-t border-white/5">
-      <div class="max-w-screen-xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-12">Entertainment Formats We Deliver</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:masks-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">Corporate Stand-Up Comedy</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Comedians briefed on your audience and boundaries — funny without an HR escalation. The most-requested format for annual days and offsites. <a href="/stand-up-comedy-shows/" class="text-[#c6a87c] hover:underline">More on comedy shows →</a></p>
-          </div>
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:music-notes-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">Live Bands & Singers</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Acoustic sets for dinners, full bands for after-parties, playback and indie artists for award nights.</p>
-          </div>
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:vinyl-record-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">DJ Nights & After-Parties</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Club-grade sound and lighting brought to your venue, with DJs who read a corporate room.</p>
-          </div>
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:microphone-3-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">Emcees & Anchors</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Bilingual anchors who keep award ceremonies and town halls moving — the glue of a good run-of-show.</p>
-          </div>
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:confetti-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">Full Event Production</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Stage, sound, lighting, backdrop and show-calling for events from 50-person offsites to 1,000+ galas.</p>
-          </div>
-          <div class="p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:star-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider">Celebrity Appearances</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Headline names for milestone events — scoped honestly against budget, with contracts we negotiate for you. <a href="/artist-booking/" class="text-[#c6a87c] hover:underline">How artist booking works →</a></p>
-          </div>
+    <dialog id="site-menu" class="menu-sheet" aria-label="Site menu">
+      <div class="shell flex min-h-full flex-col py-6">
+        <div class="flex items-center justify-between">
+          <img src="/assets/logo.webp" alt="" width="605" height="367" class="h-10 w-auto" />
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/20 text-paper" aria-label="Close menu" data-menu-close>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <nav aria-label="Mobile" class="mt-10">
+          <a class="menu-link" href="/#about">About</a>
+          <a class="menu-link" href="/#shows">Services</a>
+          <a class="menu-link" href="/#recent-events">Recent Events</a>
+          <a class="menu-link" href="/#events">Events</a>
+          <a class="menu-link" href="/#faqs">FAQs</a>
+          <a class="menu-link !text-gold" href="/#contact">Enquire</a>
+        </nav>
+        <div class="mt-auto grid gap-2 pt-10 text-sm">
+          <a href="tel:+917060293132" class="text-paper">+91 70602 93132</a>
+          <a href="mailto:contact@theshowcompany.in" class="text-paper">contact@theshowcompany.in</a>
         </div>
       </div>
-    </section>
+    </dialog>
 
-    <!-- WHY US -->
-    <section class="py-20 px-6 md:px-12 border-t border-white/5">
-      <div class="max-w-screen-xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-12">Why Teams Book Us Again</h2>
-        <div class="grid md:grid-cols-3 gap-10">
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">500+</span>
-            <p class="text-sm text-slate-400 leading-relaxed">Shows produced across India — we've seen every way an event can go wrong, and planned for it.</p>
+    <main id="main-content">
+
+      <!-- ═══ HERO ═══ -->
+      <section class="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden pb-12 pt-28 md:pb-16" aria-labelledby="hero-title">
+        <picture>
+          <source srcset="/assets/hero-corporate-1920.webp" type="image/webp" />
+          <img src="/assets/hero-corporate-1920.jpg" alt="Corporate event entertainment and stage production" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+        </picture>
+        <div class="absolute inset-0 -z-10 hero-scrim" aria-hidden="true"></div>
+        <div class="spotlight pointer-events-none absolute -top-1/3 left-1/4 -z-10 h-[140%] w-[60%] origin-top bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,.12),transparent_65%)]" aria-hidden="true"></div>
+
+        <div class="shell">
+          <nav aria-label="Breadcrumb" class="mb-8" data-reveal data-hero>
+            <ol class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-fog">
+              <li><a href="/" class="hover:text-gold">Home</a></li>
+              <li aria-hidden="true">/</li>
+              <li class="text-gold" aria-current="page">Corporate Entertainment</li>
+            </ol>
+          </nav>
+          <p class="kicker" data-reveal data-hero style="--d:100ms">Corporate Events · Pan-India</p>
+          <h1 id="hero-title" class="h-display mt-5 max-w-5xl text-d1" data-split data-hero style="--d:200ms">
+            Corporate Event Entertainment <span class="text-gold">That People</span> <em class="aside">Remember</em>
+          </h1>
+          <div class="mt-8 grid items-end gap-8 md:grid-cols-12">
+            <p class="max-w-xl text-lg text-paper/90 md:col-span-7 md:text-xl" data-reveal data-hero style="--d:600ms">
+              Annual days, offsites, galas and client evenings — curated line-ups with full production, delivered on brief and on time.
+            </p>
+            <div class="flex flex-wrap gap-3 md:col-span-5 md:justify-end" data-reveal data-hero style="--d:750ms">
+              <a href="/#contact" class="btn-primary" data-magnetic>
+                Plan Your Event
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-magnetic>WhatsApp us</a>
+            </div>
           </div>
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">48h</span>
-            <p class="text-sm text-slate-400 leading-relaxed">From brief to curated artist shortlist with real availability and transparent pricing bands.</p>
+        </div>
+      </section>
+
+      <!-- ═══ MARQUEE ═══ -->
+      <div class="-rotate-1 bg-gold py-4 text-ink md:py-5">
+        <div class="marquee" style="--marquee-speed:34s">
+          <ul class="marquee__track font-display text-3xl uppercase md:text-5xl">
+            <li>Annual Days</li><li aria-hidden="true">✦</li><li>Offsites</li><li aria-hidden="true">✦</li><li>Galas</li><li aria-hidden="true">✦</li><li>Award Nights</li><li aria-hidden="true">✦</li><li>Client Evenings</li><li aria-hidden="true">✦</li><li>Town Halls</li><li aria-hidden="true">✦</li>
+          </ul>
+          <ul class="marquee__track font-display text-3xl uppercase md:text-5xl" aria-hidden="true">
+            <li>Annual Days</li><li>✦</li><li>Offsites</li><li>✦</li><li>Galas</li><li>✦</li><li>Award Nights</li><li>✦</li><li>Client Evenings</li><li>✦</li><li>Town Halls</li><li>✦</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ═══ INTRO ═══ -->
+      <section class="section on-paper -mt-3 pt-28 md:pt-36" aria-labelledby="intro-title">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-5">
+            <p class="kicker" data-reveal>The hour that matters</p>
+            <h2 id="intro-title" class="h-display mt-6 text-d2 !text-ink" data-split>The room comes alive <em class="aside">or checks its phones.</em></h2>
+            <div class="frame mt-10 aspect-[2/3] max-w-sm" data-reveal="clip">
+              <img src="/assets/images/recent/comedian-storytelling-amber-stage-sm.jpg" srcset="/assets/images/recent/comedian-storytelling-amber-stage-sm.jpg 599w, /assets/images/recent/comedian-storytelling-amber-stage.jpg 1066w" sizes="(min-width:1024px) 24rem, 90vw" alt="Comedian gesturing while telling a story on a stage washed in warm amber light" width="1066" height="1600" loading="lazy" decoding="async" data-parallax />
+            </div>
           </div>
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">1</span>
-            <p class="text-sm text-slate-400 leading-relaxed">Point of contact for artists, production and logistics. One agreement, one invoice, no vendor-juggling.</p>
+          <div class="space-y-6 text-lg lg:col-span-6 lg:col-start-7">
+            <p class="text-xl font-medium text-ink md:text-2xl" data-reveal>
+              The hardest part of a corporate event isn't the venue or the catering — it's the hour where the room either comes alive or checks its phones. The Show Company builds that hour. We are a live entertainment production company with <strong>500+ shows</strong> delivered across India, working with HR teams, admin teams and event agencies to put the right entertainment in front of the right audience.
+            </p>
+            <p data-reveal>
+              One brief gets you a curated menu of options — a corporate-safe stand-up comedian, a live band, a DJ-led evening, an emcee to hold the run-of-show together, or a combination. We then execute end-to-end: artist contracts, travel, technical production with our partner VIGOR MENTORS, stage and backdrop design, and a producer on the ground on event day. You get one point of contact and one invoice.
+            </p>
+            <p data-reveal>
+              Booking lead time for corporate events is typically 2–4 weeks depending on complexity; peak season dates (December, financial-year-end) are best locked 6–8 weeks out.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FAQ -->
-    <section class="py-20 px-6 md:px-12 bg-[#08080a] border-t border-white/5">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-10">Corporate Booking FAQs</h2>
-        <div class="space-y-4">
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              What does corporate entertainment cost in India?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">Most mid-size corporate events land between ₹2–8 lakh for a headline act plus production; intimate offsites can start under ₹1 lakh. Our <a href="/comedian-booking-cost-india/" class="text-[#c6a87c] hover:underline">pricing guide</a> breaks down what moves the number.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              Can the content be kept corporate-appropriate?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">Yes. We brief every artist on your audience, industry and red lines before the show, and we only shortlist performers with a track record in corporate rooms.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              Do you work outside the metros?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">Yes — we've produced events in 50+ cities including Dehradun, Jaipur, Lucknow and Indore. Artist travel is built into the quote so there are no surprise costs.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              How far in advance should we book?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">2–4 weeks for most events; 6–8 weeks for December and year-end dates, when artist calendars fill fastest.</p>
-          </details>
+      <!-- ═══ FORMATS ═══ -->
+      <section class="section" aria-labelledby="formats-title">
+        <div class="shell">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p class="kicker" data-reveal>The line-up</p>
+              <h2 id="formats-title" class="h-display mt-5 text-d1" data-split>Entertainment Formats <em class="aside">We Deliver</em></h2>
+            </div>
+            <p class="max-w-sm" data-reveal>Six formats, mixed and matched to your audience, venue and run-of-show.</p>
+          </div>
+          <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <article class="card flex flex-col p-7 md:p-8" data-reveal>
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="num text-2xl text-gold">01</span></div>
+              <h3 class="h-display mt-6 text-d3">Corporate Stand-Up Comedy</h3>
+              <p class="mt-3">Comedians briefed on your audience and boundaries — funny without an HR escalation. The most-requested format for annual days and offsites.</p>
+              <a href="/stand-up-comedy-shows/" class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold hover:text-paper">More on comedy shows <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </article>
+            <article class="card flex flex-col p-7 md:p-8" data-reveal style="--d:80ms">
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span class="num text-2xl text-gold">02</span></div>
+              <h3 class="h-display mt-6 text-d3">Live Bands &amp; Singers</h3>
+              <p class="mt-3">Acoustic sets for dinners, full bands for after-parties, playback and indie artists for award nights.</p>
+            </article>
+            <article class="card flex flex-col p-7 md:p-8" data-reveal style="--d:160ms">
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3a9 9 0 0 1 9 9"/></svg><span class="num text-2xl text-gold">03</span></div>
+              <h3 class="h-display mt-6 text-d3">DJ Nights &amp; After-Parties</h3>
+              <p class="mt-3">Club-grade sound and lighting brought to your venue, with DJs who read a corporate room.</p>
+            </article>
+            <article class="card flex flex-col p-7 md:p-8" data-reveal>
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5h16v10H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg><span class="num text-2xl text-gold">04</span></div>
+              <h3 class="h-display mt-6 text-d3">Emcees &amp; Anchors</h3>
+              <p class="mt-3">Bilingual anchors who keep award ceremonies and town halls moving — the glue of a good run-of-show.</p>
+            </article>
+            <article class="card flex flex-col p-7 md:p-8" data-reveal style="--d:80ms">
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 20h18M5 20V10l7-6 7 6v10"/><path d="M9 20v-6h6v6"/></svg><span class="num text-2xl text-gold">05</span></div>
+              <h3 class="h-display mt-6 text-d3">Full Event Production</h3>
+              <p class="mt-3">Stage, sound, lighting, backdrop and show-calling for events from 50-person offsites to 1,000+ galas.</p>
+            </article>
+            <article class="card flex flex-col p-7 md:p-8" data-reveal style="--d:160ms">
+              <div class="flex items-center justify-between"><svg viewBox="0 0 24 24" class="h-8 w-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><span class="num text-2xl text-gold">06</span></div>
+              <h3 class="h-display mt-6 text-d3">Celebrity Appearances</h3>
+              <p class="mt-3">Headline names for milestone events — scoped honestly against budget, with contracts we negotiate for you.</p>
+              <a href="/artist-booking/" class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold hover:text-paper">How artist booking works <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ WHY US ═══ -->
+      <section class="section bg-ink-2" aria-labelledby="why-title">
+        <div class="shell">
+          <p class="kicker" data-reveal>Repeat bookings</p>
+          <h2 id="why-title" class="h-display mt-5 text-d1" data-split>Why Teams Book <em class="aside">Us Again</em></h2>
+          <dl class="mt-14 grid border-t border-paper/10 md:grid-cols-3">
+            <div class="border-b border-paper/10 py-8 md:border-b-0 md:border-r md:pr-8" data-reveal>
+              <dt class="num text-7xl text-gold md:text-8xl"><span data-count="500" data-suffix="+">500+</span></dt>
+              <dd class="mt-4 max-w-xs">Shows produced across India — we've seen every way an event can go wrong, and planned for it.</dd>
+            </div>
+            <div class="border-b border-paper/10 py-8 md:border-b-0 md:border-r md:px-8" data-reveal style="--d:100ms">
+              <dt class="num text-7xl text-gold md:text-8xl"><span data-count="48" data-suffix="h">48h</span></dt>
+              <dd class="mt-4 max-w-xs">From brief to curated artist shortlist with real availability and transparent pricing bands.</dd>
+            </div>
+            <div class="py-8 md:pl-8" data-reveal style="--d:200ms">
+              <dt class="num text-7xl text-gold md:text-8xl">1</dt>
+              <dd class="mt-4 max-w-xs">Point of contact for artists, production and logistics. One agreement, one invoice, no vendor-juggling.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ═══ FAQ ═══ -->
+      <section id="faqs" class="section on-paper" aria-labelledby="faqs-title">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-4">
+            <p class="kicker" data-reveal>Questions</p>
+            <h2 id="faqs-title" class="h-display mt-5 text-d2 !text-ink" data-split>Corporate Booking FAQs</h2>
+          </div>
+          <div class="border-t border-ink/15 lg:col-span-8">
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">What does corporate entertainment cost in India?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">Most mid-size corporate events land between ₹2–8 lakh for a headline act plus production; intimate offsites can start under ₹1 lakh. Our <a href="/comedian-booking-cost-india/" class="font-semibold text-gold-ink underline underline-offset-4">pricing guide</a> breaks down what moves the number.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">Can the content be kept corporate-appropriate?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">Yes. We brief every artist on your audience, industry and red lines before the show, and we only shortlist performers with a track record in corporate rooms.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">Do you work outside the metros?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">Yes — we've produced events in 50+ cities including Dehradun, Jaipur, Lucknow and Indore. Artist travel is built into the quote so there are no surprise costs.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">How far in advance should we book?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">2–4 weeks for most events; 6–8 weeks for December and year-end dates, when artist calendars fill fastest.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ CTA ═══ -->
+      <section class="section relative isolate overflow-hidden text-center" aria-labelledby="cta-title">
+        <div class="spotlight pointer-events-none absolute -top-1/3 left-1/2 -z-10 h-[140%] w-[80%] origin-top -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,.12),transparent_65%)]" aria-hidden="true"></div>
+        <div class="shell max-w-4xl">
+          <p class="kicker justify-center" data-reveal>Your next event</p>
+          <h2 id="cta-title" class="h-display mt-6 text-d1" data-split>Make Your Next Event <em class="aside">the Benchmark</em></h2>
+          <p class="mx-auto mt-6 max-w-xl font-serif text-2xl italic text-paper/90" data-reveal>Send us the date, headcount and city — we'll send back a line-up within 48 hours.</p>
+          <div class="mt-10 flex flex-wrap justify-center gap-3" data-reveal>
+            <a href="/#contact" class="btn-primary" data-magnetic>
+              Start Your Enquiry
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-magnetic>WhatsApp +91 70602 93132</a>
+          </div>
+          <p class="mt-8 text-sm text-fog" data-reveal>
+            Or write to <a href="mailto:contact@theshowcompany.in" class="break-all text-gold hover:text-paper">contact@theshowcompany.in</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+
+    <!-- ═══ SITE FOOTER (shared) ═══ -->
+    <footer class="relative overflow-hidden border-t border-paper/10 bg-ink pt-20">
+      <div class="shell">
+        <div class="grid gap-12 md:grid-cols-12">
+          <div class="md:col-span-5">
+            <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" loading="lazy" decoding="async" class="h-16 w-auto" />
+            <p class="mt-6 max-w-sm font-serif text-2xl italic leading-snug text-paper">Creating moments audiences will carry forever.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="https://www.instagram.com/the_show_company/" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+          <nav aria-label="Footer — site" class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Explore</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/#about">About</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#shows">Services</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#recent-events">Recent Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#events">Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#faqs">FAQs</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#contact">Contact</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Footer — services" class="md:col-span-3">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Services</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/stand-up-comedy-shows/">Stand-Up Comedy Shows</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/corporate-entertainment/">Corporate Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/college-fest-entertainment/">College Fest Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/artist-booking/">Artist Booking</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/event-management-company-india/">Event Management Company</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/comedian-booking-cost-india/">Booking Cost Guide</a></li>
+            </ul>
+          </nav>
+          <div class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Contact</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="break-all text-paper/85 hover:text-gold" href="mailto:contact@theshowcompany.in">contact@theshowcompany.in</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="tel:+917060293132">+91 70602 93132</a></li>
+              <li class="text-fog">Based in India · Operating pan-India</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-16 flex flex-col gap-2 border-t border-paper/10 py-6 text-xs text-fog-dim sm:flex-row sm:justify-between">
+          <p>© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
+          <p>Last updated: <time datetime="2026-06-16">June 2026</time></p>
         </div>
       </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="py-24 px-6 md:px-12 border-t border-white/5 text-center relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-t from-[#c6a87c]/6 to-transparent pointer-events-none"></div>
-      <div class="relative z-10 max-w-2xl mx-auto space-y-8">
-        <h2 class="font-ancient text-3xl md:text-5xl text-slate-100 font-bold">Make Your Next Event the Benchmark</h2>
-        <p class="font-display text-xl text-slate-300 italic">Send us the date, headcount and city — we'll send back a line-up within 48 hours.</p>
-        <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-10 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-          Start Your Enquiry
-          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-        </a>
-        <p class="text-[10px] uppercase tracking-widest text-slate-500">
-          Or write to <a href="mailto:contact@theshowcompany.in" class="text-[#c6a87c] hover:underline">contact@theshowcompany.in</a> · <a href="https://wa.me/917060293132" class="text-[#c6a87c] hover:underline">WhatsApp +91 70602 93132</a>
-        </p>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-[#030303]">
-      <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center space-y-8">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-20 w-auto object-contain opacity-90" />
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a>
-          <a href="/stand-up-comedy-shows/" class="hover:text-[#c6a87c] transition-colors">Stand-Up Comedy</a>
-          <a href="/corporate-entertainment/" class="hover:text-[#c6a87c] transition-colors">Corporate</a>
-          <a href="/college-fest-entertainment/" class="hover:text-[#c6a87c] transition-colors">College Fests</a>
-          <a href="/artist-booking/" class="hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-          <a href="/event-management-company-india/" class="hover:text-[#c6a87c] transition-colors">Event Management Company</a>
-          <a href="/comedian-booking-cost-india/" class="hover:text-[#c6a87c] transition-colors">Pricing Guide</a>
-          <a href="/#contact" class="hover:text-[#c6a87c] transition-colors">Contact</a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-6 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="mailto:contact@theshowcompany.in" class="hover:text-[#c6a87c] transition-colors">contact@theshowcompany.in</a>
-          <a href="tel:+917060293132" class="hover:text-[#c6a87c] transition-colors">+91 70602 93132</a>
-          <span>Based in India · Operating pan-India</span>
-        </div>
-        <p class="text-[10px] text-slate-600 uppercase tracking-widest">© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
-      </div>
-    </footer>
-
-    <script>
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      if (btn && menu) {
-        btn.addEventListener('click', () => {
-          const open = menu.classList.toggle('hidden') === false;
-          btn.setAttribute('aria-expanded', String(open));
-        });
-      }
-    </script>
+      <p class="pointer-events-none select-none whitespace-nowrap text-center font-display text-[18.5vw] uppercase leading-[0.78] text-paper/[0.06]" aria-hidden="true">The Show Co.</p>
   </body>
 </html>

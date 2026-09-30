@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en-IN" class="scroll-smooth">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>(function(d){d.classList.add('js');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement)</script>
 
     <!-- Google tag (gtag.js) — GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
@@ -41,16 +42,14 @@
     <meta name="twitter:description" content="Full-service event management company and event organiser in India — corporate events, college fests, comedy shows and artist booking under one roof." />
     <meta name="twitter:image" content="https://www.theshowcompany.in/assets/og-image.png" />
 
-    <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/fonts/fonts.css"></noscript>
+
+    <!-- House Lights design system: CSS + non-blocking fonts + motion -->
+    <link rel="stylesheet" href="/assets/tailwind.min.css?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" /></noscript>
+    <script src="/assets/motion.js?v=2" defer></script>
 
     <script type="application/ld+json">
       {
@@ -131,271 +130,324 @@
         ]
       }
     </script>
-
-    <style>
-      :root {
-        --gold: #c6a87c;
-        --gold-light: #e8d5b0;
-        --gold-dim: rgba(198,168,124,0.35);
-      }
-      *, *::before, *::after { box-sizing: border-box; margin: 0; }
-      html { scroll-behavior: smooth; }
-      body { background: #050505; color: #d0d0e0; overflow-x: hidden; font-feature-settings: "kern" 1, "liga" 1; }
-      .font-ancient { font-family: "Cinzel", serif; }
-      .font-body { font-family: "Inter", sans-serif; }
-      .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
-      ::-webkit-scrollbar { width: 3px; }
-      ::-webkit-scrollbar-track { background: #050505; }
-      ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
-      .gold-shimmer {
-        background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 35%, var(--gold) 50%, #a8885c 75%, var(--gold) 100%);
-        background-size: 250% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: shimmer 5s linear infinite;
-      }
-      @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 250% center; } }
-      .btn-outline-gold {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(198,168,124,0.4);
-        color: var(--gold);
-        transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
-      }
-      .btn-outline-gold:hover { border-color: rgba(198,168,124,0.7); background: rgba(198,168,124,0.06); }
-      details > summary { list-style: none; cursor: pointer; }
-      details > summary::-webkit-details-marker { display: none; }
-      details[open] .faq-chevron { transform: rotate(180deg); }
-    </style>
   </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-gold focus:px-5 focus:py-3 focus:text-ink">Skip to main content</a>
+    <div class="progress-bar" aria-hidden="true"></div>
 
-  <body class="font-body antialiased">
-    <!-- NAV -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-5 md:px-12 flex justify-between items-center bg-[#050505]/85 backdrop-blur-md border-b border-white/5">
-      <a href="/" class="group">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-12 w-auto object-contain group-hover:opacity-80 transition-opacity" />
-      </a>
-      <div class="hidden md:flex gap-7 items-center">
-        <a href="/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Comedy</a>
-        <a href="/corporate-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Corporate</a>
-        <a href="/college-fest-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">College Fests</a>
-        <a href="/artist-booking/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-        <a href="/#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
-      </div>
-      <button id="mobile-menu-button" type="button" class="md:hidden text-[#c6a87c]" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-        <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
-      </button>
-    </nav>
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-md px-6 pt-28 pb-10 hidden md:hidden">
-      <div class="flex flex-col gap-6">
-        <a href="/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Stand-Up Comedy</a>
-        <a href="/corporate-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Corporate Entertainment</a>
-        <a href="/college-fest-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">College Fests</a>
-        <a href="/artist-booking/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Artist Booking</a>
-        <a href="/event-management-company-india/" class="text-sm uppercase tracking-[0.2em] text-[#c6a87c]">Event Management Company</a>
-        <a href="/comedian-booking-cost-india/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Pricing Guide</a>
-        <a href="/#contact" class="mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c]">Enquire</a>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <header class="pt-40 pb-20 px-6 md:px-12 relative overflow-hidden">
-      <picture>
-        <img src="/assets/stage-lighting-1600x1200.webp?v=2" alt="Stage lighting at The Show Company event" width="1600" height="1200"
-             class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale"
-             decoding="async">
-      </picture>
-      <div class="absolute inset-0 bg-[#050505]/42 pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-[#050505] pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-transparent pointer-events-none"></div>
-      <div class="max-w-screen-xl mx-auto relative z-10">
-        <nav aria-label="Breadcrumb" class="mb-8">
-          <ol class="flex gap-2 text-[10px] uppercase tracking-widest text-slate-500">
-            <li><a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a></li>
-            <li aria-hidden="true">/</li>
-            <li class="text-[#c6a87c]">Event Management Company</li>
-          </ol>
+    <!-- ═══ SITE HEADER (shared) ═══ -->
+    <header class="site-header">
+      <div class="site-header__bar">
+        <a href="/" class="flex items-center gap-3 rounded-full pl-2" aria-label="The Show Company — home">
+          <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" class="h-9 w-auto sm:h-10" />
+        </a>
+        <nav aria-label="Primary" class="hidden items-center gap-1 lg:flex">
+          <a class="nav-link" href="/#about">About</a>
+          <a class="nav-link" href="/#shows">Services</a>
+          <a class="nav-link" href="/#recent-events">Recent</a>
+          <a class="nav-link" href="/#events">Events</a>
+          <a class="nav-link" href="/#faqs">FAQs</a>
         </nav>
-        <p class="text-xs uppercase tracking-[0.4em] text-[#c6a87c] mb-6">Event Management · Pan-India</p>
-        <h1 class="font-ancient text-4xl md:text-6xl font-bold text-slate-100 leading-tight max-w-4xl">
-          A Full-Service Event Management Company <span class="gold-shimmer">Built for India</span>
-        </h1>
-        <p class="font-display text-xl md:text-2xl text-slate-300 font-light italic mt-6 max-w-2xl leading-relaxed">
-          Not just an artist booking number — one team for artists, production and on-ground execution, with 500+ shows delivered across 50+ Indian cities.
-        </p>
-        <div class="mt-10 flex flex-wrap gap-4">
-          <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-            Get a Proposal
-            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="hidden h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper transition-colors hover:border-gold hover:text-gold sm:grid" aria-label="Chat with us on WhatsApp">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.2 4.2 4.8 4.9l1-1.1 1.9.8-.3 1.6c-3.9.4-8-3.4-8.1-7.3l1.5-.4.9 1.8z" fill="currentColor" stroke="none"/></svg>
           </a>
+          <a href="/#contact" class="btn-primary !min-h-[44px] !px-5 !py-2 !text-xs" data-magnetic>Book a show</a>
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper lg:hidden" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" data-menu-open>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          </button>
         </div>
       </div>
     </header>
 
-    <!-- INTRO -->
-    <section class="py-16 px-6 md:px-12 border-t border-white/5">
-      <div class="max-w-3xl mx-auto space-y-6 text-slate-300 leading-relaxed">
-        <p>
-          Search "event management company" or "event organiser" in India and you'll mostly find directory listings and rankings — not a straight answer to the question that actually matters: who handles everything, so you don't have to manage a comedian, a sound vendor and a stage contractor as three separate relationships. That's the gap The Show Company fills. We are a live entertainment production company with <strong class="text-slate-100">500+ shows</strong> and <strong class="text-slate-100">100+ artists booked</strong> across <strong class="text-slate-100">50+ cities</strong> in India — built to run the whole event, not just supply the talent.
-        </p>
-        <p>
-          An artist booking agency's job ends when a contract is signed. Ours doesn't. We handle artist negotiation and contracts, travel logistics, stage and backdrop design, sound and lighting through our production partner <strong class="text-slate-100">VIGOR MENTORS</strong>, venue coordination, and a producer on the ground on event day — with one point of contact and one invoice, whether you're planning a corporate gala, a college fest, a comedy night or a large auditorium show.
-        </p>
-        <p>
-          If you already know exactly what you need, jump straight to the service page. If you're still scoping the event, use this page as the starting point — we'll match you to the right format and team from a single brief.
-        </p>
-      </div>
-    </section>
-
-    <!-- SERVICE LINES -->
-    <section class="py-20 px-6 md:px-12 bg-[#08080a] border-t border-white/5">
-      <div class="max-w-screen-xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-4">What We Manage, End to End</h2>
-        <p class="text-slate-400 max-w-2xl mb-12">Four core service lines, run by one team — pick your starting point.</p>
-        <div class="grid md:grid-cols-2 gap-6">
-          <a href="/corporate-entertainment/" class="group block p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:case-round-minimalistic-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider group-hover:text-[#c6a87c] transition-colors">Corporate Entertainment</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Annual days, offsites, galas and client evenings — curated line-ups with full production, delivered on brief and on time.</p>
-            <span class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#c6a87c] mt-4">Explore corporate events <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></span>
-          </a>
-          <a href="/college-fest-entertainment/" class="group block p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:confetti-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider group-hover:text-[#c6a87c] transition-colors">College Fest Entertainment</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Comedy nights, EDM and DJ sets, live bands and anchors for campus fests — written quotes, signed contracts, real production.</p>
-            <span class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#c6a87c] mt-4">Explore college fests <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></span>
-          </a>
-          <a href="/stand-up-comedy-shows/" class="group block p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:masks-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider group-hover:text-[#c6a87c] transition-colors">Stand-Up Comedy Shows</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Comedy nights for colleges, corporates and ticketed auditoriums — artist matched to room, full technical production included.</p>
-            <span class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#c6a87c] mt-4">Explore comedy shows <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></span>
-          </a>
-          <a href="/artist-booking/" class="group block p-8 border border-white/5 rounded-sm hover:border-[#c6a87c]/30 transition-colors bg-[#050505]">
-            <iconify-icon icon="solar:star-linear" width="28" class="text-[#c6a87c]"></iconify-icon>
-            <h3 class="text-slate-100 font-medium mt-4 mb-2 text-sm uppercase tracking-wider group-hover:text-[#c6a87c] transition-colors">Artist Booking</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Just need talent, verified and under contract? We work alongside partners like OML and Oriole Entertainment for real availability and pricing.</p>
-            <span class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#c6a87c] mt-4">Explore artist booking <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></span>
-          </a>
+    <dialog id="site-menu" class="menu-sheet" aria-label="Site menu">
+      <div class="shell flex min-h-full flex-col py-6">
+        <div class="flex items-center justify-between">
+          <img src="/assets/logo.webp" alt="" width="605" height="367" class="h-10 w-auto" />
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/20 text-paper" aria-label="Close menu" data-menu-close>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <nav aria-label="Mobile" class="mt-10">
+          <a class="menu-link" href="/#about">About</a>
+          <a class="menu-link" href="/#shows">Services</a>
+          <a class="menu-link" href="/#recent-events">Recent Events</a>
+          <a class="menu-link" href="/#events">Events</a>
+          <a class="menu-link" href="/#faqs">FAQs</a>
+          <a class="menu-link !text-gold" href="/#contact">Enquire</a>
+        </nav>
+        <div class="mt-auto grid gap-2 pt-10 text-sm">
+          <a href="tel:+917060293132" class="text-paper">+91 70602 93132</a>
+          <a href="mailto:contact@theshowcompany.in" class="text-paper">contact@theshowcompany.in</a>
         </div>
       </div>
-    </section>
+    </dialog>
 
-    <!-- WHY US / PROOF -->
-    <section class="py-20 px-6 md:px-12 border-t border-white/5">
-      <div class="max-w-screen-xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-12">Why Companies, Colleges &amp; Promoters Book Us</h2>
-        <div class="grid md:grid-cols-3 gap-10 mb-16">
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">500+</span>
-            <p class="text-sm text-slate-400 leading-relaxed">Shows produced across India — we've seen every way an event can go wrong, and planned for it.</p>
-          </div>
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">100+</span>
-            <p class="text-sm text-slate-400 leading-relaxed">Artists booked across comedy, music and live entertainment, working alongside partners like OML and Oriole Entertainment.</p>
-          </div>
-          <div class="space-y-3">
-            <span class="font-ancient text-4xl text-[#c6a87c]">50+</span>
-            <p class="text-sm text-slate-400 leading-relaxed">Cities covered pan-India, from Delhi and Mumbai to Dehradun, Jaipur, Lucknow and Indore — travel built into every quote.</p>
+    <main id="main-content">
+
+      <!-- ═══ HERO ═══ -->
+      <section class="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden pb-12 pt-28 md:pb-16" aria-labelledby="hero-title">
+        <img src="/assets/stage-lighting-1600x1200.webp?v=2" alt="Stage lighting at The Show Company event" width="1600" height="1200" loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+        <div class="absolute inset-0 -z-10 hero-scrim" aria-hidden="true"></div>
+        <div class="spotlight pointer-events-none absolute -top-1/3 left-1/4 -z-10 h-[140%] w-[60%] origin-top bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,.12),transparent_65%)]" aria-hidden="true"></div>
+
+        <div class="shell">
+          <nav aria-label="Breadcrumb" data-reveal data-hero>
+            <ol class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-fog">
+              <li><a href="/" class="hover:text-gold">Home</a></li>
+              <li aria-hidden="true">/</li>
+              <li class="text-gold" aria-current="page">Event Management Company</li>
+            </ol>
+          </nav>
+          <p class="kicker mt-8" data-reveal data-hero style="--d:100ms">Event Management · Pan-India</p>
+          <h1 id="hero-title" class="h-display mt-5 max-w-5xl text-d1" data-split data-hero style="--d:200ms">
+            A Full-Service Event Management Company <span class="text-gold">Built for India</span>
+          </h1>
+          <div class="mt-8 grid items-end gap-8 md:grid-cols-12">
+            <p class="max-w-xl text-lg text-paper/90 md:col-span-7 md:text-xl" data-reveal data-hero style="--d:700ms">
+              Not just an artist booking number — one team for artists, production and on-ground execution, with 500+ shows delivered across 50+ Indian cities.
+            </p>
+            <div class="flex flex-wrap gap-3 md:col-span-5 md:justify-end" data-reveal data-hero style="--d:850ms">
+              <a href="/#contact" class="btn-primary" data-magnetic>
+                Get a Proposal
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-magnetic>WhatsApp us</a>
+            </div>
           </div>
         </div>
-        <blockquote class="max-w-2xl border-l-2 border-[#c6a87c]/40 pl-6 py-2">
-          <p class="font-display text-xl md:text-2xl text-slate-200 italic leading-relaxed">"The Show Company handled everything from the artist to the stage — we just showed up and hosted the fest."</p>
-          <p class="mt-6 text-xs uppercase tracking-widest text-slate-500">Sneha P., Fest Coordinator, Graphic Era</p>
-        </blockquote>
-        <p class="text-sm text-slate-500 mt-8 max-w-2xl">
-          We've worked with institutions like <strong class="text-slate-100">Graphic Era</strong> and DPS, and run production alongside partners <strong class="text-slate-100">VIGOR MENTORS</strong> (sound &amp; lighting), <strong class="text-slate-100">OML</strong> and <strong class="text-slate-100">Oriole Entertainment</strong> (artist relationships).
-        </p>
-      </div>
-    </section>
+      </section>
 
-    <!-- FAQ -->
-    <section class="py-20 px-6 md:px-12 bg-[#08080a] border-t border-white/5">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="font-ancient text-2xl md:text-4xl text-slate-100 font-bold mb-10">Event Management FAQs</h2>
-        <div class="space-y-4">
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              What does a full-service event management company actually do?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">End-to-end production: artist booking and management, stage design and setup, sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, on-ground show management, and post-event wrap-up — handled from concept to curtain call so you don't have to juggle vendors.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              How is an event management company different from an artist booking agency?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">A booking agency finds you an artist and stops there. A full-service event management company also handles contracts, travel, technical production, stage and backdrop design, and a producer on the ground on event day — one point of contact and one invoice instead of separate vendors for talent, sound and staging.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              What does event management cost in India?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">Intimate offsites and college comedy nights can start under ₹1 lakh; most mid-size corporate events and campus fests with a headline act plus production land between ₹2–8 lakh; large galas and auditorium shows with a national headliner can exceed ₹10 lakh. Our <a href="/comedian-booking-cost-india/" class="text-[#c6a87c] hover:underline">pricing guide</a> breaks down what moves the number.</p>
-          </details>
-          <details class="border border-white/5 rounded-sm p-6 bg-[#050505]">
-            <summary class="flex justify-between items-center text-slate-100 text-sm font-medium">
-              Which cities in India do you operate in?
-              <iconify-icon icon="solar:alt-arrow-down-linear" class="faq-chevron transition-transform text-[#c6a87c]"></iconify-icon>
-            </summary>
-            <p class="text-sm text-slate-400 leading-relaxed mt-4">We're pan-India, having produced shows in 50+ cities including Delhi, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Dehradun, Jaipur, Lucknow and Indore. Artist and crew travel is built into the quote, so there are no surprise costs outside metros.</p>
-          </details>
+      <!-- ═══ MARQUEE ═══ -->
+      <div class="-rotate-1 bg-gold py-4 text-ink md:py-5">
+        <div class="marquee" style="--marquee-speed:34s">
+          <ul class="marquee__track font-display text-3xl uppercase md:text-5xl">
+            <li>Corporate Events</li><li aria-hidden="true">✦</li><li>College Fests</li><li aria-hidden="true">✦</li><li>Comedy Shows</li><li aria-hidden="true">✦</li><li>Auditorium Productions</li><li aria-hidden="true">✦</li><li>Artist Booking</li><li aria-hidden="true">✦</li><li>Sound &amp; Lighting</li><li aria-hidden="true">✦</li>
+          </ul>
+          <ul class="marquee__track font-display text-3xl uppercase md:text-5xl" aria-hidden="true">
+            <li>Corporate Events</li><li>✦</li><li>College Fests</li><li>✦</li><li>Comedy Shows</li><li>✦</li><li>Auditorium Productions</li><li>✦</li><li>Artist Booking</li><li>✦</li><li>Sound &amp; Lighting</li><li>✦</li>
+          </ul>
         </div>
       </div>
-    </section>
 
-    <!-- CTA -->
-    <section class="py-24 px-6 md:px-12 border-t border-white/5 text-center relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-t from-[#c6a87c]/6 to-transparent pointer-events-none"></div>
-      <div class="relative z-10 max-w-2xl mx-auto space-y-8">
-        <h2 class="font-ancient text-3xl md:text-5xl text-slate-100 font-bold">Tell Us What You're Planning</h2>
-        <p class="font-display text-xl text-slate-300 italic">Send us the event type, date, headcount and city — we'll come back with a plan and a proposal within 48 hours.</p>
-        <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-10 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-          Start Your Enquiry
-          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-        </a>
-        <p class="text-[10px] uppercase tracking-widest text-slate-500">
-          Or write to <a href="mailto:contact@theshowcompany.in" class="text-[#c6a87c] hover:underline">contact@theshowcompany.in</a> · <a href="https://wa.me/917060293132" class="text-[#c6a87c] hover:underline">WhatsApp +91 70602 93132</a>
-        </p>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-[#030303]">
-      <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center space-y-8">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-20 w-auto object-contain opacity-90" />
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a>
-          <a href="/stand-up-comedy-shows/" class="hover:text-[#c6a87c] transition-colors">Stand-Up Comedy</a>
-          <a href="/corporate-entertainment/" class="hover:text-[#c6a87c] transition-colors">Corporate</a>
-          <a href="/college-fest-entertainment/" class="hover:text-[#c6a87c] transition-colors">College Fests</a>
-          <a href="/artist-booking/" class="hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-          <a href="/event-management-company-india/" class="hover:text-[#c6a87c] transition-colors">Event Management Company</a>
-          <a href="/comedian-booking-cost-india/" class="hover:text-[#c6a87c] transition-colors">Pricing Guide</a>
-          <a href="/#contact" class="hover:text-[#c6a87c] transition-colors">Contact</a>
+      <!-- ═══ INTRO ═══ -->
+      <section class="section on-paper -mt-3 pt-24 md:pt-32" aria-label="Introduction">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-4">
+            <p class="kicker" data-reveal>One brief, one team</p>
+            <p class="h-display mt-6 text-d3 !text-ink" data-reveal>Who handles <em class="aside">everything?</em></p>
+          </div>
+          <div class="space-y-6 text-lg lg:col-span-7 lg:col-start-6">
+            <p data-reveal>
+              Search "event management company" or "event organiser" in India and you'll mostly find directory listings and rankings — not a straight answer to the question that actually matters: who handles everything, so you don't have to manage a comedian, a sound vendor and a stage contractor as three separate relationships. That's the gap The Show Company fills. We are a live entertainment production company with <strong>500+ shows</strong> and <strong>100+ artists booked</strong> across <strong>50+ cities</strong> in India — built to run the whole event, not just supply the talent.
+            </p>
+            <p data-reveal>
+              An artist booking agency's job ends when a contract is signed. Ours doesn't. We handle artist negotiation and contracts, travel logistics, stage and backdrop design, sound and lighting through our production partner <strong>VIGOR MENTORS</strong>, venue coordination, and a producer on the ground on event day — with one point of contact and one invoice, whether you're planning a corporate gala, a college fest, a comedy night or a large auditorium show.
+            </p>
+            <p data-reveal>
+              If you already know exactly what you need, jump straight to the service page. If you're still scoping the event, use this page as the starting point — we'll match you to the right format and team from a single brief.
+            </p>
+          </div>
         </div>
-        <div class="flex flex-wrap justify-center gap-6 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="mailto:contact@theshowcompany.in" class="hover:text-[#c6a87c] transition-colors">contact@theshowcompany.in</a>
-          <a href="tel:+917060293132" class="hover:text-[#c6a87c] transition-colors">+91 70602 93132</a>
-          <span>Based in India · Operating pan-India</span>
-        </div>
-        <p class="text-[10px] text-slate-600 uppercase tracking-widest">© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
-      </div>
-    </footer>
+      </section>
 
-    <script>
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      if (btn && menu) {
-        btn.addEventListener('click', () => {
-          const open = menu.classList.toggle('hidden') === false;
-          btn.setAttribute('aria-expanded', String(open));
-        });
-      }
-    </script>
+      <!-- ═══ SERVICE LINES ═══ -->
+      <section class="section" aria-labelledby="services-title">
+        <div class="shell">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p class="kicker" data-reveal>Service lines</p>
+              <h2 id="services-title" class="h-display mt-5 text-d1" data-split>What We Manage, End to End</h2>
+            </div>
+            <p class="max-w-sm" data-reveal>Four core service lines, run by one team — pick your starting point.</p>
+          </div>
+          <div class="mt-14 grid gap-5 md:grid-cols-2">
+            <a href="/corporate-entertainment/" class="card group flex flex-col p-6 md:p-8" data-reveal>
+              <span class="flex items-center justify-between"><span class="num text-4xl text-gold">01</span><svg viewBox="0 0 24 24" class="h-7 w-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
+              <h3 class="h-display mt-6 text-d3">Corporate Entertainment</h3>
+              <p class="mt-4">Annual days, offsites, galas and client evenings — curated line-ups with full production, delivered on brief and on time.</p>
+              <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Explore corporate events <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </a>
+            <a href="/college-fest-entertainment/" class="card group flex flex-col p-6 md:mt-16 md:p-8" data-reveal style="--d:120ms">
+              <span class="flex items-center justify-between"><span class="num text-4xl text-gold">02</span><svg viewBox="0 0 24 24" class="h-7 w-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20l5-14 9 9z"/><path d="M14 4l1 2M19 5l-2 2M20 10l-2-.5"/></svg></span>
+              <h3 class="h-display mt-6 text-d3">College Fest Entertainment</h3>
+              <p class="mt-4">Comedy nights, EDM and DJ sets, live bands and anchors for campus fests — written quotes, signed contracts, real production.</p>
+              <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Explore college fests <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </a>
+            <a href="/stand-up-comedy-shows/" class="card group flex flex-col p-6 md:p-8" data-reveal>
+              <span class="flex items-center justify-between"><span class="num text-4xl text-gold">03</span><svg viewBox="0 0 24 24" class="h-7 w-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8"/></svg></span>
+              <h3 class="h-display mt-6 text-d3">Stand-Up Comedy Shows</h3>
+              <p class="mt-4">Comedy nights for colleges, corporates and ticketed auditoriums — artist matched to room, full technical production included.</p>
+              <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Explore comedy shows <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </a>
+            <a href="/artist-booking/" class="card group flex flex-col p-6 md:mt-16 md:p-8" data-reveal style="--d:120ms">
+              <span class="flex items-center justify-between"><span class="num text-4xl text-gold">04</span><svg viewBox="0 0 24 24" class="h-7 w-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span>
+              <h3 class="h-display mt-6 text-d3">Artist Booking</h3>
+              <p class="mt-4">Just need talent, verified and under contract? We work alongside partners like OML and Oriole Entertainment for real availability and pricing.</p>
+              <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Explore artist booking <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ RECENT WORK ═══ -->
+      <section class="section border-y border-paper/10 bg-ink-2" aria-labelledby="recent-work-title">
+        <div class="shell">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p class="kicker" data-reveal>From our stages</p>
+              <h2 id="recent-work-title" class="h-display mt-5 text-d1" data-split>Recent <em class="aside">work</em></h2>
+            </div>
+            <p class="max-w-sm" data-reveal>Artist, stage, light and crew — all run by one team on show night.</p>
+          </div>
+          <div class="mt-14 grid gap-5 md:grid-cols-3">
+            <figure class="md:col-span-2" data-reveal>
+              <div class="frame aspect-[3/2]" data-reveal="clip"><img src="/assets/images/recent/comedian-entrance-red-light-sm.jpg" srcset="/assets/images/recent/comedian-entrance-red-light-sm.jpg 900w, /assets/images/recent/comedian-entrance-red-light.jpg 1600w" sizes="(min-width:768px) 66vw, 100vw" alt="Comedian in a white hoodie walking on stage with arms spread wide under red stage light" width="1600" height="1066" loading="lazy" decoding="async" data-parallax /></div>
+              <figcaption class="mt-3 flex items-baseline gap-3 text-sm"><span class="num text-xl text-gold">01</span><span class="text-paper">The walk-on — lighting cue, sound and stage all on one call sheet.</span></figcaption>
+            </figure>
+            <figure data-reveal style="--d:120ms">
+              <div class="frame aspect-[3/4] md:aspect-auto md:h-[calc(100%-2.25rem)]" data-reveal="clip"><img src="/assets/images/recent/comedian-mic-stand-college-stage-sm.jpg" srcset="/assets/images/recent/comedian-mic-stand-college-stage-sm.jpg 573w, /assets/images/recent/comedian-mic-stand-college-stage.jpg 1019w" sizes="(min-width:768px) 33vw, 100vw" alt="Comedian in a white hoodie performing at the mic stand on a wooden college stage" width="1019" height="1600" loading="lazy" decoding="async" /></div>
+              <figcaption class="mt-3 flex items-baseline gap-3 text-sm"><span class="num text-xl text-gold">02</span><span class="text-paper">A campus comedy night, produced end to end.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ WHY US / PROOF ═══ -->
+      <section class="section" aria-labelledby="why-title">
+        <div class="shell">
+          <p class="kicker" data-reveal>Proof</p>
+          <h2 id="why-title" class="h-display mt-5 max-w-4xl text-d1" data-split>Why Companies, Colleges &amp; Promoters Book Us</h2>
+          <dl class="mt-14 grid gap-5 md:grid-cols-3">
+            <div class="card p-7" data-reveal>
+              <dt class="num text-6xl text-gold"><span data-count="500" data-suffix="+">500+</span></dt>
+              <dd class="mt-4">Shows produced across India — we've seen every way an event can go wrong, and planned for it.</dd>
+            </div>
+            <div class="card p-7" data-reveal style="--d:100ms">
+              <dt class="num text-6xl text-gold"><span data-count="100" data-suffix="+">100+</span></dt>
+              <dd class="mt-4">Artists booked across comedy, music and live entertainment, working alongside partners like OML and Oriole Entertainment.</dd>
+            </div>
+            <div class="card p-7" data-reveal style="--d:200ms">
+              <dt class="num text-6xl text-gold"><span data-count="50" data-suffix="+">50+</span></dt>
+              <dd class="mt-4">Cities covered pan-India, from Delhi and Mumbai to Dehradun, Jaipur, Lucknow and Indore — travel built into every quote.</dd>
+            </div>
+          </dl>
+          <div class="mt-16 grid gap-10 lg:grid-cols-12">
+            <blockquote class="border-l-2 border-gold pl-6 lg:col-span-7" data-reveal>
+              <p class="font-serif text-2xl italic leading-snug text-paper md:text-3xl">"The Show Company handled everything from the artist to the stage — we just showed up and hosted the fest."</p>
+              <footer class="mt-6 text-xs uppercase tracking-[0.18em] text-fog">Sneha P., Fest Coordinator, Graphic Era</footer>
+            </blockquote>
+            <p class="lg:col-span-4 lg:col-start-9" data-reveal>
+              We've worked with institutions like <strong class="text-paper">Graphic Era</strong> and DPS, and run production alongside partners <strong class="text-paper">VIGOR MENTORS</strong> (sound &amp; lighting), <strong class="text-paper">OML</strong> and <strong class="text-paper">Oriole Entertainment</strong> (artist relationships).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ FAQ ═══ -->
+      <section id="faqs" class="section on-paper" aria-labelledby="faqs-title">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-4">
+            <p class="kicker" data-reveal>Questions</p>
+            <h2 id="faqs-title" class="h-display mt-5 text-d2 !text-ink" data-split>Event Management FAQs</h2>
+          </div>
+          <div class="border-t border-ink/15 lg:col-span-8">
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">What does a full-service event management company actually do?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">End-to-end production: artist booking and management, stage design and setup, sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, on-ground show management, and post-event wrap-up — handled from concept to curtain call so you don't have to juggle vendors.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">How is an event management company different from an artist booking agency?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">A booking agency finds you an artist and stops there. A full-service event management company also handles contracts, travel, technical production, stage and backdrop design, and a producer on the ground on event day — one point of contact and one invoice instead of separate vendors for talent, sound and staging.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">What does event management cost in India?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">Intimate offsites and college comedy nights can start under ₹1 lakh; most mid-size corporate events and campus fests with a headline act plus production land between ₹2–8 lakh; large galas and auditorium shows with a national headliner can exceed ₹10 lakh. Our <a href="/comedian-booking-cost-india/" class="font-semibold text-gold-ink underline underline-offset-4">pricing guide</a> breaks down what moves the number.</p>
+            </details>
+            <details class="faq border-b border-ink/15" data-reveal>
+              <summary><span class="text-xl font-semibold text-ink md:text-2xl">Which cities in India do you operate in?</span><span class="faq-icon" aria-hidden="true">+</span></summary>
+              <p class="pb-6">We're pan-India, having produced shows in 50+ cities including Delhi, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Dehradun, Jaipur, Lucknow and Indore. Artist and crew travel is built into the quote, so there are no surprise costs outside metros.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ CTA ═══ -->
+      <section class="section relative overflow-hidden text-center" aria-labelledby="cta-title">
+        <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,.18),transparent_60%)]" aria-hidden="true"></div>
+        <div class="shell max-w-3xl">
+          <p class="kicker justify-center" data-reveal>Start here</p>
+          <h2 id="cta-title" class="h-display mt-5 text-d1" data-split>Tell Us What You're <em class="aside">Planning</em></h2>
+          <p class="mx-auto mt-6 max-w-xl font-serif text-2xl italic text-paper/90" data-reveal>Send us the event type, date, headcount and city — we'll come back with a plan and a proposal within 48 hours.</p>
+          <div class="mt-10 flex flex-wrap justify-center gap-3" data-reveal>
+            <a href="/#contact" class="btn-primary" data-magnetic>
+              Start Your Enquiry
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-magnetic>WhatsApp +91 70602 93132</a>
+          </div>
+          <p class="mt-8 text-sm text-fog" data-reveal>
+            Or write to <a href="mailto:contact@theshowcompany.in" class="break-all text-gold hover:text-paper">contact@theshowcompany.in</a> · call <a href="tel:+917060293132" class="text-gold hover:text-paper">+91 70602 93132</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+
+    <!-- ═══ SITE FOOTER (shared) ═══ -->
+    <footer class="relative overflow-hidden border-t border-paper/10 bg-ink pt-20">
+      <div class="shell">
+        <div class="grid gap-12 md:grid-cols-12">
+          <div class="md:col-span-5">
+            <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" loading="lazy" decoding="async" class="h-16 w-auto" />
+            <p class="mt-6 max-w-sm font-serif text-2xl italic leading-snug text-paper">Creating moments audiences will carry forever.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="https://www.instagram.com/the_show_company/" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+          <nav aria-label="Footer — site" class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Explore</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/#about">About</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#shows">Services</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#recent-events">Recent Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#events">Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#faqs">FAQs</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#contact">Contact</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Footer — services" class="md:col-span-3">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Services</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/stand-up-comedy-shows/">Stand-Up Comedy Shows</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/corporate-entertainment/">Corporate Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/college-fest-entertainment/">College Fest Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/artist-booking/">Artist Booking</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/event-management-company-india/">Event Management Company</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/comedian-booking-cost-india/">Booking Cost Guide</a></li>
+            </ul>
+          </nav>
+          <div class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Contact</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="break-all text-paper/85 hover:text-gold" href="mailto:contact@theshowcompany.in">contact@theshowcompany.in</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="tel:+917060293132">+91 70602 93132</a></li>
+              <li class="text-fog">Based in India · Operating pan-India</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-16 flex flex-col gap-2 border-t border-paper/10 py-6 text-xs text-fog-dim sm:flex-row sm:justify-between">
+          <p>© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
+          <p>Last updated: <time datetime="2026-06-16">June 2026</time></p>
+        </div>
+      </div>
+      <p class="pointer-events-none select-none whitespace-nowrap text-center font-display text-[18.5vw] uppercase leading-[0.78] text-paper/[0.06]" aria-hidden="true">The Show Co.</p>
   </body>
 </html>

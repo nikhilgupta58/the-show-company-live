@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en-IN" class="scroll-smooth">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>(function(d){d.classList.add('js');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement)</script>
 
     <!-- Google tag (gtag.js) — GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5FKNQX4H0"></script>
@@ -23,153 +24,216 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/assets/logo.png?v=2" />
 
-    <link rel="stylesheet" href="/assets/tailwind.min.css?v=2" />
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-
-    <!-- Self-hosted fonts (see public/assets/fonts/fonts.css) -->
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cinzel-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cormorant-garamond-italic.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-variable.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-normal.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-italic.woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/fonts/fonts.css"></noscript>
-
-    <style>
-      :root {
-        --gold: #c6a87c;
-        --gold-light: #e8d5b0;
-        --gold-dim: rgba(198,168,124,0.35);
-      }
-      *, *::before, *::after { box-sizing: border-box; margin: 0; }
-      html { scroll-behavior: smooth; }
-      body { background: #050505; color: #d0d0e0; overflow-x: hidden; font-feature-settings: "kern" 1, "liga" 1; }
-      .font-ancient { font-family: "Cinzel", serif; }
-      .font-body { font-family: "Inter", sans-serif; }
-      .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
-      ::-webkit-scrollbar { width: 3px; }
-      ::-webkit-scrollbar-track { background: #050505; }
-      ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
-      .gold-shimmer {
-        background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 35%, var(--gold) 50%, #a8885c 75%, var(--gold) 100%);
-        background-size: 250% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: shimmer 5s linear infinite;
-      }
-      @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 250% center; } }
-      .btn-outline-gold {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(198,168,124,0.4);
-        color: var(--gold);
-        transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
-      }
-      .btn-outline-gold:hover { border-color: rgba(198,168,124,0.7); background: rgba(198,168,124,0.06); }
-    </style>
+    <!-- House Lights design system: CSS + non-blocking fonts + motion -->
+    <link rel="stylesheet" href="/assets/tailwind.min.css?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" /></noscript>
+    <script src="/assets/motion.js?v=2" defer></script>
   </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-gold focus:px-5 focus:py-3 focus:text-ink">Skip to main content</a>
+    <div class="progress-bar" aria-hidden="true"></div>
 
-  <body class="font-body antialiased">
-    <!-- NAV -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-5 md:px-12 flex justify-between items-center bg-[#050505]/85 backdrop-blur-md border-b border-white/5">
-      <a href="/" class="group">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-12 w-auto object-contain group-hover:opacity-80 transition-opacity" />
-      </a>
-      <div class="hidden md:flex gap-7 items-center">
-        <a href="/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Comedy</a>
-        <a href="/corporate-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Corporate</a>
-        <a href="/college-fest-entertainment/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">College Fests</a>
-        <a href="/artist-booking/" class="text-[10px] uppercase tracking-widest text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-        <a href="/#contact" class="px-5 py-2.5 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c] hover:bg-[#c6a87c]/10 hover:border-[#c6a87c] transition-all">Enquire</a>
-      </div>
-      <button id="mobile-menu-button" type="button" class="md:hidden text-[#c6a87c]" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-        <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
-      </button>
-    </nav>
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-md px-6 pt-28 pb-10 hidden md:hidden">
-      <div class="flex flex-col gap-6">
-        <a href="/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Home</a>
-        <a href="/stand-up-comedy-shows/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Stand-Up Comedy</a>
-        <a href="/corporate-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Corporate Entertainment</a>
-        <a href="/college-fest-entertainment/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">College Fests</a>
-        <a href="/artist-booking/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Artist Booking</a>
-        <a href="/comedian-booking-cost-india/" class="text-sm uppercase tracking-[0.2em] text-slate-400 hover:text-[#c6a87c]">Pricing Guide</a>
-        <a href="/#contact" class="mt-2 inline-flex w-fit px-5 py-3 border border-[#c6a87c]/40 rounded-sm text-[10px] uppercase tracking-widest text-[#c6a87c]">Enquire</a>
-      </div>
-    </div>
-
-    <!-- 404 -->
-    <header class="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-20 relative overflow-hidden text-center">
-      <div class="absolute inset-0 bg-gradient-to-b from-[#c6a87c]/8 via-transparent to-transparent pointer-events-none"></div>
-      <div class="relative z-10 max-w-2xl mx-auto">
-        <p class="text-xs uppercase tracking-[0.4em] text-[#c6a87c] mb-6">The Show Company</p>
-        <h1 class="font-ancient text-6xl md:text-8xl font-bold text-slate-100 leading-none">
-          <span class="gold-shimmer">404</span>
-        </h1>
-        <p class="font-display text-xl md:text-2xl text-slate-300 font-light italic mt-6 leading-relaxed">
-          This page has taken its final bow &mdash; it doesn&rsquo;t exist, or the curtain has already closed on it.
-        </p>
-        <p class="font-body text-sm text-slate-500 mt-4">
-          Check the link you followed, or find your way back to one of the pages below.
-        </p>
-
-        <div class="mt-10 flex flex-wrap gap-4 justify-center">
-          <a href="/" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-            <iconify-icon icon="solar:home-2-linear"></iconify-icon>
-            Back to Homepage
+    <!-- ═══ SITE HEADER (shared) ═══ -->
+    <header class="site-header">
+      <div class="site-header__bar">
+        <a href="/" class="flex items-center gap-3 rounded-full pl-2" aria-label="The Show Company — home">
+          <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" class="h-9 w-auto sm:h-10" />
+        </a>
+        <nav aria-label="Primary" class="hidden items-center gap-1 lg:flex">
+          <a class="nav-link" href="/#about">About</a>
+          <a class="nav-link" href="/#shows">Services</a>
+          <a class="nav-link" href="/#recent-events">Recent</a>
+          <a class="nav-link" href="/#events">Events</a>
+          <a class="nav-link" href="/#faqs">FAQs</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="hidden h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper transition-colors hover:border-gold hover:text-gold sm:grid" aria-label="Chat with us on WhatsApp">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.2 4.2 4.8 4.9l1-1.1 1.9.8-.3 1.6c-3.9.4-8-3.4-8.1-7.3l1.5-.4.9 1.8z" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a href="/#contact" class="btn-outline-gold inline-flex items-center gap-3 px-8 py-4 rounded-sm text-xs uppercase tracking-[0.2em]">
-            Enquire About a Show
-            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-          </a>
-        </div>
-
-        <div class="mt-16 pt-10 border-t border-white/5">
-          <p class="text-[10px] uppercase tracking-widest text-slate-500 mb-6">Or explore our services</p>
-          <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[11px] uppercase tracking-widest">
-            <a href="/stand-up-comedy-shows/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Stand-Up Comedy Shows</a>
-            <a href="/corporate-entertainment/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Corporate Entertainment</a>
-            <a href="/college-fest-entertainment/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">College Fest Entertainment</a>
-            <a href="/artist-booking/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-            <a href="/comedian-booking-cost-india/" class="text-slate-400 hover:text-[#c6a87c] transition-colors">Booking Cost Guide</a>
-          </div>
+          <a href="/#contact" class="btn-primary !min-h-[44px] !px-5 !py-2 !text-xs" data-magnetic>Book a show</a>
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/15 text-paper lg:hidden" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" data-menu-open>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          </button>
         </div>
       </div>
     </header>
 
-    <!-- FOOTER -->
-    <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-[#030303]">
-      <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center space-y-8">
-        <img src="/assets/logo.png?v=2" alt="The Show Company" class="h-20 w-auto object-contain opacity-90" />
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="/" class="hover:text-[#c6a87c] transition-colors">Home</a>
-          <a href="/stand-up-comedy-shows/" class="hover:text-[#c6a87c] transition-colors">Stand-Up Comedy</a>
-          <a href="/corporate-entertainment/" class="hover:text-[#c6a87c] transition-colors">Corporate</a>
-          <a href="/college-fest-entertainment/" class="hover:text-[#c6a87c] transition-colors">College Fests</a>
-          <a href="/artist-booking/" class="hover:text-[#c6a87c] transition-colors">Artist Booking</a>
-          <a href="/comedian-booking-cost-india/" class="hover:text-[#c6a87c] transition-colors">Pricing Guide</a>
-          <a href="/#contact" class="hover:text-[#c6a87c] transition-colors">Contact</a>
+    <dialog id="site-menu" class="menu-sheet" aria-label="Site menu">
+      <div class="shell flex min-h-full flex-col py-6">
+        <div class="flex items-center justify-between">
+          <img src="/assets/logo.webp" alt="" width="605" height="367" class="h-10 w-auto" />
+          <button type="button" class="grid h-11 w-11 place-items-center rounded-full border border-paper/20 text-paper" aria-label="Close menu" data-menu-close>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
         </div>
-        <div class="flex flex-wrap justify-center gap-6 text-[10px] text-slate-500 uppercase tracking-widest">
-          <a href="mailto:contact@theshowcompany.in" class="hover:text-[#c6a87c] transition-colors">contact@theshowcompany.in</a>
-          <a href="tel:+917060293132" class="hover:text-[#c6a87c] transition-colors">+91 70602 93132</a>
-          <span>Based in India · Operating pan-India</span>
+        <nav aria-label="Mobile" class="mt-10">
+          <a class="menu-link" href="/#about">About</a>
+          <a class="menu-link" href="/#shows">Services</a>
+          <a class="menu-link" href="/#recent-events">Recent Events</a>
+          <a class="menu-link" href="/#events">Events</a>
+          <a class="menu-link" href="/#faqs">FAQs</a>
+          <a class="menu-link !text-gold" href="/#contact">Enquire</a>
+        </nav>
+        <div class="mt-auto grid gap-2 pt-10 text-sm">
+          <a href="tel:+917060293132" class="text-paper">+91 70602 93132</a>
+          <a href="mailto:contact@theshowcompany.in" class="text-paper">contact@theshowcompany.in</a>
         </div>
-        <p class="text-[10px] text-slate-600 uppercase tracking-widest">© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
       </div>
-    </footer>
+    </dialog>
 
-    <script>
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      if (btn && menu) {
-        btn.addEventListener('click', () => {
-          const open = menu.classList.toggle('hidden') === false;
-          btn.setAttribute('aria-expanded', String(open));
-        });
-      }
-    </script>
+    <main id="main-content">
+
+      <!-- ═══ 404 — STAGE POSTER ═══ -->
+      <section class="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden pb-12 pt-28 md:pb-16" aria-labelledby="nf-title">
+        <img
+          src="/assets/images/recent/comedian-entrance-red-light.jpg"
+          srcset="/assets/images/recent/comedian-entrance-red-light-sm.jpg 900w, /assets/images/recent/comedian-entrance-red-light.jpg 1600w"
+          sizes="100vw"
+          alt="Comedian walking on stage with arms wide open under stage light, as if looking for the missing page"
+          width="1600" height="1066" loading="eager" fetchpriority="high" decoding="async"
+          class="absolute inset-0 -z-20 h-full w-full object-cover object-[60%_30%]" />
+        <div class="absolute inset-0 -z-10 hero-scrim" aria-hidden="true"></div>
+        <div class="spotlight pointer-events-none absolute -top-1/3 left-1/4 -z-10 h-[140%] w-[60%] origin-top bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,.12),transparent_65%)]" aria-hidden="true"></div>
+
+        <div class="shell">
+          <p class="kicker" data-reveal data-hero style="--d:100ms">The Show Company · Error 404</p>
+          <h1 id="nf-title" class="h-display mt-5 text-mega" data-split data-hero style="--d:200ms">
+            <span class="text-gold">404</span>
+          </h1>
+          <div class="mt-8 grid items-end gap-8 md:grid-cols-12">
+            <div class="md:col-span-7" data-reveal data-hero style="--d:600ms">
+              <p class="font-serif text-2xl italic leading-snug text-paper md:text-3xl">
+                This page has taken its final bow &mdash; it doesn&rsquo;t exist, or the curtain has already closed on it.
+              </p>
+              <p class="mt-4 max-w-xl">Check the link you followed, or find your way back to one of the pages below.</p>
+            </div>
+            <div class="flex flex-wrap gap-3 md:col-span-5 md:justify-end" data-reveal data-hero style="--d:800ms">
+              <a href="/" class="btn-primary" data-magnetic>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>
+                Back to Homepage
+              </a>
+              <a href="/#contact" class="btn-ghost" data-magnetic>
+                Enquire About a Show
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ SERVICES — way back to the stage ═══ -->
+      <section class="section bg-ink-2" aria-labelledby="nf-services-title">
+        <div class="shell">
+          <p class="kicker" data-reveal>Or explore our services</p>
+          <h2 id="nf-services-title" class="h-display mt-5 text-d2" data-split>Back to the <em class="aside">show</em></h2>
+
+          <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <li data-reveal>
+              <a href="/stand-up-comedy-shows/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">01</span>
+                <span class="h-display mt-6 text-d3">Stand-Up Comedy Shows</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+            <li data-reveal style="--d:80ms">
+              <a href="/corporate-entertainment/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">02</span>
+                <span class="h-display mt-6 text-d3">Corporate Entertainment</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+            <li data-reveal style="--d:160ms">
+              <a href="/college-fest-entertainment/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">03</span>
+                <span class="h-display mt-6 text-d3">College Fest Entertainment</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a href="/artist-booking/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">04</span>
+                <span class="h-display mt-6 text-d3">Artist Booking</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+            <li data-reveal style="--d:80ms">
+              <a href="/event-management-company-india/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">05</span>
+                <span class="h-display mt-6 text-d3">Event Management Company</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+            <li data-reveal style="--d:160ms">
+              <a href="/comedian-booking-cost-india/" class="card group flex h-full flex-col p-6 md:p-8">
+                <span class="num text-4xl text-gold">06</span>
+                <span class="h-display mt-6 text-d3">Booking Cost Guide</span>
+                <span class="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-gold group-hover:text-paper">Take me there <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+
+    <!-- ═══ SITE FOOTER (shared) ═══ -->
+    <footer class="relative overflow-hidden border-t border-paper/10 bg-ink pt-20">
+      <div class="shell">
+        <div class="grid gap-12 md:grid-cols-12">
+          <div class="md:col-span-5">
+            <img src="/assets/logo.webp" alt="The Show Company logo" width="605" height="367" loading="lazy" decoding="async" class="h-16 w-auto" />
+            <p class="mt-6 max-w-sm font-serif text-2xl italic leading-snug text-paper">Creating moments audiences will carry forever.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="https://www.instagram.com/the_show_company/" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://wa.me/917060293132" target="_blank" rel="noopener noreferrer" class="chip hover:border-gold hover:text-gold">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+          <nav aria-label="Footer — site" class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Explore</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/#about">About</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#shows">Services</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#recent-events">Recent Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#events">Events</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#faqs">FAQs</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/#contact">Contact</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Footer — services" class="md:col-span-3">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Services</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="text-paper/85 hover:text-gold" href="/stand-up-comedy-shows/">Stand-Up Comedy Shows</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/corporate-entertainment/">Corporate Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/college-fest-entertainment/">College Fest Entertainment</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/artist-booking/">Artist Booking</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/event-management-company-india/">Event Management Company</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="/comedian-booking-cost-india/">Booking Cost Guide</a></li>
+            </ul>
+          </nav>
+          <div class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-fog-dim">Contact</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              <li><a class="break-all text-paper/85 hover:text-gold" href="mailto:contact@theshowcompany.in">contact@theshowcompany.in</a></li>
+              <li><a class="text-paper/85 hover:text-gold" href="tel:+917060293132">+91 70602 93132</a></li>
+              <li class="text-fog">Based in India · Operating pan-India</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-16 flex flex-col gap-2 border-t border-paper/10 py-6 text-xs text-fog-dim sm:flex-row sm:justify-between">
+          <p>© <time datetime="2026">2026</time> The Show Company. All Rights Reserved.</p>
+          <p>Last updated: <time datetime="2026-06-16">June 2026</time></p>
+        </div>
+      </div>
+      <p class="pointer-events-none select-none whitespace-nowrap text-center font-display text-[18.5vw] uppercase leading-[0.78] text-paper/[0.06]" aria-hidden="true">The Show Co.</p>
+    </footer>
   </body>
 </html>
