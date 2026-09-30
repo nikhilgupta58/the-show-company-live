@@ -1,0 +1,31 @@
+# Disavow file for theshowcompany.in
+# Generated from a live DataForSEO backlinks/backlinks/live pull (2026-09-01).
+# Format: Google Search Console Disavow Links tool (domain-level, one entry per line).
+# https://search.google.com/search-console/disavow-links
+#
+# All 15 backlinks found for theshowcompany.in come from a single PBN
+# ("Private Blog Network") link-farm template page titled:
+#   "Boost your Google rankings with Premium PBN & Link Building"
+# Every link shares the exact same stuffed anchor text:
+#   "High Quality Dofollow Backlinks DA 50 PA 40 Premium PBN Network Service
+#    theshowcompany.in Rank First Page Google Fast SEO Link Building Buy
+#    Backlinks Online Cheap"
+# with backlink_spam_score 60-70 (DataForSEO scale, high = toxic). This is
+# classic negative-SEO / auto-generated spam, not organic linking activity —
+# disavowing at the domain level for every referring domain below.
+
+domain:fashionclothingnews.com
+domain:bestnz-poker-casinoslot.com
+domain:betwinnermirror.com
+domain:homesforsaleoldgreenwichct.com
+domain:cmocheatsheets.com
+domain:forbesstories.com
+domain:clifflisting.com
+domain:theforbestimes.com
+domain:archive-hu.com
+domain:uncledspizza.com
+domain:betulcrime.com
+domain:thedocmag.com
+domain:quotesblom.com
+domain:ufabettererm4.com
+domain:ggmap.us.com

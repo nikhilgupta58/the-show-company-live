@@ -46,3 +46,5 @@ screenshots/
 *.md
 .vercel
 .env*.local
+/brag-output/*
+/videos/*
