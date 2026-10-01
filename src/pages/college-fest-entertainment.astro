@@ -1,0 +1,583 @@
+---
+// /college-fest-entertainment/ — the fest committee's page. Replaces college-fest-entertainment.html.
+// Head strings: build-tools/seo-targets.json. Facts: docs/redesign-2.0/content/college-fest-entertainment.md
+// and the strategy's facts ledger. The signature is the fest year (section "committees"): pick the
+// fest month and the three months before it light up as the window to lock the line-up.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import TextLink from '../components/TextLink.astro';
+import StatLedger from '../components/StatLedger.astro';
+import Rule from '../components/Rule.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Photo from '../components/Photo.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import { photos } from '../data/photos';
+import { site, nextAfter } from '../data/site';
+
+const path = '/college-fest-entertainment/';
+const url = `${site.url}${path}`;
+const costGuide = '/comedian-booking-cost-india/';
+const next = nextAfter(path);
+
+// A link sits inside its sentence (the strategy's link texts, §7.2): `link.text` must occur in the sentence.
+type InlineLink = { text: string; href: string };
+/** Split a sentence around its link text, for inline rendering. */
+const around = (text: string, link?: InlineLink) => (link ? text.split(link.text) : [text, '']);
+
+const nights: { name: string; text: string; link?: InlineLink }[] = [
+  {
+    name: 'Comedy nights',
+    text: 'Headline stand-up sets tuned for student crowds, chosen by the team behind our stand-up comedian booking.',
+    link: { text: 'stand-up comedian booking', href: '/stand-up-comedy-shows/' },
+  },
+  {
+    name: 'EDM and DJ nights',
+    text: 'Festival-grade sound, lighting rigs and DJs who know how to close a fest — safely and loudly.',
+  },
+  {
+    name: 'Pro-night concerts',
+    text: 'Singers and live bands for your marquee night. Our artist booking agency handles hospitality and rider.',
+    link: { text: 'artist booking agency', href: '/artist-booking/' },
+  },
+  {
+    name: 'Full fest production',
+    text: 'Stage, barricading plan, sound, lighting and show-calling across all fest days: full-service event management, one crew, one plan.',
+    link: { text: 'full-service event management', href: '/event-management-company-india/' },
+  },
+];
+
+const promises: { name: string; text: string; link?: InlineLink }[] = [
+  { name: 'Paperwork your dean will sign', text: 'Written quotes, GST invoices and signed artist contracts: everything your admin office needs to release funds.' },
+  {
+    name: 'Honest budget bands',
+    text: 'We tell you upfront what your budget genuinely gets, and where a sponsor tie-in can stretch it further. Start with what a headliner costs.',
+    link: { text: 'what a headliner costs', href: costGuide },
+  },
+  { name: 'No last-minute ghosting', text: 'Confirmed artists, backup plans and a producer on campus on show day. Your fest doesn’t rest on one phone number.' },
+];
+
+// The fest year. Seasons: February–April and September–November (content contract S3).
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const seasonStarts = [1, 8]; // February and September; each season runs three months
+const inSeason = (i: number) => seasonStarts.some((s) => i >= s && i <= s + 2);
+
+// FAQ: one source for the visible answers and the FAQPage JSON-LD, so they match word for word.
+// Q1–Q4 are production's, verbatim; Q5–Q6 are the strategy's additions (strategy §6.4).
+const faqs: { q: string; a: string; link?: InlineLink }[] = [
+  {
+    q: 'What budget do we need for a fest headliner?',
+    a: 'Emerging comedians and DJs start around ₹50,000–₹1.5 lakh; well-known touring names typically run ₹2–8 lakh plus production and travel. Share your real budget and we’ll show you the strongest line-up it buys — see the pricing guide for detail.',
+    link: { text: 'pricing guide', href: costGuide },
+  },
+  {
+    q: 'Can you work with our college’s payment process?',
+    a: 'Yes — we regularly work with institutional advance/settlement cycles, purchase orders and GST invoicing. Tell us your process during the enquiry and we’ll structure the contract to match.',
+  },
+  {
+    q: 'Do you bring sound and lighting or use ours?',
+    a: 'Either. Our partner VIGOR MENTORS can deliver the full rig, or our production team can audit and run your existing campus setup against the artist’s technical rider.',
+  },
+  {
+    q: 'When should we start planning?',
+    a: '1–3 months before your fest. Earlier is cheaper: artist calendars for fest season fill months ahead, and confirmed dates unlock better rates.',
+  },
+  {
+    q: 'How do we book an artist for our college fest?',
+    a: 'Send your fest dates, expected footfall and budget through the enquiry form, WhatsApp or a call. We reply within 24 hours, and within 48 hours of your brief you get a line-up proposal: college fest artists matched to your crowd and budget, with a written quote. Once you confirm, we sign the artist contracts and handle travel, hospitality and the technical rider. On show day a producer is on campus.',
+  },
+  {
+    q: 'What are some ideas for college fest entertainment?',
+    a: 'Start from the nights we produce: a comedy night with a headline stand-up comedian, an EDM night with DJs and a festival-grade rig, and a pro-night with singers or a live band as your marquee act, with anchors to run the stage in between. DJs are made for closing a fest; the pro-night is where your biggest name belongs. If you want one crew across every day, we run full fest production too: stage, barricading, sound, lighting and show-calling. Tell us your footfall and budget, and we’ll suggest the mix of artists for your college fest.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: 'College Fest Artist Booking & Entertainment',
+    serviceType: 'College Event Entertainment',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+    },
+    // India only: this page names no city (strategy §7.1).
+    areaServed: [{ '@type': 'Country', name: 'India' }],
+    description:
+      'Artist booking and entertainment production for college fests across India: stand-up comedians, EDM and DJ nights, singers, live bands and complete stage production for campus festivals.',
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'College fest entertainment', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<Base
+  title="College Fest Artist Booking & Entertainment | The Show Company"
+  description="College fest artist booking with full production: comedians, EDM and DJ nights, singers and live bands. Written quotes, signed contracts, campuses across India."
+  path={path}
+  jsonLd={jsonLd}
+>
+  {/* The portrait master needs two focal points: low in the tall desktop window (the kick and the
+      raised hand), higher in a phone's landscape window (hand, face and the kicking foot). */}
+  <Hero photo={{ ...photos.highKick, position: '50% 96%' }} ratio="4/5" ratioSmall="3/2" positionSmall="50% 40%" size="compact">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'College fest entertainment' }]} />
+    <h1 slot="title">College fest artist booking, produced <em>properly</em></h1>
+    <p slot="lead" class="t-lead">The fest your campus talks about for years. Book artists for college fest season: comedians, EDM nights, singers and live bands.</p>
+    <Fragment slot="actions">
+      <Button href={site.nav.cta.href} icon="arrow-right">Plan your fest</Button>
+      <Button href={costGuide} variant="outline">What a headliner costs</Button>
+    </Fragment>
+    <StatLedger
+      slot="proof"
+      size="sm"
+      reveal={false}
+      items={[
+        { value: '500+', label: 'shows produced' },
+        { value: '48 h', label: 'from brief to proposal' },
+        { value: '1–3', label: 'months ahead to lock a show' },
+      ]}
+    />
+  </Hero>
+
+  <section class="section" id="nights" aria-labelledby="nights-title">
+    <div class="wrap">
+      <Rule variant="lit" reveal />
+      <div class="nights__top">
+        <div class="nights__copy">
+          <h2 class="nights__title" id="nights-title" data-reveal="lines">College fest entertainment: the nights we produce</h2>
+          <p class="dim" data-reveal>
+            Every fest committee faces the same three problems: artists who don’t reply, quotes that change after the first call, and vendors who have never done a
+            campus show. The Show Company answers all three with written quotes, signed artist contracts and a production team that has built stages on college
+            grounds.
+          </p>
+          {/* The credits: who we have worked with and who works with us (the dots between them are CSS). */}
+          <p class="nights__credits t-small" data-reveal>
+            <span>Campuses including Graphic Era and DPS</span>
+            <span>artists through OML and Oriole Entertainment</span>
+            <span>sound and lighting by VIGOR MENTORS</span>
+          </p>
+        </div>
+        <Photo
+          class="nights__photo"
+          photo={photos.collegeTentAudience}
+          ratio="3/2"
+          ratioSmall="16/9"
+          sizes="(min-width: 60rem) 38vw, 100vw"
+          widths={[480, 768, 1080, 1280]}
+          reveal
+          parallax
+        />
+      </div>
+      <ul class="columns nights__list" data-reveal="stagger">
+        {
+          nights.map((n) => {
+            const [before, after] = around(n.text, n.link);
+            return (
+              <li class="night">
+                <h3 class="t-title">{n.name}</h3>
+                {/* one line: a line break between the parts would print a space before the punctuation */}
+                <p class="night__text">{before}{n.link && <a class="link" href={n.link.href}>{n.link.text}</a>}{after}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="committees" aria-labelledby="committees-title">
+    <div class="wrap">
+      {/* The header carries the fest year's question and its key, hung from the midline; the year
+          itself takes the full row under it, and the answer and the action close it. */}
+      <SectionHeader title="Built for student committees" id="committees-title">
+        <p class="t-title fy__q" id="fest-year-q">When is your fest?</p>
+        <p class="fy__key t-small" id="fest-year-key">Campus fests run in two seasons, February–April and September–November. Lock college shows 1–3 months ahead.</p>
+      </SectionHeader>
+      <fieldset class="fy" data-fest-year aria-labelledby="fest-year-q" aria-describedby="fest-year-key">
+        <div class="fy__strip">
+          <ol class="fy__months" data-reveal="stagger">
+            {
+              monthNames.map((month, i) => (
+                <li class:list={['fy__m', { 'is-season': inSeason(i), 'is-start': seasonStarts.includes(i), 'is-end': seasonStarts.includes(i - 2) }]}>
+                  {seasonStarts.includes(i) && (
+                    <span class="t-label fy__tag" aria-hidden="true">
+                      Fest season
+                    </span>
+                  )}
+                  <input
+                    class="fy__input"
+                    type="radio"
+                    name="fest-month"
+                    id={`fest-month-${i}`}
+                    value={i}
+                    checked={i === 1}
+                    data-month={month}
+                    aria-label={inSeason(i) ? `${month}, fest season` : month}
+                  />
+                  <label class="fy__label" for={`fest-month-${i}`}>
+                    {month.slice(0, 3)}
+                  </label>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="fy__foot">
+          <p class="fy__out t-title" data-fest-out>Pick your fest month to see when to lock the line-up.</p>
+          <TextLink href={site.nav.cta.href}>Plan your fest</TextLink>
+        </div>
+      </fieldset>
+    </div>
+    <div class="wrap split committees__split">
+      <div class="split__aside">
+        <ul class="promises" data-reveal="stagger">
+          {
+            promises.map((p) => {
+              const [before, after] = around(p.text, p.link);
+              return (
+                <li class="promise">
+                  <h3 class="t-title">{p.name}</h3>
+                  <p class="dim">{before}{p.link && <a class="link" href={p.link.href}>{p.link.text}</a>}{after}</p>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+      <div class="split__main">
+        <section class="faqs" id="faqs" aria-labelledby="faqs-title">
+          <h2 class="t-h3 faq-title" id="faqs-title">College fest FAQs</h2>
+          {
+            faqs.map((f) => {
+              const [before, after] = around(f.a, f.link);
+              return (
+                <FaqItem question={f.q} group="fest-faq">
+                  <p>{before}{f.link && <a href={f.link.href}>{f.link.text}</a>}{after}</p>
+                </FaqItem>
+              );
+            })
+          }
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="The artist you want, confirmed." photo={photos.emptyHall} contact />
+</Base>
+
+<script>
+  // The fest year: name the lock-in window for the month picked. The lighting itself is CSS (:has),
+  // so it works without this; this adds the sentence and starts on the next season's first month.
+  const year = document.querySelector<HTMLFieldSetElement>('[data-fest-year]');
+  if (year) {
+    const inputs = Array.from(year.querySelectorAll<HTMLInputElement>('input[name="fest-month"]'));
+    const out = year.querySelector<HTMLElement>('[data-fest-out]');
+    const name = (i: number) => inputs[(i + 12) % 12].dataset.month ?? '';
+    const say = (i: number) => {
+      if (!out || i < 0) return;
+      out.innerHTML = `${name(i)} fest: lock the line-up in <strong>${name(i - 3)}</strong>, <strong>${name(i - 2)}</strong> or <strong>${name(i - 1)}</strong>.`;
+    };
+    year.addEventListener('change', (e) => say(inputs.indexOf(e.target as HTMLInputElement)));
+    // From February to August the next season opens in September; otherwise in February.
+    const now = new Date().getMonth();
+    const start = now >= 1 && now <= 7 ? 8 : 1;
+    inputs[start].checked = true;
+    say(start);
+    out?.setAttribute('aria-live', 'polite');
+  }
+</script>
+
+<style>
+  /* ── The nights: heading and intro beside the campus photo, then the four nights on one rule. */
+  .nights__top {
+    display: grid;
+    gap: var(--block) var(--gutter);
+  }
+  .nights__copy {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    padding-block-start: var(--s-5);
+  }
+  .nights__title {
+    max-inline-size: 26ch;
+  }
+  /* The credit line: on a hairline under the intro, as wide as the paragraph above it. A gold dot
+     closes each credit but the last (CSS, so it is never read out and never starts a line). */
+  .nights__credits {
+    max-inline-size: calc(30 * var(--t-body));
+    padding-block-start: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+    color: var(--text-3);
+  }
+  .nights__credits span:not(:last-child)::after {
+    content: '\00a0·';
+    content: '\00a0·' / '';
+    color: var(--gold-400);
+  }
+  .nights__list {
+    margin-block-start: var(--block);
+    row-gap: var(--s-4);
+  }
+  .night {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+  }
+  .night__text {
+    color: var(--text-2);
+  }
+  @media (min-width: 60rem) {
+    .nights__top {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+    /* Seven columns of words, so the heading sits on two lines; five for the picture. */
+    .nights__copy {
+      grid-column: 1 / span 7;
+    }
+    .nights__top :global(.nights__photo) {
+      grid-column: 8 / -1;
+      margin-block-start: var(--s-5);
+    }
+  }
+
+  /* ── Built for student committees. The fest year (the page's signature) takes the full row
+        under the heading; below it the system's sticky split: the three promises, then the FAQ. */
+  .committees__split {
+    margin-block-start: var(--block);
+  }
+  .promises {
+    display: grid;
+  }
+  .promise {
+    display: grid;
+    gap: var(--s-2);
+    padding-block: var(--s-4);
+  }
+  .promise:first-child {
+    padding-block-start: 0;
+  }
+  .promise:last-child {
+    padding-block-end: 0;
+  }
+  .promise + .promise {
+    border-block-start: 1px solid var(--rule);
+  }
+  .faq-title {
+    margin-block-end: var(--s-4);
+  }
+
+  /* ── The fest year. Twelve months on one hairline; the two fest seasons carry a gold one.
+        Pick the fest month (a gold ring) and the three months before it light up: the window
+        to lock the line-up. Pure CSS (:has), so it works without JavaScript. */
+  .fy {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  /* Its question and key sit in the section header (the fieldset is named by the question). */
+  .fy__key {
+    color: var(--text-3);
+  }
+  /* The strip sizes itself by its own width, not the screen's: two rows of six where a month
+     would get less than about 53px, one row of twelve from there. */
+  .fy__strip {
+    container-type: inline-size;
+  }
+  .fy__months {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    row-gap: var(--s-3);
+  }
+  @container (min-width: 40rem) {
+    .fy__months {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+  .fy__m {
+    --line: 1.25rem; /* where the year's hairline sits, under the season tag */
+    position: relative;
+    padding-block-start: calc(var(--line) + 1rem);
+  }
+  .fy__m::before {
+    content: '';
+    position: absolute;
+    inset: var(--line) 0 auto 0;
+    block-size: 1px;
+    background: var(--rule);
+  }
+  /* Week ticks hang from the hairline, four to a month: the year as a ruler. Fest months tick in gold. */
+  .fy__m::after {
+    content: '';
+    position: absolute;
+    inset: calc(var(--line) + 1px) 0 auto 0;
+    block-size: 0.3125rem;
+    background: repeating-linear-gradient(90deg, var(--rule-strong) 0 1px, transparent 1px 25%);
+  }
+  .fy__m.is-season::after {
+    block-size: 0.5625rem;
+    background: repeating-linear-gradient(90deg, var(--gold-400) 0 1px, transparent 1px 25%);
+  }
+  /* A season is a lit rule across its three months: brightest where it starts, like the
+     system's lit rules. Three linear segments, so the joins are seamless. */
+  .fy__m.is-season::before {
+    block-size: 2px;
+    margin-block-start: -0.5px;
+    background: linear-gradient(90deg, var(--gold-300), var(--gold-400));
+  }
+  .fy__m.is-start::before {
+    background: linear-gradient(90deg, var(--gold-100), var(--gold-300));
+  }
+  .fy__m.is-end::before {
+    background: linear-gradient(90deg, var(--gold-400), var(--gold-600));
+  }
+  .fy__tag {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0.4rem;
+    white-space: nowrap;
+    color: var(--gold-200);
+  }
+  .fy__input {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fy__label {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    inline-size: min(100% - 4px, 5.5rem);
+    min-block-size: 2.75rem;
+    margin-inline: auto;
+    border-radius: var(--r-control);
+    font-family: var(--font-wide);
+    font-stretch: 118%;
+    font-weight: 500;
+    font-size: var(--t-small);
+    letter-spacing: 0.02em;
+    color: var(--stone-500);
+    cursor: pointer;
+    transition: color var(--dur-ui) ease;
+  }
+  .is-season .fy__label {
+    color: var(--ivory);
+  }
+  /* The lock-in window is light, not paint: a soft amber pool behind each of its months (the
+     light-only amber, at 20% or less), brought up by opacity, one month after another. */
+  .fy__label::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -0.375rem -0.75rem;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--amber) 20%, transparent), color-mix(in srgb, var(--amber) 8%, transparent) 62%, transparent);
+    opacity: 0;
+    transition: opacity 420ms var(--ease-out);
+  }
+  /* The fest month is an outlined ring, never a solid: the screen's one solid gold is Enquire. */
+  .fy__input:checked + .fy__label {
+    color: var(--gold-200);
+    box-shadow: inset 0 0 0 1.5px var(--gold-300);
+  }
+  .fy__input:focus-visible + .fy__label {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  /* Forced colours drop shadows and backgrounds: the ring and the window become real borders. */
+  @media (forced-colors: active) {
+    .fy__input:checked + .fy__label {
+      border: 2px solid Highlight;
+    }
+    .fy__label::after {
+      inset: 0;
+      border: 1px solid ButtonText;
+      border-radius: inherit;
+      background: none;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .fy__input:not(:checked) + .fy__label:hover {
+      color: var(--gold-100);
+    }
+  }
+  /* 1, 2 and 3 months before the picked month … */
+  .fy__m:has(+ .fy__m :checked) .fy__label,
+  .fy__m:has(+ .fy__m + .fy__m :checked) .fy__label,
+  .fy__m:has(+ .fy__m + .fy__m + .fy__m :checked) .fy__label,
+  /* … and, for a fest in January to March, the end of the year before. */
+  .fy__months:has(> :nth-child(1) :checked) > :nth-child(n + 10) .fy__label,
+  .fy__months:has(> :nth-child(2) :checked) > :nth-child(n + 11) .fy__label,
+  .fy__months:has(> :nth-child(3) :checked) > :nth-child(12) .fy__label {
+    color: var(--gold-200);
+  }
+  .fy__m:has(+ .fy__m :checked) .fy__label::after,
+  .fy__m:has(+ .fy__m + .fy__m :checked) .fy__label::after,
+  .fy__m:has(+ .fy__m + .fy__m + .fy__m :checked) .fy__label::after,
+  .fy__months:has(> :nth-child(1) :checked) > :nth-child(n + 10) .fy__label::after,
+  .fy__months:has(> :nth-child(2) :checked) > :nth-child(n + 11) .fy__label::after,
+  .fy__months:has(> :nth-child(3) :checked) > :nth-child(12) .fy__label::after {
+    opacity: 1;
+  }
+  /* The light walks towards the date: the earliest month of the window first. */
+  @media (prefers-reduced-motion: no-preference) {
+    .fy__m:has(+ .fy__m + .fy__m :checked) .fy__label::after {
+      transition-delay: 90ms;
+    }
+    .fy__m:has(+ .fy__m :checked) .fy__label::after {
+      transition-delay: 180ms;
+    }
+  }
+  /* Roomier when the strip itself is wide (a month gets about 60px or more). */
+  @container (min-width: 44rem) {
+    .fy__m {
+      --line: 1.4rem;
+    }
+    .fy__label {
+      min-block-size: 3.25rem;
+      font-size: var(--t-body);
+    }
+  }
+  /* The answer, with the action at the end of its row. */
+  .fy__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2) var(--gutter);
+    margin-block-start: var(--s-5);
+  }
+  .fy__out {
+    max-inline-size: none;
+    color: var(--ivory);
+  }
+  .fy__out :global(strong) {
+    font-weight: 400;
+    color: var(--gold-200);
+  }
+</style>

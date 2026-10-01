@@ -1,0 +1,618 @@
+---
+// /work/ — the proof: real shows in real photographs, at full brightness, large.
+// Head values: build-tools/seo-targets.json. Outline, voice and facts: docs/redesign-2.0/seo/strategy.md
+// §6.8 and §5. Photos: src/data/photos.ts (docs/redesign-2.0/photo-library.md). Captions say only what the
+// picture shows; nothing here names a performer, a client, a venue, a date or an audience size.
+// No venue on any photograph: the frames production captions "Live at BITS Pilani" are the four Canon stills
+// shot on 14 April 2026, which the library holds back as too dark; every photograph here is from the Sony
+// set shot on 20 September 2026 (bits/), whose venue is not on file. BITS Pilani is named as a campus only.
+//
+// The signature: the wall. The first row is uncovered by curtains in sequence as the page opens; the second
+// as it scrolls in. Any photograph on it opens full screen in the viewer: the house goes dark, its colour
+// spills onto the black and a curtain rises on it. Without JavaScript each photograph is a link to the large file.
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import TextLink from '../components/TextLink.astro';
+import Rule from '../components/Rule.astro';
+import Photo from '../components/Photo.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Scroller from '../components/Scroller.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ServiceRow from '../components/ServiceRow.astro';
+import NextBand from '../components/NextBand.astro';
+import { photos, type Photograph } from '../data/photos';
+import { site, nextAfter } from '../data/site';
+
+const path = '/work/';
+const url = new URL(path, site.url).href;
+const title = 'Recent Shows and Live Event Work | The Show Company';
+const description =
+  'Recent shows produced by The Show Company: stand-up comedy, full-house auditorium nights, college fests and live concerts, in real photographs.';
+
+// OWNER: the wall's show (bits/, 20 September 2026 by the camera) has no venue, date, line-up or audience
+// size on file. Fill any of them in and they appear beside the wall's title; empty ones stay out of the page.
+const showFacts = [
+  { label: 'Venue', value: '' },
+  { label: 'Date', value: '' },
+  { label: 'Line-up', value: '' },
+  { label: 'Audience', value: '' },
+].filter((fact) => fact.value);
+
+// The wall: two justified rows. On a desktop each row's columns are sized by the pictures' own shapes, so
+// every photograph is shown whole and a row's pictures share one height. On a phone: two up, wide ones across.
+interface Tile {
+  photo: Photograph;
+  caption: string;
+  sizes: string;
+  small?: '2/3' | '4/5';
+  wide?: boolean;
+}
+const rows: Tile[][] = [
+  [
+    { photo: photos.entranceWide, caption: 'The walk-on: arms wide, lit in red.', sizes: '(min-width: 48rem) 65vw, 92vw', wide: true },
+    { photo: photos.micPalace, caption: 'Mic close, mid-bit, against the palace backdrop.', sizes: '(min-width: 48rem) 25vw, 92vw', small: '4/5', wide: true },
+  ],
+  [
+    { photo: photos.highKick, caption: 'A high kick on the punchline.', sizes: '(min-width: 48rem) 22vw, 46vw', small: '2/3' },
+    { photo: photos.crowdworkHoodie, caption: 'Mid-sentence, one hand open, in front of the curtain.', sizes: '(min-width: 48rem) 24vw, 46vw', small: '2/3' },
+    { photo: photos.micStandHoodie, caption: 'A laugh at the mic stand, on a warm-lit stage.', sizes: '(min-width: 48rem) 23vw, 46vw', small: '2/3' },
+    { photo: photos.storyteller, caption: 'A story, told under an amber wash.', sizes: '(min-width: 48rem) 22vw, 46vw', small: '2/3' },
+  ],
+];
+const aspect = (p: Photograph) => p.src.width / p.src.height;
+const columns = (row: Tile[]) => row.map((t) => `${aspect(t.photo).toFixed(4)}fr`).join(' ');
+
+// The large files: the no-JavaScript link target, the viewer's srcset, and the JSON-LD contentUrl.
+const large = await Promise.all(
+  rows.flat().map((t) => getImage({ src: t.photo.src, width: 1600, widths: [960, 1600, 2400], format: 'webp' })),
+);
+const largeOf = (t: Tile) => large[rows.flat().indexOf(t)];
+const absolute = (src: string) => new URL(src, site.url).href;
+
+// A share card cut from the walk-on, so the page is previewed with its own photograph.
+const shareImage = await getImage({ src: photos.entranceWide.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+
+const next = nextAfter(path);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    inLanguage: 'en-IN',
+    isPartOf: { '@id': `${site.url}/#website` },
+    about: { '@id': `${site.url}/#organization` },
+    breadcrumb: { '@id': `${url}#breadcrumb` },
+    primaryImageOfPage: { '@id': `${url}#photo-1` },
+    associatedMedia: rows.flat().map((t, i) => ({
+      '@type': 'ImageObject',
+      '@id': `${url}#photo-${i + 1}`,
+      contentUrl: absolute(largeOf(t).src),
+      width: largeOf(t).attributes.width,
+      height: largeOf(t).attributes.height,
+      caption: t.caption,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Work', item: url },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd} og={{ image: absolute(shareImage.src), imageAlt: photos.entranceWide.alt }}>
+  <header class="intro wrap">
+    <div data-enter style="--enter-delay:80ms"><Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Work' }]} /></div>
+    <div class="intro__grid">
+      <h1 class="intro__title">
+        <span class="line"><span data-enter="line" style="--enter-delay:160ms">Recent shows,</span></span>{' '}
+        <span class="line"><span data-enter="line" style="--enter-delay:250ms">as they happened</span></span>
+      </h1>
+      <div class="intro__aside">
+        <p class="t-lead" data-enter style="--enter-delay:340ms">
+          Recent shows produced by The Show Company, photographed on the night. We have produced 500+ shows in 50+ cities, for
+          institutions including Graphic Era, DPS and BITS Pilani.
+        </p>
+        {/* One solid gold thing per screen. From 48rem it is this button (the header's Enquire stays outlined
+            while the page's first block is on screen); on a phone it is the dock's Enquire, so the same door
+            is a quiet text link there: what <Hero> does for its own buttons. */}
+        <div data-enter style="--enter-delay:430ms">
+          <Button class="intro__btn" href={site.nav.cta.href} icon="arrow-right">Book a show like this</Button>
+          <TextLink class="intro__link" href={site.nav.cta.href}>Book a show like this</TextLink>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="wall-section wrap" aria-labelledby="latest">
+    <div class="wall__label">
+      <div data-enter="rule" style="--enter-delay:480ms"><Rule variant="lit" /></div>
+      <div class="wall__label-grid">
+        <h2 class="t-h3 wall__title" id="latest" data-enter style="--enter-delay:540ms">Two comedians, mid-set</h2>
+        <p class="wall__note" data-enter style="--enter-delay:600ms">Six of our most recent show photographs, shot under the stage lights. Open any one to see it whole.</p>
+        {
+          showFacts.length > 0 && (
+            <dl class="wall__facts">
+              {showFacts.map((fact) => (
+                <div>
+                  <dt class="t-label">{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="wall">
+      {
+        rows.map((row, r) => (
+          <div class="wall__row" style={`--cols:${columns(row)}`}>
+            {row.map((t, i) => (
+              <figure class:list={['wall__tile', { 'wall__tile--wide': t.wide }]} style={r === 0 ? `--enter-delay:${420 + i * 160}ms` : undefined}>
+                {/* The caption is the tile's own, not <Photo caption>: the photo's glow is a shadow around its
+                    whole figure, so a caption inside that figure reads as a dark plate cut out of the light. */}
+                <Photo photo={t.photo} ratioSmall={t.small} sizes={t.sizes} priority={r === 0 && i === 0} enter={r === 0} reveal={r > 0} glow={r === 0 && i === 0} />
+                <a
+                  class="wall__open"
+                  href={largeOf(t).src}
+                  data-viewer
+                  data-srcset={largeOf(t).srcSet.attribute}
+                  data-w={t.photo.src.width}
+                  data-h={t.photo.src.height}
+                  data-glow={t.photo.glow}
+                  data-alt={t.photo.alt}
+                  data-caption={t.caption}
+                  aria-label={`See it full screen: ${t.caption}`}
+                />
+                <figcaption class="wall__caption t-small">{t.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="stage">
+    <div class="wrap">
+      <SectionHeader id="stage" title="What we stage" lead="One team books the artist and produces the show, from the first enquiry to the final bow." />
+    </div>
+    {/* No rise on this block: a parent fade would fade the photographs in it. */}
+    <div class="stage">
+      <Scroller label="Kinds of show we stage" item="var(--stage-item)">
+        <ServiceCard href="/stand-up-comedy-shows/" name="Comedy night" kicker="Stand-up · Live performance" photo={photos.standupStool} ratio="3/2">
+          Stand-up comedy for full houses, from 50-seat club rooms to 2,000-seat auditoriums.
+        </ServiceCard>
+        <ServiceCard href="/college-fest-entertainment/" name="College fest" kicker="Campus · Cultural festival" photo={photos.collegeTentAudience} ratio="3/2">
+          Live acts, DJ sets and comedy for university festivals, bringing thousands of students together.
+        </ServiceCard>
+        <ServiceCard href="/event-management-company-india/" name="Auditorium show" kicker="Full production" photo={photos.fullHouseStalls} ratio="3/2">
+          Sound-check, show time, full house: full LED staging, with sound and lighting through our partner VIGOR MENTORS.
+        </ServiceCard>
+        <ServiceCard href="/artist-booking/" name="Live concert" kicker="Music · Live band" photo={photos.ledMandalaWall} ratio="3/2">
+          Live bands in auditorium settings, with full production support, sound and concert lighting.
+        </ServiceCard>
+      </Scroller>
+    </div>
+    <div class="wrap stage__row" data-reveal>
+      <ServiceRow href="/corporate-entertainment/" name="Corporate events" kicker="For companies" cta="Corporate event entertainment">
+        Annual days, offsites, galas and client evenings, with sets that are funny without an HR escalation.
+      </ServiceRow>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="The people and partners behind 500+ shows." photo={photos.emptyHall} />
+</Base>
+
+<style>
+  /* ── The opening: the page's own plain ground under the logo, then the title and the way in. */
+  .intro {
+    padding-block: var(--header-zone) var(--s-6);
+  }
+  .intro__grid {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+    align-items: end;
+    margin-block-start: var(--s-3);
+  }
+  .intro__title {
+    max-inline-size: 16ch;
+  }
+  .intro__aside {
+    display: grid;
+    gap: var(--s-5);
+    justify-items: start;
+  }
+  .intro :global(.intro__btn) {
+    display: none;
+  }
+  @media (min-width: 48rem) {
+    .intro :global(.intro__btn) {
+      display: inline-flex;
+    }
+    .intro :global(.intro__link) {
+      display: none;
+    }
+  }
+  @media (min-width: 60rem) {
+    .intro__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .intro__title {
+      grid-column: 1 / span 7;
+    }
+    .intro__aside {
+      grid-column: 8 / span 5;
+      padding-block-end: 0.35rem;
+    }
+  }
+
+  /* ── The wall label: a lit rule, the show's name, one line. It sits above the glow of the first photo. */
+  .wall-section {
+    padding-block-end: calc(var(--section) / 2);
+  }
+  .wall__label {
+    position: relative;
+    z-index: 1;
+    margin-block-end: var(--s-5);
+  }
+  .wall__label-grid {
+    display: grid;
+    gap: var(--s-2) var(--gutter);
+    padding-block-start: var(--s-4);
+  }
+  .wall__note {
+    color: var(--text-2);
+  }
+  .wall__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-7);
+  }
+  .wall__facts dd {
+    color: var(--gold-text);
+  }
+  @media (min-width: 60rem) {
+    .wall__label-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: baseline;
+    }
+    .wall__title {
+      grid-column: 1 / span 6;
+    }
+    .wall__note,
+    .wall__facts {
+      grid-column: 7 / span 6;
+    }
+  }
+
+  /* ── The wall. Phone: two up, wide pictures across. Desktop: justified rows, every picture whole. */
+  .wall {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .wall__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-6) var(--gutter);
+    align-items: start;
+  }
+  .wall__tile {
+    position: relative;
+    min-inline-size: 0;
+  }
+  .wall__tile--wide {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 48rem) {
+    .wall__row {
+      grid-template-columns: var(--cols);
+    }
+    .wall__tile--wide {
+      grid-column: auto;
+    }
+    /* <Photo> switches to its small shape below 60rem; in a justified row it keeps its own shape. */
+    .wall__tile :global(.photo__window) {
+      aspect-ratio: var(--ratio);
+    }
+  }
+  @media (min-width: 60rem) {
+    .wall {
+      gap: var(--s-7);
+    }
+  }
+  /* The whole tile opens the viewer (or, without JavaScript, the large file). */
+  .wall__open {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    cursor: zoom-in;
+  }
+  .wall__open:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
+  }
+  .wall__tile :global(.photo__pic) {
+    transition: transform 900ms var(--ease-expo);
+  }
+  .wall__caption {
+    margin-block-start: var(--s-3);
+    max-inline-size: 48ch;
+    color: var(--text-3);
+    transition: color var(--dur-ui) ease;
+  }
+  .wall__tile:has(.wall__open:focus-visible) .wall__caption {
+    color: var(--gold-text);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wall__tile:hover .wall__caption {
+      color: var(--gold-text);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .wall__tile:hover :global(.photo__pic) {
+        transform: scale(1.035);
+      }
+    }
+  }
+
+  /* ── What we stage: four cards that fit the row on a desktop and run sideways on a phone. */
+  .stage {
+    --stage-item: min(72vw, 20rem);
+  }
+  @media (min-width: 64rem) {
+    .stage {
+      --stage-item: calc((100% - 3 * var(--gutter)) / 4);
+    }
+  }
+  .stage__row {
+    margin-block-start: var(--block);
+  }
+</style>
+
+<style is:global>
+  /* The viewer (built by the script below, so it never exists without JavaScript). The house goes dark,
+     the photograph's own colour spills onto the black around it, and a curtain rises on the picture. The
+     picture itself is never faded or dimmed: only the backdrop and the black cover move. */
+  dialog.viewer {
+    position: fixed;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: none;
+    max-block-size: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    overflow: hidden;
+  }
+  dialog.viewer[open] {
+    display: grid;
+    place-items: center;
+  }
+  dialog.viewer::backdrop {
+    background: var(--black); /* the house goes fully dark: nothing of the page shows through */
+  }
+  .viewer__fig {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+    margin: 0;
+  }
+  .viewer__fig::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -14% -10%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--glow, #c6a87c) 20%, transparent) 0%, color-mix(in srgb, var(--glow, #c6a87c) 9%, transparent) 60%, transparent 100%);
+    pointer-events: none;
+  }
+  dialog.viewer {
+    --viewer-side: 0px; /* room for the previous / next controls beside the picture on a desktop */
+  }
+  .viewer__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--ar);
+    inline-size: min(100vw - 2 * (var(--margin) + var(--viewer-side)), (100svh - 11rem) * var(--ar));
+    background: var(--ink-800) center / cover no-repeat;
+    touch-action: pan-y pinch-zoom;
+  }
+  .viewer__img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+  .viewer__cover {
+    position: absolute;
+    inset: -1px;
+    z-index: 1;
+    background: var(--ground);
+    transform: scaleY(0); /* at rest the cover is gone; the script only ever animates it away */
+    transform-origin: center top;
+    pointer-events: none;
+  }
+  .viewer__cap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--s-1) var(--s-4);
+    max-inline-size: min(100vw - 2 * var(--margin), 48rem);
+    text-align: center;
+    color: var(--text-2);
+  }
+  .viewer__count {
+    color: var(--gold-text);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .viewer__btn {
+    position: fixed;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    inline-size: 3.5rem;
+    block-size: 3.5rem;
+    border-radius: var(--r-control);
+    background: var(--ink-800);
+    color: var(--ivory);
+    box-shadow: inset 0 0 0 1px rgb(198 168 124 / 0.24);
+    transition:
+      background-color var(--dur-ui) ease,
+      color var(--dur-ui) ease,
+      transform var(--dur-press) var(--ease-out);
+  }
+  .viewer__btn:active {
+    transform: scale(0.95);
+  }
+  .viewer__close {
+    inset-block-start: var(--header-top);
+    inset-inline-end: var(--margin);
+  }
+  .viewer__prev,
+  .viewer__next {
+    inset-block-end: var(--s-5);
+  }
+  .viewer__prev {
+    inset-inline-start: var(--margin);
+  }
+  .viewer__next {
+    inset-inline-end: var(--margin);
+  }
+  @media (min-width: 60rem) {
+    dialog.viewer {
+      --viewer-side: calc(3.5rem + var(--s-5));
+    }
+    .viewer__prev,
+    .viewer__next {
+      inset-block-end: calc(50% - 1.75rem);
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .viewer__btn:hover {
+      background: var(--gold-300);
+      color: var(--black);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    dialog.viewer[open]::backdrop {
+      animation: viewer-dark 480ms var(--ease-out) backwards;
+    }
+  }
+  @keyframes viewer-dark {
+    from {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // The viewer. Progressive: the tiles are plain links to the large files until this runs.
+  const tiles = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-viewer]'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (tiles.length && typeof HTMLDialogElement === 'function' && 'showModal' in HTMLDialogElement.prototype) {
+    const svg = (d: string) =>
+      `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${d}</svg>`;
+    const dialog = document.createElement('dialog');
+    dialog.className = 'viewer';
+    dialog.setAttribute('aria-label', 'Photographs, full screen');
+    dialog.innerHTML = `
+      <figure class="viewer__fig">
+        <div class="viewer__frame"><span class="viewer__cover" aria-hidden="true"></span></div>
+        <figcaption class="viewer__cap t-small" aria-live="polite"><span class="viewer__count t-label"></span><span class="viewer__text"></span></figcaption>
+      </figure>
+      <button class="viewer__btn viewer__close" type="button" aria-label="Close">${svg('<path d="M6 6l12 12M18 6 6 18"/>')}</button>
+      <button class="viewer__btn viewer__prev" type="button" aria-label="Previous photograph">${svg('<path d="M20 12H4M10 6l-6 6 6 6"/>')}</button>
+      <button class="viewer__btn viewer__next" type="button" aria-label="Next photograph">${svg('<path d="M4 12h16M14 6l6 6-6 6"/>')}</button>`;
+    document.body.append(dialog);
+
+    const q = <T extends Element>(s: string) => dialog.querySelector(s) as T;
+    const fig = q<HTMLElement>('.viewer__fig');
+    const frame = q<HTMLElement>('.viewer__frame');
+    const cover = q<HTMLElement>('.viewer__cover');
+    const count = q<HTMLElement>('.viewer__count');
+    const text = q<HTMLElement>('.viewer__text');
+
+    let index = 0;
+    let img: HTMLImageElement | null = null;
+
+    const show = (i: number) => {
+      index = (i + tiles.length) % tiles.length;
+      const tile = tiles[index];
+      const { srcset = '', w = '1', h = '1', glow = '', alt = '', caption = '' } = tile.dataset;
+      const ar = Number(w) / Number(h);
+      frame.style.setProperty('--ar', String(ar));
+      fig.style.setProperty('--glow', glow);
+      count.textContent = `${index + 1} / ${tiles.length}`;
+      text.textContent = caption;
+      // The picture already on the wall stands in at once (the same photograph, whole, at a smaller size),
+      // so the frame is never empty while the large file loads; the large file then paints over it.
+      const small = tile.parentElement?.querySelector('img')?.currentSrc;
+      frame.style.backgroundImage = small ? `url("${small}")` : '';
+      img?.remove();
+      img = document.createElement('img');
+      img.className = 'viewer__img';
+      img.decoding = 'async';
+      img.alt = alt;
+      img.sizes = `min(100vw, ${Math.round(85 * ar)}vh)`;
+      img.srcset = srcset;
+      img.src = tile.href;
+      frame.prepend(img);
+      // The curtain, as on the rest of the site: it rises off a portrait and is drawn aside off a landscape.
+      // The cover rests at scale 0, so a lost animation leaves the picture bare, never covered.
+      const axis = ar > 1.15 ? 'scaleX' : 'scaleY';
+      cover.getAnimations().forEach((animation) => animation.cancel());
+      cover.style.transform = `${axis}(0)`;
+      cover.style.transformOrigin = ar > 1.15 ? 'right center' : 'center top';
+      if (reduced.matches) return;
+      cover.animate([{ transform: `${axis}(1)` }, { transform: `${axis}(0)` }], { duration: 900, easing: 'cubic-bezier(0.77, 0, 0.175, 1)' });
+      // The picture's own light blooms on the dark around it, in its own colour, each time.
+      fig.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 1400, easing: 'ease-out', pseudoElement: '::before' });
+    };
+
+    tiles.forEach((tile, i) =>
+      tile.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return; // keep "open in new tab"
+        event.preventDefault();
+        dialog.showModal();
+        show(i);
+      }),
+    );
+    q<HTMLButtonElement>('.viewer__close').addEventListener('click', () => dialog.close());
+    q<HTMLButtonElement>('.viewer__prev').addEventListener('click', () => show(index - 1));
+    q<HTMLButtonElement>('.viewer__next').addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') show(index + 1);
+      else if (event.key === 'ArrowLeft') show(index - 1);
+    });
+    // A click on the dark around the picture closes it.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    // Swipe on touch screens.
+    let startX = 0;
+    frame.addEventListener('pointerdown', (event) => (startX = event.clientX));
+    frame.addEventListener('pointerup', (event) => {
+      const dx = event.clientX - startX;
+      if (Math.abs(dx) > 48) show(index + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>

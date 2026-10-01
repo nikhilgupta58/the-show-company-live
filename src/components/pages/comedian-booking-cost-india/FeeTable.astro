@@ -1,0 +1,260 @@
+---
+// The rate card of /comedian-booking-cost-india/: a real three-column <table> whose cells are
+// verbatim from the facts ledger (strategy §2.1 protects them), plus the one thing the shared
+// DataTable cannot do: every fee band is also drawn on one shared, linear rupee scale (₹0 to
+// ₹12 lakh), so the step from club circuit to touring name to headliner is seen, not only read.
+// The bars and the scale are decoration (aria-hidden); the figures in the cells are the facts.
+// Without JavaScript the bars are simply drawn; with it they draw in from their left edge.
+// Slot "covers": one short line saying what the fee does and does not include (bottom left).
+// Type comes from the system's classes (t-title, t-figure, t-label, t-small): no sizes of its own.
+import Fig from './Fig.astro';
+import ScaleBar from './ScaleBar.astro';
+import { MAX, TICKS } from './scale';
+
+interface Row {
+  tier: string;
+  fee: string; // as written in the ledger, e.g. "₹50K – ₹1.5L"
+  from: number; // lakh
+  to?: number; // lakh; leave out for an open band ("₹10L+")
+  bestFor: string;
+}
+interface Props {
+  caption: string;
+  columns: [string, string, string];
+  rows: Row[];
+  note: string;
+}
+const { caption, columns, rows, note } = Astro.props;
+// "National headliner (OTT special / mass following)": the bracket is a qualifier, set a size down.
+const split = (tier: string) => {
+  const i = tier.indexOf(' (');
+  return i < 0 ? [tier, ''] : [tier.slice(0, i), tier.slice(i)];
+};
+---
+
+<div class="rate">
+  <table class="rate__table" role="table">
+    <caption class="t-label rate__caption">{caption}</caption>
+    <colgroup>
+      <col class="rate__c1" />
+      <col class="rate__c2" />
+      <col />
+    </colgroup>
+    <thead role="rowgroup">
+      <tr role="row">
+        {columns.map((c) => <th scope="col" role="columnheader" class="t-label">{c}</th>)}
+      </tr>
+    </thead>
+    <tbody role="rowgroup" data-reveal="stagger">
+      {
+        rows.map((r) => {
+          const [name, qualifier] = split(r.tier);
+          return (
+            <tr role="row">
+              <th scope="row" role="rowheader" class="t-title rate__tier">{name}{qualifier && <span class="t-small rate__qualifier">{qualifier}</span>}</th>
+              <td role="cell" class="rate__fee">
+                <Fig value={r.fee} class="t-figure rate__fig" />
+                <ScaleBar from={r.from} to={r.to} class="rate__bar" />
+              </td>
+              <td role="cell" class="rate__for">{r.bestFor}</td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+  <div class="rate__foot">
+    {Astro.slots.has('covers') && <div class="rate__covers t-small"><slot name="covers" /></div>}
+    <div class="rate__axis" aria-hidden="true">
+      {TICKS.map((t) => <span class="t-label" style={`--x:${t / MAX}`}>{t ? `₹${t}L` : '₹0'}</span>)}
+    </div>
+    <p class="rate__note t-small">{note}</p>
+  </div>
+</div>
+
+<style>
+  /* The widest figure ("₹50K – ₹1.5L") is 7.1em of the figure size, so the fee column needs 40%
+     from 64rem up; below that the rows stack. */
+  .rate {
+    --c1: 30%;
+    --c2: 40%;
+  }
+  .rate__table {
+    inline-size: 100%;
+    table-layout: fixed;
+  }
+  .rate__c1 {
+    inline-size: var(--c1);
+  }
+  .rate__c2 {
+    inline-size: var(--c2);
+  }
+  .rate__caption {
+    padding-block-end: var(--s-4);
+    caption-side: top;
+    text-align: start;
+  }
+  th,
+  td {
+    padding: var(--s-5) var(--s-5) var(--s-5) 0;
+    text-align: start;
+    vertical-align: baseline;
+    border-block-start: 1px solid var(--rule);
+  }
+  thead th {
+    padding-block: var(--s-3);
+    border-block-start-color: var(--rule-strong);
+  }
+  tbody tr:last-child > * {
+    border-block-end: 1px solid var(--rule);
+  }
+  .rate__tier {
+    color: var(--ivory);
+    transition: color var(--dur-ui) ease;
+  }
+  .rate__qualifier {
+    display: block;
+    margin-block-start: var(--s-1);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    color: var(--text-3);
+  }
+  .rate__fee :global(.rate__fig) {
+    display: block;
+    transition: color var(--dur-ui) ease;
+  }
+  .rate__for {
+    color: var(--text-2);
+  }
+
+  .rate__fee :global(.rate__bar) {
+    margin-block-start: var(--s-4);
+  }
+
+  /* Under the table, on the table's own columns: what the fee covers, the scale, the caveat. */
+  .rate__foot {
+    display: grid;
+    grid-template-columns: var(--c1) var(--c2) minmax(0, 1fr);
+    align-items: start;
+  }
+  .rate__axis {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    block-size: 2.25rem;
+    margin-inline-end: var(--s-5);
+  }
+  .rate__axis span {
+    position: absolute;
+    inset-block-start: 0.75rem;
+    inset-inline-start: calc(var(--x) * 100%);
+    translate: -50% 0;
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+  .rate__axis span:first-child {
+    translate: 0 0;
+  }
+  /* Each label hangs from a tick on the table's last rule. */
+  .rate__axis span::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -0.75rem;
+    inset-inline-start: 50%;
+    inline-size: 1px;
+    block-size: 0.4rem;
+    background: var(--rule-strong);
+  }
+  .rate__axis span:first-child::before {
+    inset-inline-start: 0;
+  }
+  .rate__covers {
+    grid-column: 1;
+    grid-row: 1;
+    padding: var(--s-3) var(--s-5) 0 0;
+    color: var(--text-2);
+  }
+  .rate__note {
+    grid-column: 3;
+    grid-row: 1;
+    padding-block-start: var(--s-3);
+    color: var(--text-3);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    tbody tr:hover .rate__tier,
+    tbody tr:hover :global(.rate__fig) {
+      color: var(--gold-100);
+    }
+    tbody tr:hover {
+      --bar: var(--gold-100);
+    }
+  }
+
+  /* Phones and tablets: each row becomes a labelled stack and the bar runs the full width under its
+     figure. The scale is left out: under the last row it sat too far from the first two bars to be
+     read against them, and the figure above each bar is the fact. Nothing is wider than the screen. */
+  @media (max-width: 63.99rem) {
+    .rate__table,
+    .rate__table thead,
+    .rate__table tbody,
+    .rate__table th,
+    .rate__table td,
+    .rate__caption {
+      display: block;
+      inline-size: auto;
+    }
+    thead tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 var(--s-3);
+      padding-block: var(--s-3);
+      border-block-start: 1px solid var(--rule-strong);
+    }
+    thead th + th::before {
+      content: '/';
+      margin-inline-end: var(--s-3);
+      color: var(--gold-700);
+    }
+    tbody tr {
+      display: grid;
+      gap: var(--s-2);
+      padding-block: var(--s-5);
+      border-block-start: 1px solid var(--rule);
+    }
+    tbody tr:last-child {
+      border-block-end: 1px solid var(--rule);
+    }
+    th,
+    td,
+    thead th,
+    tbody tr:last-child > * {
+      padding: 0;
+      border: 0;
+    }
+    .rate__qualifier {
+      margin-block-start: 0;
+    }
+    .rate__fee :global(.rate__bar) {
+      margin-block: var(--s-3) var(--s-1);
+    }
+    .rate__foot {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .rate__covers,
+    .rate__note {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .rate__axis {
+      display: none;
+    }
+    /* The two foot lines hang from the last rule, one small step apart. */
+    .rate__covers,
+    .rate__note {
+      padding: var(--s-2) 0 0;
+    }
+  }
+</style>

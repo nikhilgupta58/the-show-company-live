@@ -1,0 +1,636 @@
+/* The Show Company — base layer: fonts, reset, ground, type, layout, focus, load choreography.
+   Component styles live in the components. Spec: docs/redesign-2.0/DESIGN.md. */
+
+/* ── Fonts. Self-hosted subsets, SIL OFL 1.1 (licence texts sit next to the files).
+      ₹ (U+20B9) and tabular figures are in all three files. */
+/* All three faces are `swap`: the brand faces always appear, on any network (with `optional` a
+   first visit over a phone network kept Arial and Georgia for the whole page). The two roman
+   faces are preloaded by Base; a hero whose headline has an <em> preloads the italic itself. */
+@font-face {
+  font-family: 'Anek Latin';
+  src: url('../assets/fonts/anek-latin-var.woff2') format('woff2');
+  font-weight: 300 600;
+  font-stretch: 100% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('../assets/fonts/newsreader-var.woff2') format('woff2');
+  font-weight: 300 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('../assets/fonts/newsreader-italic-var.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+/* ── Fallback faces: what is on screen until the brand faces arrive, cut to their width so the
+      swap does not re-wrap a line. Each is a local system face with
+        size-adjust      = width of the site's own copy in the brand face / in the local face
+        ascent-override  = the brand ascent / size-adjust   (Chromium multiplies the overrides
+        descent-override = the brand descent / size-adjust   by size-adjust: measured)
+      Anek Latin 0.90 / 0.20 em, Newsreader 0.735 / 0.265 em (hhea = typo, line gap 0).
+      Measured on every text run of the ten pages at 1440 and 390 wide (2,010 runs).
+      Arial and Georgia: macOS, iOS, Windows. Roboto and Noto Serif: Android, which has neither
+      (so the first family is skipped there and the second one is used).
+      Anek's width axis has no local twin, so there is one face per width in use, chosen by the
+      element's own font-stretch. Newsreader's optical size makes display type wider than text
+      type, so its Light (the headline weight) has a phone value and a wider one from 48rem.
+      Safari applies size-adjust and ignores the three overrides; line boxes do not depend on them
+      here (every line-height is a number).
+      ponytail: Roboto / Noto Serif values are measured against the Google Fonts files, not on a
+      device; a platform with none of the four falls through to its system face, unadjusted. */
+@font-face {
+  font-family: 'Anek Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 300 600;
+  font-stretch: 100% 102%;
+  size-adjust: 93.8%;
+  ascent-override: 95.9%;
+  descent-override: 21.3%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 300 600;
+  font-stretch: 103% 108%;
+  size-adjust: 104.7%;
+  ascent-override: 86%;
+  descent-override: 19.1%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 300 600;
+  font-stretch: 109% 119%;
+  size-adjust: 110.7%;
+  ascent-override: 81.3%;
+  descent-override: 18.1%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 300 600;
+  font-stretch: 120% 125%;
+  size-adjust: 124.5%;
+  ascent-override: 72.3%;
+  descent-override: 16.1%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback Roboto';
+  src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+  font-weight: 300 600;
+  font-stretch: 100% 102%;
+  size-adjust: 94.1%;
+  ascent-override: 95.6%;
+  descent-override: 21.3%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback Roboto';
+  src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+  font-weight: 300 600;
+  font-stretch: 103% 108%;
+  size-adjust: 104.1%;
+  ascent-override: 86.5%;
+  descent-override: 19.2%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback Roboto';
+  src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+  font-weight: 300 600;
+  font-stretch: 109% 119%;
+  size-adjust: 111%;
+  ascent-override: 81.1%;
+  descent-override: 18%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Anek Fallback Roboto';
+  src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+  font-weight: 300 600;
+  font-stretch: 120% 125%;
+  size-adjust: 125.9%;
+  ascent-override: 71.5%;
+  descent-override: 15.9%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia');
+  font-weight: 300;
+  size-adjust: 92.2%;
+  ascent-override: 79.7%;
+  descent-override: 28.7%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia');
+  font-weight: 400;
+  size-adjust: 92.4%;
+  ascent-override: 79.5%;
+  descent-override: 28.7%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia Italic'), local('Georgia-Italic');
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 86.1%;
+  ascent-override: 85.4%;
+  descent-override: 30.8%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback Noto';
+  src: local('Noto Serif'), local('Noto Serif Regular'), local('NotoSerif-Regular');
+  font-weight: 300;
+  size-adjust: 86.2%;
+  ascent-override: 85.3%;
+  descent-override: 30.7%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback Noto';
+  src: local('Noto Serif'), local('Noto Serif Regular'), local('NotoSerif-Regular');
+  font-weight: 400;
+  size-adjust: 85.4%;
+  ascent-override: 86.1%;
+  descent-override: 31%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback Noto';
+  src: local('Noto Serif Italic'), local('NotoSerif-Italic');
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 84.3%;
+  ascent-override: 87.2%;
+  descent-override: 31.4%;
+  line-gap-override: 0%;
+}
+@media (min-width: 48rem) {
+  @font-face {
+    font-family: 'Newsreader Fallback';
+    src: local('Georgia');
+    font-weight: 300;
+    size-adjust: 96.5%;
+    ascent-override: 76.2%;
+    descent-override: 27.5%;
+    line-gap-override: 0%;
+  }
+  @font-face {
+    font-family: 'Newsreader Fallback Noto';
+    src: local('Noto Serif'), local('Noto Serif Regular'), local('NotoSerif-Regular');
+    font-weight: 300;
+    size-adjust: 90.5%;
+    ascent-override: 81.2%;
+    descent-override: 29.3%;
+    line-gap-override: 0%;
+  }
+}
+
+/* ── Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--font-sans);
+  scroll-padding-top: calc(var(--header-top) + var(--header-h) + 1.5rem);
+}
+/* Phones: the dock covers the bottom of the screen, so whatever receives focus is scrolled clear
+   of it (WCAG 2.4.11). */
+@media (max-width: 47.99rem) {
+  html {
+    scroll-padding-bottom: calc(var(--dock-zone) + 0.5rem);
+  }
+}
+/* The skip link's target takes focus (tabindex="-1"); it needs no ring of its own. */
+#main-content:focus {
+  outline: none;
+}
+body {
+  min-height: 100svh;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+/* Grain on the ground only: it sits behind everything, so no photograph is ever grained. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 0.93  0 0 0 0 0.82  0.24 0 0 0 -0.132'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-inline-size: 100%;
+}
+img,
+video {
+  block-size: auto;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--rule-strong);
+}
+table {
+  border-collapse: collapse;
+}
+:target {
+  scroll-margin-top: calc(var(--header-top) + var(--header-h) + 1.5rem);
+}
+/* The page does not scroll behind the open menu. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ── Type. Sentence case everywhere; only the name is set in capitals. */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 300;
+  text-wrap: balance;
+}
+h1,
+.t-h1 {
+  font-family: var(--font-serif);
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: 300;
+}
+h2,
+.t-h2 {
+  font-family: var(--font-serif);
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+  font-weight: 300;
+}
+h3,
+.t-h3 {
+  font-family: var(--font-serif);
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  font-weight: 400;
+}
+h4,
+.t-h4 {
+  font-family: var(--font-sans);
+  font-stretch: 112%;
+  font-size: var(--t-body);
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+/* The kicker: the one place capitals appear (the homepage H1, "THE SHOW COMPANY", in <Hero>'s
+   statement mode). Wide, medium, tracked out, in gold, at body size. */
+.t-kicker {
+  font-family: var(--font-wide);
+  font-stretch: 125%;
+  font-weight: 500;
+  font-size: var(--t-body);
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  color: var(--gold-text);
+}
+/* Row names, questions, channel values: one serif size between the lead and h3. */
+.t-title {
+  font-family: var(--font-serif);
+  font-size: var(--t-title);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.t-lead {
+  font-family: var(--font-serif);
+  font-size: var(--t-lead);
+  line-height: var(--lh-lead);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: var(--text-2);
+  max-inline-size: var(--measure-lead);
+  text-wrap: pretty;
+}
+.t-lead strong {
+  font-weight: 400;
+  color: var(--gold-text);
+}
+.t-body {
+  font-family: var(--font-sans);
+  font-stretch: 100%;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.t-small {
+  font-size: var(--t-small);
+  line-height: var(--lh-small);
+}
+.t-label {
+  font-family: var(--font-wide);
+  font-stretch: 125%;
+  font-weight: 500;
+  font-size: var(--t-label);
+  line-height: 1.3;
+  letter-spacing: var(--ls-label);
+  color: var(--stone-400);
+}
+.t-figure {
+  font-family: var(--font-wide);
+  font-stretch: 125%;
+  font-weight: 400;
+  font-size: var(--t-figure);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--gold-text);
+}
+/* The punchline voice: one <em> per display heading at most (Newsreader italic). Use it where the
+   sentence has a turn, never on the brand's name, never as decoration. */
+:is(h1, h2, .t-h1, .t-h2) em {
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.t-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--t-h3);
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+}
+p {
+  max-inline-size: var(--measure-body);
+  text-wrap: pretty;
+}
+strong,
+b {
+  font-weight: 600;
+}
+.tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.dim {
+  color: var(--text-2);
+}
+.dimmer {
+  color: var(--text-3);
+}
+.gold {
+  color: var(--gold-text);
+}
+
+/* Running copy: links are underlined, lists are ruled by space, not bullets-as-decoration. */
+.prose {
+  color: var(--text-2);
+}
+.prose > * + * {
+  margin-block-start: 1.1em;
+}
+.prose strong {
+  color: var(--text);
+}
+.prose a,
+.link {
+  color: var(--text);
+  text-decoration-line: underline;
+  transition: color var(--dur-ui) ease, text-decoration-color var(--dur-ui) ease;
+}
+.prose a:hover,
+.link:hover {
+  color: var(--gold-100);
+  text-decoration-color: var(--gold-300);
+}
+.prose ul,
+.prose ol {
+  padding-inline-start: 1.2em;
+}
+.prose li + li {
+  margin-block-start: 0.5em;
+}
+.prose li::marker {
+  color: var(--gold-600);
+}
+
+/* ── Layout */
+.wrap {
+  inline-size: min(100% - 2 * var(--margin), var(--max));
+  margin-inline: auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+/* Sections sit one --section apart: each brings half of it, top and bottom. */
+.section {
+  padding-block: calc(var(--section) / 2);
+}
+.section--tight {
+  padding-block: var(--block);
+}
+.flow > * + * {
+  margin-block-start: var(--flow, 1.25em);
+}
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster, var(--s-4));
+}
+/* The sticky split: a heading (and its lead) stays put on the left while a long list passes on
+   the right. Height = the taller column, not the sum, and it adds no scroll distance.
+   <div class="wrap split"><div class="split__aside">…</div><div class="split__main">…</div></div> */
+.split {
+  display: grid;
+  gap: var(--block) var(--gutter);
+}
+@media (min-width: 64rem) {
+  .split {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+  }
+  .split__aside {
+    grid-column: 1 / span 4;
+    position: sticky;
+    inset-block-start: calc(var(--header-top) + var(--header-h) + var(--s-5));
+  }
+  .split__main {
+    grid-column: 6 / -1;
+    min-inline-size: 0;
+  }
+}
+/* Three parallel items side by side instead of stacked: columns on a hairline. */
+.columns {
+  display: grid;
+  gap: var(--s-6) var(--gutter);
+}
+.columns > * {
+  padding-block-start: var(--s-5);
+  border-block-start: 1px solid var(--rule);
+}
+@media (min-width: 52rem) {
+  .columns {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+}
+
+/* ── Focus, selection, skip link */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+::selection {
+  background: var(--gold-300);
+  color: var(--black);
+}
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--header-top);
+  inset-inline-start: var(--margin);
+  z-index: var(--z-skip);
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--r-control);
+  background: var(--gold-300);
+  color: var(--black);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-300%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ── Load choreography ("curtain up"). CSS only, so it runs without JavaScript.
+      The hidden state exists only inside the keyframes: if an animation never fires,
+      the element is simply there. fill-mode is `backwards`, so once it ends nothing remains
+      applied and the element sits at exactly opacity 1 with no transform and no filter. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-enter]:not([data-enter='curtain']) {
+    animation: var(--enter, enter-rise) var(--enter-dur, var(--dur-reveal)) var(--ease-expo) backwards;
+    animation-delay: calc(var(--enter-delay, 0ms) + var(--i, 0) * var(--stagger));
+  }
+  [data-enter='fade'] {
+    --enter: enter-fade;
+  }
+  [data-enter='drop'] {
+    --enter: enter-drop;
+  }
+  [data-enter='rule'] {
+    --enter: enter-rule;
+    transform-origin: left center;
+  }
+  [data-enter='line'] {
+    --enter: enter-line;
+    --enter-dur: 1100ms;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Real page loads, cross-faded by the browser where it can. Analytics never notices. */
+  @view-transition {
+    navigation: auto;
+  }
+}
+/* A line that rises from behind its own baseline: wrap the line, animate the inner span. */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block-end: 0.12em;
+  margin-block-end: -0.12em;
+}
+.line > span {
+  display: block;
+}
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+}
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes enter-drop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.75rem, 0);
+  }
+}
+@keyframes enter-rule {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes enter-line {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "site": "https://www.theshowcompany.in",
+  "facts": {
+    "required": [
+      "+91 70602 93132",
+      "tel:+917060293132",
+      "contact@theshowcompany.in",
+      "wa.me/917060293132",
+      "instagram.com/the_show_company",
+      "Based in India",
+      "500+ shows",
+      "100+ artists",
+      "50+ cities",
+      "₹50,000–₹1.5 lakh",
+      "₹2–8 lakh",
+      "₹10 lakh",
+      "24 hours",
+      "48 hours",
+      "1–3 months",
+      "2–4 weeks",
+      "6–8 weeks",
+      "3–6 months",
+      "Adbhut Tripathi",
+      "Aryan Kaushik",
+      "Nikhil Gupta",
+      "VIGOR MENTORS",
+      "OML",
+      "Oriole Entertainment",
+      "Graphic Era",
+      "BITS Pilani"
+    ]
+  },
+  "pages": {
+    "/": {
+      "title": "The Show Company | Live Entertainment & Events India",
+      "description": "The Show Company is a pan-India live entertainment company: stand-up comedy, corporate events, college fests and artist booking. 500+ shows in 50+ cities.",
+      "h1": "THE SHOW COMPANY",
+      "primary": "the show company",
+      "secondary": [
+        "live entertainment company",
+        "stand-up comedy",
+        "corporate events",
+        "college fests",
+        "artist booking",
+        "event management",
+        "auditorium shows"
+      ],
+      "protected": [
+        "The Show Company",
+        "live entertainment"
+      ],
+      "minWords": 600
+    },
+    "/stand-up-comedy-shows/": {
+      "title": "Stand-Up Comedian Booking in India | The Show Company",
+      "description": "Stand-up comedian booking for colleges, corporates and auditoriums across India. A curated shortlist in 48 hours, full production, 500+ shows produced.",
+      "h1": "Stand-up comedian booking across India",
+      "primary": "stand up comedian booking",
+      "secondary": [
+        "book a comedian",
+        "book a stand-up comedian",
+        "hire a stand-up comedian",
+        "comedian for a corporate event",
+        "college comedy nights",
+        "auditorium specials",
+        "comedy nights"
+      ],
+      "protected": [
+        "stand-up comedy shows",
+        "book stand-up comedians"
+      ],
+      "minWords": 500
+    },
+    "/corporate-entertainment/": {
+      "title": "Corporate Event Entertainment in India | The Show Company",
+      "description": "Corporate event entertainment across India: stand-up comedy, live bands, DJs and emcees for annual days, offsites and galas. A curated line-up in 48 hours.",
+      "h1": "Corporate event entertainment that people remember",
+      "primary": "corporate event entertainment",
+      "secondary": [
+        "entertainment for corporate events",
+        "corporate event entertainment ideas",
+        "corporate entertainment in India",
+        "corporate stand-up comedy",
+        "annual days",
+        "offsites",
+        "live bands"
+      ],
+      "protected": [
+        "corporate event entertainment",
+        "corporate event entertainment in India",
+        "corporate entertainment",
+        "corporate event entertainers"
+      ],
+      "minWords": 500
+    },
+    "/college-fest-entertainment/": {
+      "title": "College Fest Artist Booking & Entertainment | The Show Company",
+      "description": "College fest artist booking with full production: comedians, EDM and DJ nights, singers and live bands. Written quotes, signed contracts, campuses across India.",
+      "h1": "College fest artist booking, produced properly",
+      "primary": "college fest artist booking",
+      "secondary": [
+        "college fest artists",
+        "artists for your college fest",
+        "comedy night",
+        "EDM night",
+        "pro-night",
+        "campus fests",
+        "student committees"
+      ],
+      "protected": [
+        "college fest artist booking",
+        "college fest entertainment",
+        "book artists for college fest"
+      ],
+      "minWords": 500
+    },
+    "/artist-booking/": {
+      "title": "Artist Booking Agency in India | The Show Company",
+      "description": "Artist booking agency for comedians, singers, DJs, live bands and emcees in India. 100+ artists booked, written quotes and contracts. Shortlist in 48 hours.",
+      "h1": "Artist booking agency: the artist you want, confirmed",
+      "primary": "artist booking agency",
+      "secondary": [
+        "book an artist",
+        "artist booking in India",
+        "artist management",
+        "stand-up comedians",
+        "singers and live bands",
+        "DJs",
+        "emcees and anchors"
+      ],
+      "protected": [
+        "artist booking agency",
+        "artist booking"
+      ],
+      "minWords": 500
+    },
+    "/comedian-booking-cost-india/": {
+      "title": "How Much Does It Cost to Book a Comedian in India? (2026)",
+      "description": "The cost to book a comedian in India: ₹50,000–₹1.5 lakh for emerging acts, ₹2–8 lakh for touring names, ₹10 lakh+ for headliners. Plus what moves the price.",
+      "h1": "How much does it cost to book a comedian in India?",
+      "primary": "cost to book a comedian in India",
+      "secondary": [
+        "comedian booking cost India",
+        "comedian booking price",
+        "comedian booking fees",
+        "how much does a stand-up comedian charge in India",
+        "stand-up comedian fees",
+        "fee bands"
+      ],
+      "protected": [
+        "comedian booking cost"
+      ],
+      "minWords": 550
+    },
+    "/event-management-company-india/": {
+      "title": "Event Management Company & Event Organisers in India",
+      "description": "Full-service event management company in India. Event organisers for corporate events, college fests and comedy shows: artists, production and crew, one team.",
+      "h1": "A full-service event management company built for India",
+      "primary": "event management company",
+      "secondary": [
+        "event organisers in India",
+        "corporate event management company",
+        "corporate event planners",
+        "event management services",
+        "live show organisers",
+        "full-service event management"
+      ],
+      "protected": [
+        "event management company in India",
+        "event organisers"
+      ],
+      "minWords": 600
+    },
+    "/about/": {
+      "title": "About The Show Company | Team, Partners & How We Work",
+      "description": "About The Show Company: the team behind 500+ live shows in 50+ Indian cities, our partners OML, Oriole Entertainment and VIGOR MENTORS, and how we work.",
+      "h1": "About The Show Company",
+      "primary": "about the show company",
+      "secondary": [
+        "live entertainment production company",
+        "Adbhut Tripathi",
+        "Aryan Kaushik",
+        "Nikhil Gupta",
+        "VIGOR MENTORS",
+        "Oriole Entertainment",
+        "Graphic Era"
+      ],
+      "minWords": 350
+    },
+    "/work/": {
+      "title": "Recent Shows and Live Event Work | The Show Company",
+      "description": "Recent shows produced by The Show Company: stand-up comedy, full-house auditorium nights, college fests and live concerts, in real photographs.",
+      "h1": "Recent shows, as they happened",
+      "primary": "recent shows",
+      "secondary": [
+        "BITS Pilani",
+        "stand-up comedy",
+        "auditorium",
+        "college fest",
+        "live concert"
+      ],
+      "minWords": 180
+    },
+    "/contact/": {
+      "title": "Contact The Show Company | Book a Show or an Artist",
+      "description": "Contact The Show Company to book a show or an artist: send an enquiry, call or WhatsApp +91 70602 93132, or email contact@theshowcompany.in. Reply in 24 hours.",
+      "h1": "Contact The Show Company",
+      "primary": "contact the show company",
+      "secondary": [
+        "book a show",
+        "enquiry",
+        "WhatsApp",
+        "+91 70602 93132",
+        "contact@theshowcompany.in"
+      ],
+      "minWords": 120
+    }
+  }
+}

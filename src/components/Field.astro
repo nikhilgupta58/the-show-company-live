@@ -1,0 +1,173 @@
+---
+// One form field: a visible label above an underlined control. No boxes: the underline is the
+// field (3.3 : 1 against the ground), and it turns gold from the left when the field has focus.
+// `name` is the EmailJS template variable. Do not rename one (site-contract.md §6).
+// Each field carries an empty error line (`#<id>-error`, already in aria-describedby): the form
+// script writes the message there and sets aria-invalid when a send is blocked.
+import Icon from './Icon.astro';
+interface Props {
+  id: string;
+  name: string;
+  label: string; // a trailing " *" is rendered as the required mark
+  type?: 'text' | 'email' | 'tel' | 'date' | 'select' | 'textarea';
+  required?: boolean;
+  placeholder?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'numeric' | 'tel' | 'email';
+  options?: { value: string; label: string }[];
+  prefix?: string;
+  hint?: string;
+  wide?: boolean;
+  rows?: number;
+  [key: string]: unknown;
+}
+const { id, name, label, type = 'text', required = false, placeholder, autocomplete, inputmode, options = [], prefix, hint, wide = false, rows = 4, ...rest } = Astro.props;
+const starred = label.endsWith(' *');
+const text = starred ? label.slice(0, -2) : label;
+const describedby = [hint ? `${id}-hint` : '', `${id}-error`].filter(Boolean).join(' ');
+---
+
+<div class:list={['field', { 'field--wide': wide, 'field--prefixed': Boolean(prefix) }]}>
+  <label class="field__label t-label" for={id}>{text}{starred && <Fragment>{' '}<span class="field__req" aria-hidden="true">*</span></Fragment>}</label>
+  <div class="field__box">
+    {prefix && <span class="field__prefix" aria-hidden="true">{prefix}</span>}
+    {
+      type === 'select' ? (
+        <Fragment>
+          <select class="field__control" id={id} name={name} required={required} autocomplete={autocomplete} aria-describedby={describedby} {...rest}>
+            {options.map((o) => (
+              <option value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <Icon name="chevron-down" class="field__chevron" />
+        </Fragment>
+      ) : type === 'textarea' ? (
+        <textarea class="field__control" id={id} name={name} rows={rows} required={required} placeholder={placeholder} autocomplete={autocomplete} aria-describedby={describedby} {...rest} />
+      ) : (
+        <input class="field__control" id={id} name={name} type={type} required={required} placeholder={placeholder} autocomplete={autocomplete} inputmode={inputmode} aria-describedby={describedby} {...rest} />
+      )
+    }
+    <span class="field__line" aria-hidden="true"></span>
+  </div>
+  {hint && <p class="field__hint t-small" id={`${id}-hint`}>{hint}</p>}
+  <p class="field__error t-small" id={`${id}-error`}></p>
+</div>
+
+<style>
+  .field {
+    display: grid;
+    gap: 0.35rem;
+    align-content: start; /* a neighbour with a hint must not stretch this field's rows */
+    min-inline-size: 0;
+  }
+  .field__label {
+    transition: color var(--dur-ui) ease;
+  }
+  .field__req {
+    color: var(--gold-300);
+  }
+  .field:focus-within .field__label {
+    color: var(--gold-200);
+  }
+  .field__box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .field__control {
+    inline-size: 100%;
+    block-size: 3.25rem; /* one height for every kind of control, the native date field included */
+    padding: 0;
+    border: 0;
+    border-block-end: 1px solid var(--field-rule);
+    border-radius: 0;
+    background: transparent;
+    font-size: var(--t-body); /* 17 to 18px. Never under 16px: iOS zooms the page on smaller inputs */
+    line-height: 1.4;
+    color: var(--ivory);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  textarea.field__control {
+    block-size: auto;
+    min-block-size: 7.5rem;
+    padding-block: 0.75rem;
+    resize: vertical;
+  }
+  .field__control::-webkit-datetime-edit {
+    padding: 0;
+  }
+  select.field__control {
+    padding-inline-end: 2rem;
+    cursor: pointer;
+  }
+  select.field__control option {
+    background: var(--ink-800);
+    color: var(--ivory);
+  }
+  .field__control::placeholder {
+    color: var(--stone-500);
+    opacity: 1;
+  }
+  .field__control:focus {
+    outline: none; /* the gold line below is the focus indicator, and it is 2px and 14:1 */
+  }
+  .field__control:-webkit-autofill {
+    -webkit-text-fill-color: var(--ivory);
+    box-shadow: 0 0 0 100px var(--black) inset;
+    caret-color: var(--ivory);
+  }
+  .field__line {
+    position: absolute;
+    inset: auto 0 0 0;
+    block-size: 2px;
+    background: var(--gold-200);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 420ms var(--ease-expo);
+    pointer-events: none;
+  }
+  /* :focus-within, so the line stays while focus is inside the control's own parts (the date
+     field's calendar button). */
+  .field__box:focus-within .field__line {
+    transform: scaleX(1);
+  }
+  .field__prefix {
+    position: absolute;
+    inset-inline-start: 0;
+    font-size: var(--t-body);
+    color: var(--gold-200);
+    pointer-events: none;
+  }
+  .field--prefixed .field__control {
+    padding-inline-start: 1.4rem;
+  }
+  .field :global(.field__chevron) {
+    position: absolute;
+    inset-inline-end: 0.15rem;
+    color: var(--gold-300);
+    pointer-events: none;
+  }
+  .field__hint {
+    color: var(--text-3);
+  }
+  /* Only after a blocked send (the script sets aria-invalid; the browser's :user-invalid is the
+     fallback), never while typing. The message under the field says what to do. */
+  .field__control:user-invalid,
+  .field__control[aria-invalid='true'] {
+    border-block-end-color: var(--coral);
+  }
+  .field__error {
+    color: var(--coral);
+  }
+  .field__error:empty {
+    display: none;
+  }
+  /* Windows High Contrast: the gold line is a background and vanishes, so focus gets an outline. */
+  @media (forced-colors: active) {
+    .field__control:focus {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+</style>

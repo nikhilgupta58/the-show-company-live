@@ -1,0 +1,103 @@
+---
+// The numbers band: a one-row ledger. Hairlines between cells; in each, the figure and, directly
+// under it, a sentence that says what was counted. Three or four figures, never more.
+// No count-up from zero (it advertises that the numbers are round) and no icons.
+// `size="sm"` is the compact strip for a hero (proof in the first screen): its figures are ivory,
+// because the first screen's gold belongs to the logo and the one button.
+// On a phone the cells sit two to a row (three for `sm`).
+interface Props {
+  items: readonly { value: string; label: string }[];
+  size?: 'md' | 'sm';
+  reveal?: boolean;
+  class?: string;
+}
+const { items, size = 'md', reveal = true, class: className } = Astro.props;
+---
+
+<dl class:list={['ledger', `ledger--${size}`, className]} style={`--n:${items.length}`} data-reveal={reveal ? 'stagger' : undefined}>
+  {
+    items.map((item) => (
+      <div class="ledger__cell">
+        <dt class="ledger__label">{item.label}</dt>
+        <dd class="ledger__value t-figure">{item.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .ledger {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-block: 1px solid var(--rule);
+  }
+  /* Figure on top, its label directly under it: the label is a <dt> first in the source (so the
+     pair reads "what was counted: how many"), placed second by the grid. */
+  .ledger__cell {
+    display: grid;
+    grid-template-rows: auto auto;
+    align-content: start;
+    row-gap: var(--s-2);
+    padding: var(--s-4) var(--s-4) var(--s-4) 0;
+  }
+  .ledger__cell:nth-child(even) {
+    border-inline-start: 1px solid var(--rule);
+    padding-inline-start: var(--s-4);
+  }
+  .ledger__cell:nth-child(n + 3) {
+    border-block-start: 1px solid var(--rule);
+  }
+  .ledger__value {
+    grid-row: 1;
+  }
+  .ledger__label {
+    grid-row: 2;
+    max-inline-size: 13.6em; /* 24ch of Anek Latin */
+    line-height: 1.4;
+    color: var(--text-2);
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) {
+    .ledger {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    }
+    .ledger__cell {
+      padding: var(--s-5) var(--s-5) var(--s-5) 0;
+    }
+    .ledger__cell + .ledger__cell {
+      border-block-start: 0;
+      border-inline-start: 1px solid var(--rule);
+      padding-inline-start: var(--s-5);
+    }
+  }
+
+  /* Compact (hero): always one row, small ivory figures. */
+  .ledger--sm {
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  }
+  .ledger--sm .ledger__cell {
+    row-gap: var(--s-1);
+    padding: var(--s-3) var(--s-3) var(--s-3) 0;
+  }
+  .ledger--sm .ledger__cell + .ledger__cell {
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--rule);
+    padding-inline-start: var(--s-3);
+  }
+  .ledger--sm .ledger__value {
+    font-size: var(--t-figure-sm);
+    color: var(--ivory);
+  }
+  .ledger--sm .ledger__label {
+    font-size: var(--t-small);
+    line-height: 1.35;
+  }
+  @media (min-width: 48rem) {
+    .ledger--sm .ledger__cell {
+      padding: var(--s-4) var(--s-4) var(--s-4) 0;
+    }
+    .ledger--sm .ledger__cell + .ledger__cell {
+      padding-inline-start: var(--s-4);
+    }
+  }
+</style>

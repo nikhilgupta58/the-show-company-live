@@ -1,0 +1,344 @@
+---
+// The homepage: the front door and the router. Five blocks, each handing the visitor to a dedicated
+// page, and the last one taking the enquiry itself: the shared enquiry form, as on /contact/
+// (owner, 2026-10-01: "we want this to be in homepage too"), under id="contact", so old /#contact
+// links land on the form. The questions sit in that block too, beside the form.
+// Photographs: micPalace is the hero; every other picture here is one the wall on /work/ does not
+// use, so a visitor going from Home to Work does not see the same frames twice.
+// Copy: written here from docs/redesign-2.0/seo/strategy.md (§4 voice, §5 facts ledger, §6.1 outline)
+// and docs/redesign-2.0/content/index.md. Title, description and H1 are frozen by build-tools/seo-targets.json.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import StatLedger from '../components/StatLedger.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ServiceRow from '../components/ServiceRow.astro';
+import Scroller from '../components/Scroller.astro';
+import Photo from '../components/Photo.astro';
+import TextLink from '../components/TextLink.astro';
+import FaqItem from '../components/FaqItem.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import NextBand from '../components/NextBand.astro';
+import { site, nextAfter } from '../data/site';
+import { photos } from '../data/photos';
+
+const title = 'The Show Company | Live Entertainment & Events India';
+const description =
+  'The Show Company is a pan-India live entertainment company: stand-up comedy, corporate events, college fests and artist booking. 500+ shows in 50+ cities.';
+const home = `${site.url}/`;
+const enquire = site.nav.cta.href;
+const next = nextAfter('/');
+
+// Who is the show for? One row per buyer. The row's name is the strategy's link phrase for that
+// page (§7.2), so each row says its destination once; the line is the page's own hero subhead,
+// cut to two lines on a phone (about 75 characters). Amounts keep their unit on one line.
+const routes = [
+  {
+    kicker: 'For companies',
+    name: 'Corporate event entertainment',
+    href: '/corporate-entertainment/',
+    text: 'Annual days, offsites, galas and client evenings: line-ups built to the brief.',
+  },
+  {
+    kicker: 'For colleges',
+    name: 'College fest artist booking',
+    href: '/college-fest-entertainment/',
+    text: 'Comedians, EDM nights, singers and bands, on a student-committee budget.',
+  },
+  {
+    kicker: 'For comedy nights',
+    name: 'Book a stand-up comedian',
+    href: '/stand-up-comedy-shows/',
+    text: 'We book the comedian, build the stage and fill the room.',
+  },
+  {
+    kicker: 'Just the artist',
+    name: 'Artist booking agency',
+    href: '/artist-booking/',
+    text: 'Comedians, singers, DJs, bands and emcees: real availability, real prices.',
+  },
+  {
+    kicker: 'The whole event',
+    name: 'Full-service event management',
+    href: '/event-management-company-india/',
+    text: 'One team for the artists, the production and the on-ground crew.',
+  },
+  {
+    kicker: 'The budget',
+    name: 'What a comedian costs',
+    href: '/comedian-booking-cost-india/',
+    text: 'Emerging ₹50,000–₹1.5 lakh, touring ₹2–8 lakh, headliners ₹10 lakh+.',
+  },
+];
+
+// Recent work: the house, a comedian, a campus, the rig. None of them is on the wall on /work/.
+// The window is 32rem wide at most: every master here still gives two device pixels per CSS
+// pixel at that size (the smallest, 1200px wide, is drawn 512px wide).
+const work = [
+  { photo: photos.fullHouseBalcony, caption: 'A full auditorium, balcony to stalls.' },
+  { photo: photos.standupWhiteTee, caption: 'Centre stage, mic in hand, mid-set.' },
+  { photo: photos.collegeTentAudience, caption: 'A campus fest crowd under the tent.' },
+  { photo: photos.emptyStageTruss, caption: 'An auditorium stage, rigged and lit.' },
+];
+
+// Founders and titles: strategy §5.6 (owner to confirm). Visible in the About block, mirrored in JSON-LD.
+const founders = [
+  { name: 'Adbhut Tripathi', role: 'Founder' },
+  { name: 'Aryan Kaushik', role: 'Co-Founder, Events & Artist Relations' },
+  { name: 'Nikhil Gupta', role: 'Co-Founder, Design & Tech' },
+];
+
+// FAQ: production's answers kept close to verbatim (strategy §2.1), with the ledger's corrections
+// (1–3 months for college shows; "world-class" removed) and one new question on cost.
+// The same strings feed the visible answers and the FAQPage JSON-LD, so the two cannot drift.
+const faqs = [
+  {
+    q: 'What types of events does The Show Company organise?',
+    a: "The Show Company specialises in college shows, corporate events, and large-scale auditorium performances. Our services include stand-up comedy shows, EDM and DJ nights, singing concerts, and live band performances. Whether it's a campus fest, corporate gala, or public auditorium event, we handle end-to-end production including artist booking, stage design, sound and lighting (through our partner VIGOR MENTORS), venue coordination, and post-event support.",
+  },
+  {
+    q: 'How do I book a show for my college or company?',
+    a: `You can reach us through the <a href="${enquire}">enquiry form</a> on this website, email us at <a href="${site.contact.email.href}">${site.contact.email.label}</a>, or <a href="${site.contact.phone.href}">call us directly</a>. For college shows, we recommend booking 1–3 months in advance. For corporate events, we can accommodate shorter timelines depending on availability. Our team will work with you to understand your requirements and create a customised proposal that fits your budget and vision.`,
+  },
+  {
+    q: 'What does it cost to book a show?',
+    a: 'Booking a stand-up comedian in India typically costs ₹50,000–₹1.5 lakh for an emerging club-circuit act, ₹2–8 lakh for an established touring name, and ₹10 lakh and above for a national headliner. Production and artist travel add ₹40,000–₹3 lakh, depending on venue size and city, and most mid-size events land at ₹2–8 lakh for a headline act with production. These ranges are indicative for 2026; our <a href="/comedian-booking-cost-india/">booking cost guide</a> explains what moves the price.',
+  },
+  {
+    q: 'What cities do you operate in?',
+    a: 'The Show Company is based in India and operates pan-India across 50+ cities. We have executed shows in Delhi, Mumbai, Bangalore, Chennai, Hyderabad, Kolkata, Dehradun, Jaipur, and numerous other cities. For college shows, we have worked with institutions including Graphic Era, DPS and BITS Pilani. We can also arrange international events on request.',
+  },
+  {
+    q: 'What is included in your event production services?',
+    a: 'Our end-to-end production includes artist booking and management, stage design and setup, sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, event management on the day, promotion support, and post-event wrap-up. We handle everything from concept to curtain call so you can focus entirely on enjoying the show.',
+  },
+  {
+    q: 'How far in advance should I book?',
+    a: 'For major events with headlining artists, we recommend 3–6 months in advance to secure the artists and venues you want. College fests typically require 1–3 months of lead time, and corporate events can sometimes be accommodated in as little as 2–4 weeks depending on complexity. The earlier you reach out, the better the artist selection and venue availability.',
+  },
+];
+const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+
+// Structured data: production's four blocks and @ids (every sub-page points at #organization),
+// updated per strategy §7.1.
+const org = `${home}#organization`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'EntertainmentBusiness',
+    '@id': org,
+    name: site.name,
+    alternateName: 'TSC',
+    url: home,
+    logo: { '@type': 'ImageObject', url: `${site.url}/assets/logo.png`, width: 605, height: 367 },
+    image: { '@type': 'ImageObject', url: `${site.url}${site.ogImage.path}`, width: site.ogImage.width, height: site.ogImage.height },
+    description:
+      'Entertainment production company specialising in stand-up comedy, college events, corporate shows, and auditorium performances across India.',
+    email: site.contact.email.label,
+    telephone: '+917060293132',
+    address: { '@type': 'PostalAddress', addressCountry: 'IN' },
+    areaServed: { '@type': 'Country', name: 'India' },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Live Entertainment Services',
+      itemListElement: ['Stand-up comedy shows', 'College fest entertainment', 'Corporate entertainment', 'Auditorium shows', 'Artist booking'].map((name) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name },
+      })),
+    },
+    sameAs: [site.contact.instagram.href],
+    founder: founders.map((p) => ({ '@type': 'Person', name: p.name, jobTitle: p.role, worksFor: { '@id': org } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${home}#website`,
+    name: site.name,
+    url: home,
+    description: 'The Show Company curates stand-up comedy, college fests, corporate events and auditorium productions across India.',
+    publisher: { '@id': org },
+    inLanguage: site.lang,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${home}#webpage`,
+    url: home,
+    name: title,
+    description,
+    isPartOf: { '@id': `${home}#website` },
+    about: { '@id': org },
+    primaryImageOfPage: { '@type': 'ImageObject', url: `${site.url}${site.ogImage.path}`, width: site.ogImage.width, height: site.ogImage.height },
+    breadcrumb: { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: home }] },
+    inLanguage: site.lang,
+    datePublished: '2026-03-06',
+    // The launch date is the build date (strategy §5.7).
+    dateModified: new Date().toISOString().slice(0, 10),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })),
+  },
+];
+---
+
+<Base title={title} description={description} path="/" jsonLd={jsonLd} og={{ imageAlt: 'The Show Company — Live Entertainment, Stand-Up Comedy & Events across India' }}>
+  {/* Statement mode: the logo has already said the name, so the H1 is the gold kicker and the
+      statement carries the display size. No ratioSmall: on a phone the window takes the height
+      the words leave, so photograph, statement, proof and dock share the first screen. */}
+  <Hero photo={photos.micPalace}>
+    <h1 slot="title">THE SHOW COMPANY</h1>
+    <p slot="statement" class="t-h1">We book the artist<br /> and produce<br /> <em>the whole show.</em></p>
+    {/* Two lines on a 360px phone (the ledger under it already says pan-India). */}
+    <p slot="lead" class="t-lead">Stand-up comedy, corporate events, college fests and auditorium shows.</p>
+    <Fragment slot="actions">
+      <Button href={enquire} icon="arrow-right">Book a show</Button>
+      <Button href="/work/" variant="outline">See recent work</Button>
+    </Fragment>
+    <StatLedger slot="proof" size="sm" reveal={false} items={site.stats} />
+  </Hero>
+
+  <section class="section" id="shows">
+    <div class="wrap">
+      <SectionHeader title="Who is the show for?" lead="Pick your kind of event. The same live entertainment company produces every one." />
+      <div data-reveal="stagger">
+        {
+          routes.map((r) => (
+            <ServiceRow href={r.href} name={r.name} kicker={r.kicker}>
+              {r.text}
+            </ServiceRow>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="recent-events">
+    <div class="wrap">
+      <SectionHeader title="Recent work" lead="Full auditoriums, stand-up and campus fests, in real photographs." />
+    </div>
+    {/* `sizes` is the window's width: <Photo> widens it itself where a picture is cropped by height.
+        The section's door sits on the row of the scroller's controls, not in the header. */}
+    <Scroller label="Photographs from recent shows" item="min(84vw, 32rem)">
+      {work.map((w) => <Photo photo={w.photo} ratio="3/2" sizes="(min-width: 38rem) 32rem, 84vw" widths={[480, 720, 960, 1280]} caption={w.caption} reveal />)}
+      <TextLink slot="aside" href="/work/">See all recent shows</TextLink>
+    </Scroller>
+  </section>
+
+  {/* The page's one statement header (no rule, display size): the line, then who says it. The
+      company in two sentences on the midline; the founders and the door to /about/ on the edge. */}
+  <section class="section" id="about">
+    <div class="wrap">
+      <SectionHeader variant="statement">
+        <Fragment slot="title">Great laughter brings people <em>together.</em></Fragment>
+      </SectionHeader>
+      <div class="about">
+        <p class="about__text dim" data-reveal>
+          The Show Company is a live entertainment production company based in India: one team and one point of contact, from the first enquiry to the final bow. You get a shortlist matched to your budget and audience within 48 hours of your brief, and a producer on the ground on show day, with our partners OML and Oriole Entertainment on the artist side and VIGOR MENTORS on sound and lighting.
+        </p>
+        <div class="about__credit" data-reveal data-reveal-delay="120">
+          <p class="t-small dim">Founded by Adbhut Tripathi, with co-founders Aryan Kaushik (Events &amp; Artist Relations) and Nikhil Gupta (Design &amp; Tech).</p>
+          <TextLink href="/about/">About the team</TextLink>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* The enquiry and the questions in one block. The form brings the 24-hour reply and
+      call · WhatsApp beside its send button, and steps the phone dock aside while it is on screen.
+      In the source the form comes before the questions, so on a phone the heading sits directly
+      over the form (and /#contact lands on it) and the questions follow; from 64rem the questions
+      take the left column under the heading, beside the form. */}
+  <section class="section" id="contact">
+    <div class="wrap book">
+      <div class="book__head">
+        <SectionHeader stack title="Tell us the date." lead="Then the act you have in mind and your budget. A shortlist or proposal follows within 48 hours of your brief." />
+      </div>
+      <div class="book__form">
+        <EnquiryForm />
+      </div>
+      <div class="book__faq">
+        <h3 class="t-label book__label">Before you book</h3>
+        <div id="faqs" data-reveal="stagger">
+          {
+            faqs.map((f) => (
+              <FaqItem question={f.q}>
+                <p set:html={f.a} />
+              </FaqItem>
+            ))
+          }
+        </div>
+        <TextLink href="/comedian-booking-cost-india/" class="book__guide">See the booking cost guide</TextLink>
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Comedians booked, and the whole night produced." photo={photos.standupStool} contact={false} />
+</Base>
+
+<style>
+  /* About: under the statement, the text hangs from the midline and the credit from the edge. */
+  .about {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+  }
+  .about__text {
+    max-inline-size: var(--measure-body);
+  }
+  .about__credit {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+    align-content: start;
+  }
+  @media (min-width: 60rem) {
+    .about {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+    .about__text {
+      grid-column: 7 / -1;
+      grid-row: 1;
+    }
+    .about__credit {
+      grid-column: 1 / span 4;
+      grid-row: 1;
+    }
+  }
+
+  /* The enquiry block: heading, form, questions. One column on a phone, in that order. From 64rem
+     the form hangs from the midline (as on /contact/) and the questions sit under the heading. */
+  .book {
+    display: grid;
+    gap: var(--block) var(--gutter);
+  }
+  .book__form {
+    min-inline-size: 0;
+  }
+  .book__label {
+    margin-block-end: var(--s-3);
+  }
+  .book__faq :global(.book__guide) {
+    margin-block-start: var(--s-4);
+  }
+  @media (min-width: 64rem) {
+    .book {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto 1fr;
+      align-items: start;
+    }
+    .book__head {
+      grid-column: 1 / span 5;
+      grid-row: 1;
+    }
+    .book__faq {
+      grid-column: 1 / span 5;
+      grid-row: 2;
+    }
+    .book__form {
+      grid-column: 7 / -1;
+      grid-row: 1 / span 2;
+    }
+  }
+</style>

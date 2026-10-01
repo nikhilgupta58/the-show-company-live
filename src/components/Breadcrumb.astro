@@ -1,0 +1,48 @@
+---
+// Breadcrumb for content pages: Home / Page. The separator is drawn by CSS (so it is not read
+// out), the current page is plain text. Pair it with BreadcrumbList JSON-LD on the same page.
+interface Props {
+  items: { label: string; href?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav class="crumbs t-small" aria-label="Breadcrumb">
+  <ol class="crumbs__list">
+    {
+      items.map((item, i) => (
+        <li aria-current={i === items.length - 1 ? 'page' : undefined}>{item.href && i < items.length - 1 ? <a href={item.href}>{item.label}</a> : item.label}</li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .crumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    color: var(--text-3);
+  }
+  .crumbs__list li + li::before {
+    content: '/';
+    margin-inline-end: 0.75rem;
+    color: var(--gold-700);
+  }
+  .crumbs__list a {
+    display: inline-block;
+    min-inline-size: 2.75rem; /* "Home" is still a full target */
+    padding-block: 0.7rem;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color var(--dur-ui) ease;
+  }
+  .crumbs__list li[aria-current] {
+    padding-block: 0.7rem;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .crumbs__list a:hover {
+      color: var(--gold-100);
+    }
+  }
+</style>

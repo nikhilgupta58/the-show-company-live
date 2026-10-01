@@ -1,0 +1,232 @@
+---
+// The page-ending device. Always the last block of <main>, on every page: one "Next" band that
+// names the next page at display size, shows one bright photograph from it, and is a single
+// large link. Pages form a ring, so no page is a dead end (DESIGN.md §10).
+// It replaces a closing CTA band: do not add one above it.
+// The contact routes are not repeated here: the header (or the phone dock) and the footer carry
+// them on every page. `contact` puts the old "Or talk to us now" row back; it is off by default.
+// On a phone the band is about a third of a screen: the name with the arrow beside it, then a
+// small window and the blurb.
+// The photograph is not curtained: it settles from 1.06 to 1 as the band scrolls in (scroll-driven
+// CSS where the browser has it; elsewhere it is simply there).
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import type { Photograph } from '../data/photos';
+import { site } from '../data/site';
+interface Props {
+  href: string;
+  title: string; // the destination's real page name
+  blurb?: string; // one line saying what is there (max ~48 characters)
+  photo: Photograph;
+  label?: string;
+  contact?: boolean; // true adds the "Or talk to us now" row (off by default)
+}
+const { href, title, blurb, photo, label = 'Next', contact = false } = Astro.props;
+const { contact: c, nav } = site;
+---
+
+<section class="next" aria-label="Where to go next">
+  <div class="wrap">
+    <div class="next__rule" aria-hidden="true" data-reveal="rule"></div>
+    <a class="next__link" href={href}>
+      <Photo photo={photo} ratio="3/2" sizes="(min-width: 56rem) 24vw, 8rem" widths={[240, 360, 480, 720, 960, 1280]} class="next__photo" />
+      <span class="next__copy">
+        <span class="t-label next__label">{label}</span>
+        <span class="next__title">{title}</span>
+        {blurb && <span class="next__blurb">{blurb}</span>}
+      </span>
+      <span class="next__go" aria-hidden="true"><Icon name="arrow-right" size="1.5rem" /></span>
+    </a>
+    {
+      contact && (
+        <div class="next__reach">
+          <p class="t-small dimmer">Or talk to us now</p>
+          <ul class="next__routes">
+            <li>
+              <a class="link" href={nav.cta.href}>{nav.cta.label}</a>
+            </li>
+            <li>
+              <a class="link tnum" href={c.phone.href}>Call {c.phone.label}</a>
+            </li>
+            <li>
+              <a class="link" href={c.whatsapp.href} target="_blank" rel="noopener noreferrer">{c.whatsapp.label}</a>
+            </li>
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .next {
+    padding-block: 0 var(--s-6);
+    background: linear-gradient(180deg, var(--ink-900), var(--black));
+  }
+  .next__rule {
+    block-size: 1px;
+    background: linear-gradient(90deg, var(--gold-200), var(--rule-strong) 30%, var(--rule) 80%);
+    transform-origin: left center;
+  }
+  /* Phone: label / name + arrow / small window + blurb. The copy wrapper dissolves so its three
+     parts can sit on the link's own grid. */
+  .next__link {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      'label label label'
+      'title title go'
+      'photo blurb blurb';
+    gap: var(--s-3) var(--s-4);
+    align-items: center;
+    padding-block: clamp(1.5rem, 1rem + 1.6vw, 2.5rem);
+    color: inherit;
+    text-decoration: none;
+  }
+  .next__copy {
+    display: contents;
+  }
+  .next__label {
+    grid-area: label;
+    color: var(--gold-300);
+  }
+  .next__title {
+    grid-area: title;
+    position: relative;
+    justify-self: start;
+    padding-block-end: 0.12em;
+    font-family: var(--font-serif);
+    font-size: var(--t-h1);
+    font-weight: 300;
+    line-height: var(--lh-h1);
+    letter-spacing: var(--ls-h1);
+    text-wrap: balance;
+  }
+  .next__link :global(.next__photo) {
+    grid-area: photo;
+    margin-block-start: var(--s-2);
+  }
+  .next__title::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    block-size: 2px;
+    background: var(--gold-200);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 700ms var(--ease-expo);
+  }
+  .next__blurb {
+    grid-area: blurb;
+    max-inline-size: 27.2em; /* 48ch of Anek Latin */
+    margin-block-start: var(--s-2);
+    font-size: var(--t-body);
+    color: var(--text-2);
+  }
+  .next__go {
+    grid-area: go;
+    display: grid;
+    place-items: center;
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    border-radius: var(--r-control);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+    color: var(--gold-200);
+    transition:
+      background-color var(--dur-ui) ease,
+      color var(--dur-ui) ease,
+      transform 520ms var(--ease-expo);
+  }
+  .next__link :global(.photo__img) {
+    transition: transform 1100ms var(--ease-expo);
+  }
+  .next__link:focus-visible .next__title::after {
+    transform: scaleX(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .next__link:hover .next__title::after {
+      transform: scaleX(1);
+    }
+    .next__link:hover .next__go {
+      background: var(--gold-300);
+      color: var(--black);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .next__link:hover :global(.photo__img) {
+        transform: scale(1.04);
+      }
+      .next__link:hover .next__go {
+        transform: translateX(0.5rem);
+      }
+    }
+  }
+  .next__reach {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2) var(--s-7);
+    padding-block-start: var(--s-3);
+    border-block-start: 1px solid var(--rule);
+  }
+  .next__routes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-6);
+  }
+  .next__routes a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 3rem;
+  }
+  @media (min-width: 56rem) {
+    .next__link {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas: none;
+      gap: var(--s-6) var(--gutter);
+    }
+    .next__link :global(.next__photo) {
+      grid-area: auto;
+      grid-column: 1 / span 3;
+      margin-block-start: 0;
+    }
+    .next__copy {
+      display: grid;
+      gap: var(--s-3);
+      grid-column: 4 / span 8;
+      padding-inline-start: var(--gutter);
+    }
+    .next__label,
+    .next__title,
+    .next__blurb {
+      grid-area: auto;
+      margin-block-start: 0;
+    }
+    .next__go {
+      grid-area: auto;
+      grid-column: 12;
+      justify-self: end;
+    }
+  }
+  /* The picture settles as the band arrives (the wrapper scales, so the hover zoom on the image
+     itself still works). */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .next__link :global(.photo__pic) {
+        animation: next-settle linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+    }
+  }
+  /* Windows High Contrast drops box-shadows: the arrow's ring becomes a border. */
+  @media (forced-colors: active) {
+    .next__go {
+      border: 1px solid ButtonText;
+    }
+  }
+  @keyframes next-settle {
+    from {
+      transform: scale(1.06);
+    }
+  }
+</style>

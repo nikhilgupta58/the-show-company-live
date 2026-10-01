@@ -1,0 +1,94 @@
+---
+// The direct routes as ruled rows: call, WhatsApp, email (and Instagram on the contact page).
+// Each row is one link: a small label, the value set large, an arrow at the outer edge.
+// Values come from src/data/site.ts; never type a number or an address into a page.
+// Use it in the homepage's compact `#contact` block and beside the form on /contact/.
+// It is also the route for a visitor without JavaScript, who cannot send the form.
+//
+//   <ChannelRows />                                               call, WhatsApp, email
+//   <ChannelRows channels={['call', 'whatsapp', 'email', 'instagram']} />
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+type Channel = 'call' | 'whatsapp' | 'email' | 'instagram';
+interface Props {
+  channels?: Channel[];
+  class?: string;
+}
+const { channels = ['call', 'whatsapp', 'email'], class: className } = Astro.props;
+const c = site.contact;
+const all = {
+  call: { label: 'Call', value: c.phone.label, href: c.phone.href, icon: 'phone', external: false, tnum: true },
+  whatsapp: { label: 'WhatsApp', value: c.phone.label, href: c.whatsapp.href, icon: 'whatsapp', external: true, tnum: true },
+  email: { label: 'Email', value: c.email.label, href: c.email.href, icon: 'mail', external: false, tnum: false },
+  instagram: { label: 'Instagram', value: c.instagram.handle, href: c.instagram.href, icon: 'instagram', external: true, tnum: false },
+} as const;
+---
+
+<ul class:list={['channels', className]} data-reveal="stagger">
+  {
+    channels.map((key) => {
+      const ch = all[key];
+      return (
+        <li>
+          <a class="chan" href={ch.href} target={ch.external ? '_blank' : undefined} rel={ch.external ? 'noopener noreferrer' : undefined}>
+            <Icon name={ch.icon} class="chan__icon" />
+            <span class="chan__words">
+              <span class="t-label">{ch.label}</span>
+              <span class:list={['chan__value', { tnum: ch.tnum }]}>{ch.value}</span>
+            </span>
+            <Icon name={ch.external ? 'arrow-up-right' : 'arrow-right'} class="chan__go" />
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .channels {
+    display: grid;
+    border-block-end: 1px solid var(--rule);
+  }
+  .chan {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-4);
+    min-block-size: 4.5rem;
+    padding-block: var(--s-3);
+    border-block-start: 1px solid var(--rule);
+    color: var(--ivory);
+    text-decoration: none;
+  }
+  .chan :global(.chan__icon) {
+    color: var(--gold-300);
+  }
+  .chan__words {
+    display: grid;
+    gap: 0.1rem;
+  }
+  .chan__value {
+    font-family: var(--font-serif);
+    font-size: var(--t-title);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.008em;
+    overflow-wrap: anywhere;
+    transition: color var(--dur-ui) ease;
+  }
+  .chan :global(.chan__go) {
+    color: var(--gold-300);
+    transition: transform 420ms var(--ease-expo);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .chan:hover .chan__value {
+      color: var(--gold-200);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .chan:hover :global(.chan__go) {
+        transform: translateX(0.3rem);
+      }
+    }
+  }
+</style>

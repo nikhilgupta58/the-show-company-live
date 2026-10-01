@@ -1,0 +1,19 @@
+---
+// The small line above a heading. Sentence case, wide, quiet grey: it carries a fact about the
+// block (a place, a date, a kind), never decoration. Leave it out when it would only repeat
+// the heading. Never set it in capitals: on this site only the name is.
+interface Props {
+  as?: 'p' | 'span' | 'div';
+  class?: string;
+}
+const { as: Tag = 'p', class: className } = Astro.props;
+---
+
+<Tag class:list={['t-label', 'eyebrow', className]}><slot /></Tag>
+
+<style>
+  .eyebrow {
+    display: block;
+    max-inline-size: none;
+  }
+</style>

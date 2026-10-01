@@ -1,0 +1,101 @@
+---
+// Partners, team, campuses or cities, set as typeset credits, not a logo wall: the company has
+// three mismatched logo files and no client logos, and a padded wall would be dishonest.
+// Every name should carry its descriptor (`role`): what the partner does, or the person's title,
+// in the words of the facts ledger (strategy §5.6), e.g. "Sound and lighting partner",
+// "Partner on the artist side", "Co-Founder, Events & Artist Relations". A bare acronym tells a
+// buyer nothing. Where the ledger gives no role, leave `role` out; do not invent one.
+// Say what the names are in the section heading ("Partners", not "Clients").
+// The grid never leaves one name alone on a row: the column count is chosen from the number of
+// names (6 → 3 + 3, 7 → 4 + 3, 8 → 4 + 4), and whatever gap is left on the last row is taken
+// by its last cell. Two to a row on a phone.
+interface Props {
+  items: readonly { name: string; role?: string }[];
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+const n = items.length;
+// Columns on a desktop (from 64rem) and a tablet (48 to 64rem): the most that leaves no orphan.
+const pick = (max: number) => {
+  if (n <= max) return Math.max(n, 1);
+  for (let c = max; c >= 2; c--) if (n % c === 0) return c;
+  for (let c = max; c >= 2; c--) if (n % c !== 1) return c;
+  return 2;
+};
+const lg = pick(5);
+const md = pick(3);
+// How many columns the last cell spans to close its row, at each width.
+const fill = (cols: number) => (n % cols === 0 ? 1 : cols - (n % cols) + 1);
+const style = `--cols-md:${md};--cols-lg:${lg};--fill-sm:${fill(2)};--fill-md:${fill(md)};--fill-lg:${fill(lg)}`;
+---
+
+<ul class:list={['credits', className]} style={style} data-reveal="stagger">
+  {
+    items.map((item) => (
+      <li class="credits__cell">
+        <span class="credits__name">{item.name}</span>
+        {item.role && <span class="credits__role t-small">{item.role}</span>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  /* A grid of hairline cells. Each cell draws its own top and left rule. The list is shifted left
+     by one cell padding and clipped back to the page edge, so the first column's names start on
+     the edge like everything else, its left rules are cut away, and only the rules between cells
+     remain. */
+  .credits {
+    --pad: var(--s-4);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-inline-start: calc(-1 * var(--pad) - 1px);
+    border-block-end: 1px solid var(--rule);
+    clip-path: inset(0 0 0 calc(var(--pad) + 1px));
+  }
+  .credits__cell {
+    display: grid;
+    align-content: start;
+    gap: var(--s-1);
+    padding: var(--s-4) var(--pad);
+    border-block-start: 1px solid var(--rule);
+    border-inline-start: 1px solid var(--rule);
+  }
+  .credits__cell:last-child {
+    grid-column: span var(--fill-sm);
+  }
+  .credits__name {
+    font-family: var(--font-sans);
+    font-stretch: 106%;
+    font-size: var(--t-lead);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+    color: var(--ivory);
+    overflow-wrap: anywhere;
+  }
+  .credits__role {
+    color: var(--text-2);
+    max-inline-size: 14.7em; /* 26ch of Anek Latin */
+  }
+  @media (min-width: 48rem) {
+    .credits {
+      --pad: var(--s-5);
+      grid-template-columns: repeat(var(--cols-md), minmax(0, 1fr));
+    }
+    .credits__cell {
+      padding-block: var(--s-5);
+    }
+    .credits__cell:last-child {
+      grid-column: span var(--fill-md);
+    }
+  }
+  @media (min-width: 64rem) {
+    .credits {
+      grid-template-columns: repeat(var(--cols-lg), minmax(0, 1fr));
+    }
+    .credits__cell:last-child {
+      grid-column: span var(--fill-lg);
+    }
+  }
+</style>

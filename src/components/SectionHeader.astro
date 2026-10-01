@@ -1,0 +1,121 @@
+---
+// Opens a section. Never centred. Three ways, so a page does not open every section alike:
+//   default              a lit rule, the heading hung on the left edge and (optionally) a lead
+//                        and one action hung from the midline
+//   variant="statement"  no rule, no lead: the heading alone at display size across the page.
+//                        For the one line a page wants remembered; once per page.
+//   figure="500+"        the heading on the left and one number (with `figureLabel` under it)
+//                        hung from the midline instead of a lead. For a section whose point is
+//                        a count. The number must be in the facts ledger.
+// Two type sizes only. Title is plain text by default; pass <Fragment slot="title"> for markup:
+// a <br>, a link, or one <em> (the italic "punchline" word, once per heading at most).
+import Rule from './Rule.astro';
+import Eyebrow from './Eyebrow.astro';
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  lead?: string;
+  level?: 2 | 3;
+  size?: 'h2' | 'h3';
+  rule?: boolean;
+  stack?: boolean; // one column: for a narrow place such as the left side of `.split`
+  variant?: 'default' | 'statement';
+  figure?: string; // e.g. "500+"
+  figureLabel?: string; // what was counted, e.g. "shows produced"
+  id?: string;
+  class?: string;
+}
+const { title, eyebrow, lead, level = 2, stack = false, variant = 'default', figure, figureLabel, id, class: className } = Astro.props;
+const statement = variant === 'statement';
+const size = statement ? 'h1' : (Astro.props.size ?? 'h2');
+const rule = Astro.props.rule ?? !statement;
+const H = `h${level}` as 'h2' | 'h3';
+const hasAside = !statement && (Boolean(lead) || Boolean(figure) || Astro.slots.has('default'));
+---
+
+<header class:list={['shead', { 'shead--solo': !hasAside, 'shead--stack': stack, 'shead--statement': statement }, className]}>
+  {rule && <Rule variant="lit" reveal />}
+  <div class="shead__grid">
+    <div class="shead__main">
+      {eyebrow && <Eyebrow class="shead__eyebrow">{eyebrow}</Eyebrow>}
+      <H class:list={[`t-${size}`, 'shead__title']} id={id} data-reveal="lines"><slot name="title">{title}</slot></H>
+    </div>
+    {
+      hasAside && (
+        <div class="shead__aside" data-reveal>
+          {figure && (
+            <p class="shead__figure">
+              <span class="t-figure">{figure}</span>
+              {figureLabel && <span class="shead__counted">{figureLabel}</span>}
+            </p>
+          )}
+          {lead && <p class="t-lead">{lead}</p>}
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .shead {
+    margin-block-end: clamp(1.5rem, 1rem + 2vw, 3rem);
+  }
+  .shead__grid {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+    padding-block-start: var(--s-5);
+  }
+  .shead__main :global(.shead__eyebrow) {
+    margin-block-end: var(--s-4);
+  }
+  .shead__title {
+    max-inline-size: 9.4em; /* 16ch of Newsreader at the h2 size; em, so the font swap cannot re-wrap it */
+  }
+  .shead--solo .shead__title {
+    max-inline-size: 13em; /* 22ch */
+  }
+  .shead__aside {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    justify-items: start;
+  }
+  .shead--stack {
+    margin-block-end: 0;
+  }
+  /* The statement: display size, the whole width, no rule above it. */
+  .shead--statement .shead__grid {
+    padding-block-start: 0;
+  }
+  .shead--statement .shead__title {
+    max-inline-size: 12em; /* 20ch at the h1 size */
+  }
+  /* The figure, with what was counted directly under it. */
+  .shead__figure {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .shead__counted {
+    color: var(--text-2);
+  }
+  @media (min-width: 60rem) {
+    .shead:not(.shead--stack) .shead__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      padding-block-start: var(--s-5);
+    }
+    .shead:not(.shead--stack) .shead__main {
+      grid-column: 1 / span 6;
+    }
+    .shead--solo:not(.shead--stack) .shead__main {
+      grid-column: 1 / span 9;
+    }
+    .shead--statement:not(.shead--stack) .shead__main {
+      grid-column: 1 / -1;
+    }
+    .shead:not(.shead--stack) .shead__aside {
+      grid-column: 7 / span 5;
+      padding-block-start: 0.5rem;
+    }
+  }
+</style>

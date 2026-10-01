@@ -1,0 +1,436 @@
+---
+// The page opening: words on black on the left edge, one photograph in its own window on the
+// right, at full brightness, throwing its light onto the page. No text on the photo, no
+// overlay, nothing dimmed. On a phone the photograph comes first, then the words.
+// The first screen should hold message, action and proof together.
+//
+// Two modes:
+//   Title mode (every inner page): the <h1> is the page's sentence, at display size.
+//     <Hero photo={photos.micPalace} size="compact" ratio="4/5" kicker="Stand-up comedy">
+//       <Breadcrumb slot="top" items={…} />
+//       <h1 slot="title">Book stand-up comedians across India</h1>
+//       <p slot="lead" class="t-lead">…</p>
+//       <Fragment slot="actions"><Button …/><Button variant="outline" …/></Fragment>
+//     </Hero>
+//     · `kicker`: one short gold line above the <h1>, in sentence case (what the page is about:
+//       a service, a place). Use it or the `eyebrow` slot, not both.
+//     · A long title (a display line over about 44 characters) is set one step down (72px at
+//       1440, still above every section heading) on a wider measure, so a nine-word title sits
+//       in three lines. Nothing to do. A kicker typed inside the <h1> (class `t-kicker`) is not
+//       counted: only the display line is measured.
+//   Statement mode, switched on by the `statement` slot: the statement carries the display size
+//   and the <h1> is set small above it, in one of two ways, chosen from how the <h1> is typed:
+//     · the name in capitals (the homepage): a gold kicker. The logo has already said the name;
+//       the statement says what the company does.
+//         <Hero photo={photos.micPalace}>
+//           <h1 slot="title">THE SHOW COMPANY</h1>
+//           <p slot="statement">We book the artists and produce the whole show.</p>   (≤ 45 characters)
+//           <p slot="lead" class="t-lead">…</p>
+//           <Fragment slot="actions">…</Fragment>
+//           <StatLedger slot="proof" size="sm" reveal={false} items={site.stats} />
+//         </Hero>
+//     · anything else (a question, a page's name): a quiet serif line at the lead size, which the
+//       statement answers. For answer-first guides: the question small, the answer at display size.
+//         <h1 slot="title">How much does it cost to book a comedian in India?</h1>
+//         <p slot="statement">From ₹50,000 to ₹10 lakh and above.</p>
+//   Do not pass an eyebrow or a kicker in statement mode.
+//
+// The display line (statement, or title) uses --t-hero: the h1 size, giving way on a short
+// screen (82px at 1440×900, 63 at 1366×768) so words, button and proof share the first view.
+// `caption`: one short line under the photograph (outside the frame, like every caption).
+// The `top` slot (the breadcrumb) sits at the head of the words' column, level with the top of
+// the photograph; the words hang from the column's foot.
+// One <em> in the headline preloads the italic face for you (it is in the first view).
+//
+// Phones (below 48rem):
+//   · The dock (Call · WhatsApp · Enquire) is the hero's action. The `actions` slot is not shown
+//     there (it stays in the page for keyboards and assistive tech, and appears when focused), so
+//     the screen has one solid gold thing and no control can sit under the dock. Do not put a
+//     link in `actions` that exists nowhere else on the page.
+//   · The hero is at least one screen tall and its foot keeps the dock's zone clear. The
+//     photograph's window takes the height the words leave: it grows on a tall phone and gives
+//     up height, down to 9.5rem (falling to 6rem on a screen 736px tall or less), so that message
+//     and proof stay above the dock. `ratioSmall` no longer holds the window to a minimum shape;
+//     it tells the browser how much picture to fetch and which way the curtain is drawn.
+//   · `positionSmall`: the photograph's focal point in that phone window (a portrait master in
+//     a low, wide window usually needs one), e.g. positionSmall="50% 40%".
+//   · Keep the phone copy to what one screen holds: kicker or breadcrumb, headline, a lead of
+//     three lines, the small ledger. Longer copy simply runs on below the fold.
+//
+// The light: <Followspot>, a soft amber pool on the hero's black ground (never over the
+// photograph, never in the header zone). Behaviour: src/client/motion.ts.
+//
+// The load choreography is built in (CSS only): the controls drop, the copy rises in order, the
+// curtain lifts off the photograph and its glow blooms. About 1.6s; never blocks reading.
+import Photo from './Photo.astro';
+import Followspot from './Followspot.astro';
+import type { Photograph } from '../data/photos';
+import italicUrl from '../assets/fonts/newsreader-italic-var.woff2?url';
+interface Props {
+  photo: Photograph;
+  alt?: string;
+  ratio?: '2/3' | '4/5' | '3/2';
+  // The window's shape below 48rem, for picture sizes and the curtain (see above). Left out:
+  // 3/2 for a `full` hero, 1/1 for `compact`.
+  ratioSmall?: '1/1' | '4/5' | '3/2' | '16/9';
+  // The focal point below 48rem (object-position). Left out: the photograph's own.
+  positionSmall?: string;
+  // `full` fills the first screen (the homepage). `compact` is about 0.7 of a screen: use it on
+  // service and guide pages so the page stays inside its length budget (pair it with ratio 4/5 or 3/2).
+  size?: 'full' | 'compact';
+  kicker?: string;
+  caption?: string;
+  class?: string;
+}
+const { photo, alt, ratio = '2/3', size = 'full', kicker, caption, positionSmall, class: className } = Astro.props;
+const ratioSmall = Astro.props.ratioSmall ?? (size === 'full' ? '3/2' : '1/1');
+const hasStatement = Astro.slots.has('statement');
+const hasTop = Astro.slots.has('top');
+// The headline is rendered here (once) so its own text can choose the type size, the statement
+// style and whether the italic face is preloaded.
+const title = Astro.slots.has('title') ? await Astro.slots.render('title') : '';
+const statement = hasStatement ? await Astro.slots.render('statement') : '';
+const text = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&[#a-z0-9]+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+const titleText = text(title);
+// The display line: the <h1> without a kicker typed inside it.
+const displayText = text(title.replace(/<(\w+)\b[^>]*\bclass="[^"]*\bt-kicker\b[^"]*"[^>]*>[\s\S]*?<\/\1>/g, ' '));
+const long = !hasStatement && displayText.length > 44;
+const question = hasStatement && titleText !== titleText.toUpperCase();
+const italic = /<em[\s>]/.test(title + statement);
+---
+
+{/* `preload` is allowed in the body: the italic is asked for as soon as the hero is parsed. */}
+{italic && <link rel="preload" as="font" type="font/woff2" href={italicUrl} crossorigin />}
+<header class:list={['hero', `hero--${ratio.replace('/', 'x')}`, `hero--${size}`, { 'hero--statement': hasStatement, 'hero--question': question, 'hero--long': long }, className]} data-hero>
+  <div class="hero__grid wrap">
+    <Followspot class="hero__stage" />
+    <div class:list={['hero__copy', { 'hero__copy--top': hasTop }]}>
+      {
+        hasTop && (
+          <div class="hero__top">
+            <slot name="top" />
+          </div>
+        )
+      }
+      <slot name="eyebrow" />
+      {kicker && !hasStatement && <p class="hero__kicker">{kicker}</p>}
+      <Fragment set:html={title} />
+      {
+        hasStatement && (
+          <div class="hero__statement">
+            <Fragment set:html={statement} />
+          </div>
+        )
+      }
+      <slot name="lead" />
+      {
+        Astro.slots.has('actions') && (
+          <div class="hero__actions">
+            <slot name="actions" />
+          </div>
+        )
+      }
+      <slot name="proof" />
+    </div>
+    <Photo
+      class="hero__photo"
+      photo={photo}
+      alt={alt}
+      ratio={ratio}
+      ratioSmall={ratioSmall}
+      positionSmall={positionSmall}
+      sizes="(min-width: 60rem) 42vw, (min-width: 48rem) 40vw, 100vw"
+      caption={caption}
+      priority
+      enter
+      glow
+    />
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--header-zone) var(--block);
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-areas: 'photo' 'copy';
+    gap: var(--s-5) var(--gutter);
+  }
+  .hero :global(.hero__photo) {
+    grid-area: photo;
+  }
+  .hero__copy {
+    grid-area: copy;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--s-4);
+    align-content: end;
+    min-inline-size: 0;
+  }
+  /* Measures are in em, not ch: a ch is the width of the fallback face's "0" until the brand face
+     arrives, so a ch measure would re-wrap the headline at the swap. 9em is 15ch of Newsreader. */
+  .hero__copy :global(h1) {
+    max-inline-size: 9em;
+    font-size: var(--t-hero);
+  }
+  /* A long title: one step down, a wider measure, three lines rather than five. */
+  .hero--long .hero__copy :global(h1) {
+    max-inline-size: 12em;
+    font-size: var(--t-hero-long);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+  }
+  /* The kicker (title mode): the page's subject, in gold, wide and medium, sentence case. */
+  .hero__kicker {
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: var(--t-body);
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    color: var(--gold-text);
+  }
+  /* ── Statement mode: the name as a gold kicker, the statement at display size. */
+  .hero--statement .hero__copy :global(h1) {
+    max-inline-size: none;
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: var(--t-body);
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    color: var(--gold-text);
+  }
+  /* …unless the <h1> is a sentence (a question, a page's name), not the name in capitals: then
+     it is the quiet serif line the statement answers. No gold: the statement's own is enough. */
+  .hero--question .hero__copy :global(h1) {
+    max-inline-size: var(--measure-lead);
+    font-family: var(--font-serif);
+    font-stretch: normal;
+    font-weight: 400;
+    font-size: var(--t-lead);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--text-2);
+  }
+  .hero__statement > :global(*) {
+    max-inline-size: 9em;
+    font-family: var(--font-serif);
+    font-size: var(--t-hero);
+    font-weight: 300;
+    line-height: var(--lh-h1);
+    letter-spacing: var(--ls-h1);
+    color: var(--ivory);
+    text-wrap: balance;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+    padding-block-start: var(--s-1);
+  }
+  .hero__copy :global(.ledger) {
+    margin-block-start: var(--s-3);
+  }
+
+  /* ── The light on the stage. Here the stage is the copy's own cell: it starts below the header
+        zone and stops short of the photograph, so the pool can never sit behind the logo or over
+        the picture. (<Followspot> draws it; this only places it in the grid.) */
+  .hero :global(.hero__stage) {
+    grid-area: copy;
+    position: relative;
+    inset: auto;
+    z-index: 0;
+  }
+
+  /* ── Phones: one screen, and the dock is the action. */
+  @media (max-width: 47.99rem) {
+    /* At least one screen; the foot is the dock's zone, so nothing sits under the dock. */
+    .hero {
+      display: grid;
+      min-block-size: 100svh;
+      padding-block-end: var(--dock-zone);
+    }
+    /* The photograph's row takes the height the words leave. The window fills it: it grows on a
+       tall phone and gives up height on a short one, down to a strip, so the words and the proof
+       stay above the dock. */
+    .hero__grid {
+      grid-template-rows: minmax(min-content, 1fr) auto;
+      row-gap: var(--s-4);
+    }
+    .hero :global(.hero__photo) {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+    /* The floor: 9.5rem on a screen 792px tall or more, falling to 6rem at 736px and under (an
+       iPhone SE, or any phone with its browser bars showing). */
+    .hero :global(.hero__photo .photo__window) {
+      aspect-ratio: auto;
+      min-block-size: 9.5rem;
+      min-block-size: clamp(6rem, 100svh - 40rem, 9.5rem);
+    }
+    /* The breadcrumb's own tap padding already parts it from the headline. */
+    .hero__top {
+      margin-block-end: calc(-1 * var(--s-3));
+    }
+    /* The actions: in the page, not on the screen (1px, like a skip link), until focused. */
+    .hero__actions {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      padding: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .hero__actions:focus-within {
+      position: static;
+      inline-size: auto;
+      block-size: auto;
+      overflow: visible;
+    }
+    .hero :global(.hero__stage) {
+      -webkit-mask-image: radial-gradient(farthest-side at 40% 40%, #000 45%, transparent 100%);
+      mask-image: radial-gradient(farthest-side at 40% 40%, #000 45%, transparent 100%);
+    }
+    .hero :global(.hero__stage .spot) {
+      top: 22%;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__copy > :global(:not(:has([data-enter]))) {
+      animation: enter-rise var(--dur-reveal) var(--ease-expo) backwards;
+      animation-delay: calc(160ms + var(--n, 0) * 90ms);
+    }
+    .hero__copy > :global(:nth-child(2)) {
+      --n: 1;
+    }
+    .hero__copy > :global(:nth-child(3)) {
+      --n: 2;
+    }
+    .hero__copy > :global(:nth-child(4)) {
+      --n: 3;
+    }
+    .hero__copy > :global(:nth-child(5)) {
+      --n: 4;
+    }
+    .hero__copy > :global(:nth-child(6)) {
+      --n: 5;
+    }
+    .hero__copy > :global(:nth-child(7)) {
+      --n: 6;
+    }
+  }
+
+  /* ── From 48rem the hero splits: words on three fifths, the photograph on two. */
+  @media (min-width: 48rem) {
+    .hero__grid {
+      grid-template-areas: 'copy photo';
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      column-gap: clamp(1.5rem, 5vw, 7rem);
+      align-items: end;
+    }
+    /* The words' column is as tall as the photograph: the breadcrumb (the `top` slot) sits at its
+       head, level with the top of the picture, and everything else hangs from its foot. The first
+       row takes the slack between them. */
+    .hero__copy,
+    .hero :global(.hero__stage) {
+      align-self: stretch;
+    }
+    .hero__copy--top {
+      grid-template-rows: 1fr;
+    }
+    .hero__top {
+      align-self: start;
+    }
+  }
+  /* 48 to 60rem: the window keeps the desktop shape and focal point (the small ones are for
+     stacked phones), and the display line is sized to the narrower column so it still sits in
+     three lines. */
+  @media (min-width: 48rem) and (max-width: 59.99rem) {
+    .hero :global(.hero__photo .photo__window) {
+      aspect-ratio: var(--ratio);
+    }
+    .hero :global(.hero__photo .photo__img) {
+      object-position: var(--pos);
+    }
+    .hero__copy :global(h1),
+    .hero__statement > :global(*) {
+      font-size: min(var(--t-hero), 6vw);
+    }
+  }
+  /* The name (the kicker) keeps its distance from the logo above it. */
+  @media (min-width: 48rem) {
+    .hero--statement:not(.hero--question) .hero__copy {
+      padding-block-start: var(--s-6);
+    }
+  }
+
+  @media (min-width: 60rem) {
+    /* A full screen, but never taller than a landscape screen of the same width (a portrait
+       tablet or monitor gets a hero of three quarters of its width, not a mostly empty one). */
+    .hero {
+      --hero-h: min(100svh, 75vw);
+      min-block-size: var(--hero-h);
+      display: grid;
+      padding-block-end: var(--s-6);
+    }
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    /* The window is sized by the screen's height, so the whole picture is in the first view.
+       A caption takes its line from the window, not from the screen. */
+    .hero :global(.hero__photo) {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      block-size: min(var(--hero-h) - var(--header-zone) - var(--s-6), 84rem);
+      aspect-ratio: 2 / 3;
+    }
+    .hero--4x5 :global(.hero__photo) {
+      aspect-ratio: 4 / 5;
+    }
+    .hero--3x2 :global(.hero__photo) {
+      block-size: auto;
+      inline-size: min(48vw, 52rem);
+      aspect-ratio: 3 / 2;
+    }
+    /* Compact: content-high, with a window of about two thirds of the screen. */
+    .hero--compact {
+      min-block-size: 0;
+    }
+    .hero--compact :global(.hero__photo) {
+      block-size: min(70svh - var(--header-zone), 40rem);
+    }
+    /* A landscape window is lower than the words beside it: it sits on their middle, not at their
+       foot under a block of empty ground. */
+    .hero--compact.hero--3x2 :global(.hero__photo) {
+      block-size: auto;
+      inline-size: min(40vw, 40rem);
+      align-self: center;
+    }
+    .hero :global(.hero__photo .photo__window) {
+      aspect-ratio: auto;
+    }
+    .hero__copy {
+      gap: var(--s-5);
+      padding-block-end: var(--s-2);
+    }
+  }
+  /* 60 to 75rem (small laptops, tablets on their side): the window gives the words more room, so
+     the display line keeps three lines. */
+  @media (min-width: 60rem) and (max-width: 74.99rem) {
+    .hero--full:not(.hero--3x2) :global(.hero__photo) {
+      block-size: min(var(--hero-h) - var(--header-zone) - var(--s-6), 50vw);
+    }
+  }
+</style>

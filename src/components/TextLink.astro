@@ -1,0 +1,76 @@
+---
+// A standalone text link: the door out of a block. The underline is always there (so it reads
+// as a link without colour) and redraws from the left on hover. Give it an arrow only when it
+// leaves the page or the section; one arrow link per section at most.
+// Links inside running copy need no component: put them in `.prose`, or add class="link".
+import Icon, { type IconName } from './Icon.astro';
+interface Props {
+  href: string;
+  icon?: IconName | false;
+  size?: 'md' | 'lg';
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, icon = 'arrow-right', size = 'md', class: className, ...rest } = Astro.props;
+---
+
+<a class:list={['tlink', `tlink--${size}`, className]} href={href} {...rest}>
+  <span class="tlink__label"><slot /></span>
+  {icon && <Icon name={icon} class="tlink__icon" size="1.1em" />}
+</a>
+
+<style>
+  .tlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    min-block-size: 2.75rem;
+    font-family: var(--font-sans);
+    font-stretch: 112%;
+    font-weight: 500;
+    font-size: var(--t-ui);
+    line-height: 1.2;
+    color: var(--ivory);
+    text-decoration: none;
+  }
+  .tlink--lg {
+    font-size: var(--t-lead);
+    font-weight: 400;
+  }
+  .tlink__label {
+    position: relative;
+    padding-block-end: 0.3em;
+  }
+  .tlink__label::before,
+  .tlink__label::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 1px;
+    background: var(--rule-strong);
+  }
+  .tlink__label::after {
+    background: var(--gold-200);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 420ms var(--ease-expo);
+  }
+  .tlink :global(.tlink__icon) {
+    color: var(--gold-300);
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tlink:hover .tlink__label::after {
+      transform: scaleX(1);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .tlink:hover :global(.tlink__icon) {
+        transform: translateX(0.25em);
+      }
+    }
+  }
+  .tlink:focus-visible .tlink__label::after {
+    transform: scaleX(1);
+  }
+</style>

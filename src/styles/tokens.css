@@ -1,0 +1,151 @@
+/* The Show Company — design tokens (Redesign 2.0).
+   Spec and rationale: docs/redesign-2.0/DESIGN.md. Change a value here, not in a component. */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Black, built. #050505 is the brand black and the page ground. The steps above it are
+        warm and tiny (1.03 / 1.08 / 1.17 : 1), so they read as depth, never as grey. */
+  --black: #050505;
+  --ink-900: #0c0a08;
+  --ink-800: #14110d;
+  --ink-700: #1e1912;
+
+  /* ── Gold, taken from the logo's own metal (median #CAA94A, hue 89) at about two thirds of its
+        chroma, so the system's gold and the logo read as one material. Contrast on #050505:
+        50 18.6 · 100 16.4 · 200 14.2 · 300 12.0 · 400 8.9 · 500 7.3 · 600 6.0 · 700 3.9 (marks only). */
+  --gold-50: #fff4da;
+  --gold-100: #f9e5b9;
+  --gold-200: #ecd59e; /* gold as text */
+  --gold-300: #e2c37b; /* the solid button; a black label on it is 12.0 : 1 */
+  --gold-400: #c9a662; /* rules and marks */
+  --gold-500: #ba9554;
+  --gold-600: #ab8546; /* the smallest gold text */
+  --gold-700: #85683b;
+  --gold-800: #5e4a2b;
+  --gold-900: #2f261a;
+  /* Light only: glows and gradients, never a flat fill and never text. */
+  --amber: #f2b24a;
+  --flare: #ffd98a;
+
+  /* ── Ink on black. Contrast on #050505: 18.1 / 12.4 / 9.0 / 6.6 : 1. */
+  --ivory: #f7f1e5;
+  --stone-300: #d2c9b8;
+  --stone-400: #b5ab98;
+  --stone-500: #9c927f;
+  --coral: #ff8f73; /* form errors only */
+
+  /* ── Roles */
+  --ground: var(--black);
+  --surface: var(--ink-800);
+  --surface-2: var(--ink-700);
+  --text: var(--ivory);
+  --text-2: var(--stone-300);
+  --text-3: var(--stone-500);
+  --gold-text: var(--gold-200);
+  --rule: rgb(201 166 98 / 0.22); /* gold-400 */
+  --rule-strong: rgb(201 166 98 / 0.46);
+  --rim: rgb(201 166 98 / 0.26); /* the 1px ring on islands and outline controls */
+  --field-rule: rgb(201 166 98 / 0.56); /* a form field's underline: its only visible edge, so 3.3 : 1 (WCAG 1.4.11) */
+  --focus: var(--gold-100);
+
+  /* ── Type families. Anek Latin: structure (names, labels, numbers, UI, body).
+        Newsreader: voice (headlines, statements, questions, quotes). */
+  /* After each brand face: its width-matched fallback (Arial or Georgia), then the Android one
+     (Roboto or Noto Serif), then the system. base.css cuts them. --font-wide is the same stack:
+     the wide voice is font-stretch 125%, and the fallback family has a face for it. */
+  --font-sans: 'Anek Latin', 'Anek Fallback', 'Anek Fallback Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-wide: var(--font-sans);
+  --font-serif: 'Newsreader', 'Newsreader Fallback', 'Newsreader Fallback Noto', Georgia, 'Times New Roman', serif;
+
+  /* ── Type scale, fluid from 360 to 1600. Nine sizes, and every component uses them (no
+        ad hoc sizes). Values at 360 / 1440 in the comments. Figures share the heading sizes. */
+  --t-h1: clamp(2.5rem, 1.6rem + 3.9vw, 5.5rem); /* 40 / 82 — display: statements, page titles, the next page */
+  --t-h2: clamp(2rem, 1.4rem + 2.6vw, 3.75rem); /* 32 / 60 */
+  --t-h3: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem); /* 24 / 36 */
+  --t-title: clamp(1.375rem, 1.2rem + 0.75vw, 1.875rem); /* 22 / 30 — row names, questions, channel values */
+  --t-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); /* 20 / 26 */
+  --t-body: clamp(1.0625rem, 1.02rem + 0.15vw, 1.125rem); /* 17 / 18 — also the kicker */
+  --t-ui: 1rem; /* 16 — buttons, navigation, tabs */
+  --t-small: 0.9375rem; /* 15 — the floor for running text */
+  --t-label: 0.8125rem; /* 13 — labels only, wide and medium */
+  --t-figure: var(--t-h2); /* 32 / 60 */
+  --t-figure-sm: var(--t-h3); /* 24 / 36 */
+  /* The display line in a hero (statement or title). The h1 size, but it gives way on a short
+     screen so the words, the button and the proof share the first view: 82px at 1440×900,
+     63 at 1366×768, 56 at 1280×720, never under 40. */
+  --t-hero: min(var(--t-h1), max(2.5rem, 15.2svh - 3.35rem));
+  /* A long hero title (over about 44 characters): a step of its own between h1 and h2, so the
+     page's <h1> still outranks its section headings. 72px at 1440×900 and 1920×1080 (h2 is 60),
+     63 at 1366×768, 56 at 1280×720; on a phone it is the h2 size (32 to 33). */
+  --t-hero-long: min(var(--t-hero), 4.5rem, max(var(--t-h2), 0.9rem + 4.1vw));
+
+  --lh-h1: 1.04;
+  --lh-h2: 1.08;
+  --lh-h3: 1.16;
+  --lh-lead: 1.42;
+  --lh-body: 1.62;
+  --lh-small: 1.5;
+
+  --ls-h1: -0.022em;
+  --ls-h2: -0.018em;
+  --ls-h3: -0.01em;
+  --ls-label: 0.04em;
+
+  --measure-body: 30em; /* about 66 characters of Anek Latin */
+  /* In em, not ch: a ch is the width of the fallback face's "0" until the brand face arrives, so
+     a ch measure re-wraps at the swap. 24.5em is 44ch of Newsreader at the lead size. */
+  --measure-lead: 24.5em;
+
+  /* ── Space. One 4px scale; sections breathe on a fluid step. */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --section: clamp(4rem, 2.8rem + 4.6vw, 7rem); /* between ideas: 64 / 111 */
+  --block: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem); /* between parts of one idea: 28 / 51 */
+
+  /* ── Grid. One edge: nav, copy and pictures all start on --margin. */
+  --margin: clamp(1.25rem, 0.35rem + 4vw, 4.5rem); /* 20 / 63 / 72 */
+  --gutter: clamp(1rem, 0.6rem + 1.4vw, 2rem);
+  --max: 100rem;
+
+  /* ── Shape. Frames are square, controls are round. Nothing in between. */
+  --r-frame: 0px;
+  --r-control: 999px;
+  --hair: 1px;
+
+  /* ── Header. The logo (605×367 artwork, never restyled) stands top left on the page;
+        the controls are fixed islands of height --header-h. --header-zone is the strip of plain
+        ground every page keeps at its top for them. */
+  --header-top: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+  --header-h: 3.5rem;
+  --logo-w: clamp(7.25rem, 6.6rem + 1.3vw, 8.25rem); /* 116 / 125 / 132: sharp up to 3x; COMPANY stays about 9px tall */
+  --logo-h: calc(var(--logo-w) * 0.6066);
+  --header-zone: calc(var(--header-top) + var(--logo-h) + var(--s-4));
+  /* The phone dock (below 48rem) and the strip it needs at the foot of a first screen:
+     0.75rem off the edge + 3.6rem tall + 0.75rem of air. */
+  --dock-zone: calc(5.1rem + env(safe-area-inset-bottom, 0px));
+
+  /* ── Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* UI: answers a hand */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* reveals: type and rules arriving */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* things already on screen: curtains, markers */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* the menu */
+  --dur-press: 140ms;
+  --dur-ui: 220ms;
+  --dur-panel: 420ms;
+  --dur-reveal: 900ms;
+  --dur-curtain: 1100ms;
+  --stagger: 70ms;
+
+  --z-header: 50;
+  --z-menu: 60;
+  --z-skip: 100;
+}

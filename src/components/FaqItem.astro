@@ -1,0 +1,92 @@
+---
+// One question. Native <details>: the answer is always in the DOM and opens without JavaScript.
+// Give every item on a page the same `group` and the browser keeps one open at a time
+// (the `name` attribute; where unsupported, several can be open, which is fine).
+// The plus is outside the question's text node and aria-hidden, so the question text still
+// matches the FAQPage JSON-LD character for character. Answer = default slot (keep it verbatim).
+import Icon from './Icon.astro';
+interface Props {
+  question: string;
+  group?: string;
+  open?: boolean;
+}
+const { question, group = 'faq', open = false } = Astro.props;
+---
+
+<details class="faq" name={group} open={open}>
+  <summary class="faq__q">
+    <span class="faq__text">{question}</span>
+    <span class="faq__sign" aria-hidden="true"><Icon name="plus" /></span>
+  </summary>
+  <div class="faq__a prose"><slot /></div>
+</details>
+
+<style>
+  .faq {
+    border-block-start: 1px solid var(--rule);
+  }
+  .faq:last-of-type {
+    border-block-end: 1px solid var(--rule);
+  }
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    min-block-size: 4.25rem;
+    padding-block: var(--s-3);
+    list-style: none;
+    cursor: pointer;
+    color: var(--text-2);
+    transition: color var(--dur-ui) ease;
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__text {
+    font-family: var(--font-serif);
+    font-size: var(--t-title);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.008em;
+    text-wrap: balance;
+  }
+  .faq__sign {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border-radius: var(--r-control);
+    color: var(--gold-300);
+    transition: transform 420ms var(--ease-expo);
+  }
+  .faq[open] > .faq__q {
+    color: var(--ivory);
+  }
+  .faq[open] > .faq__q .faq__sign {
+    transform: rotate(45deg);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .faq__q:hover {
+      color: var(--ivory);
+    }
+  }
+  /* About 66 characters a line on a desktop; on a phone the answer takes the full width. */
+  .faq__a {
+    max-inline-size: var(--measure-body);
+    padding-block-end: var(--s-5);
+  }
+  /* The row's height snaps (height is neither transform nor opacity); the answer settles in. */
+  @media (prefers-reduced-motion: no-preference) {
+    .faq[open] > .faq__a {
+      animation: faq-in 520ms var(--ease-expo) backwards;
+    }
+  }
+  @keyframes faq-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -0.5rem, 0);
+    }
+  }
+</style>

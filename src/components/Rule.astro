@@ -1,0 +1,25 @@
+---
+// A hairline. Rules, not boxes, organise every page. `lit` is brighter at its start and fades
+// along its length, as if it caught the light: use it to open a section. `plain` divides rows.
+// Decorative: it is hidden from assistive tech; structure comes from headings and lists.
+interface Props {
+  variant?: 'lit' | 'plain';
+  reveal?: boolean;
+  class?: string;
+}
+const { variant = 'plain', reveal = false, class: className } = Astro.props;
+---
+
+<hr class:list={['rule', `rule--${variant}`, className]} aria-hidden="true" data-reveal={reveal ? 'rule' : undefined} />
+
+<style>
+  .rule {
+    block-size: var(--hair);
+    border: 0;
+    background: var(--rule);
+    transform-origin: left center;
+  }
+  .rule--lit {
+    background: linear-gradient(90deg, var(--gold-200) 0%, var(--rule-strong) 22%, var(--rule) 70%, rgb(201 166 98 / 0.06) 100%);
+  }
+</style>

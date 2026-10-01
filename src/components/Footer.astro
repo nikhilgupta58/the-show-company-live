@@ -1,0 +1,257 @@
+---
+// The footer: the logo signs the page off. It stands at the top left on the footer's plain dark
+// floor with 2rem of clear space around it (the artwork is untouched, BRIEF §3.10), then the ways
+// to reach the company, then every page. One row on a desktop, about half a screen tall.
+// On a phone it is under one screen: logo with the location line beside it, the email, one line
+// of routes (phone · WhatsApp · Instagram; the dock above it already carries call and enquiry),
+// the two link lists side by side, the legal line.
+// Data: src/data/site.ts. This footer is also where the phone Menu link lands without JavaScript.
+// `compact` (through <Base footer="compact">): the logo, one line of contact routes and the legal
+// line, without the two lists of pages. Only for a page whose own body already lists every page
+// (the 404's doors).
+import Rule from './Rule.astro';
+import Logo from './Logo.astro';
+import { site } from '../data/site';
+
+interface Props {
+  updated?: { label: string; datetime: string };
+  compact?: boolean;
+}
+const { updated, compact = false } = Astro.props;
+const { contact, footer } = site;
+---
+
+<footer class:list={['site-footer', { 'site-footer--compact': compact }]} id="site-footer">
+  <div class="wrap">
+    <Rule variant="lit" reveal />
+    <div class="foot">
+      <div class="foot__brand">
+        <a class="foot__logo" href="/"><Logo width={190} loading="lazy" /></a>
+        {/* One fact a line, broken at the dot: "pan-India" never leaves its phrase. */}
+        <p class="t-label foot__where">{contact.location.split(' · ').map((part) => <span>{part}</span>)}</p>
+      </div>
+      <ul class="foot__lead">
+        <li class="foot__line"><a class="foot__big" href={contact.email.href}>{contact.email.label}</a></li>
+        <li class="foot__line foot__line--phone"><a class="foot__big tnum" href={contact.phone.href}>{contact.phone.label}</a></li>
+        <li><a class="link foot__route" href={contact.whatsapp.href} target="_blank" rel="noopener noreferrer">{contact.whatsapp.label}</a></li>
+        <li><a class="link foot__route" href={contact.instagram.href} target="_blank" rel="noopener noreferrer">{contact.instagram.label}</a></li>
+      </ul>
+      {
+        !compact &&
+          footer.groups.map((group) => (
+          <nav class="foot__group" aria-label={group.title}>
+            <p class="t-label">{group.title}</p>
+            <ul class="foot__links">
+              {group.links.map((item) => (
+                <li>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="foot__legal t-small">
+      <p>&copy; <time datetime={footer.year}>{footer.year}</time> {footer.copyright}</p>
+      {updated && <p>Last updated: <time datetime={updated.datetime}>{updated.label}</time></p>}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--s-5) calc(var(--s-4) + var(--dock-zone)); /* room for the phone dock */
+    /* The floor lifts a step, with footlights low on the far side from the logo. */
+    background:
+      radial-gradient(46% 62% at 78% 124%, rgb(242 178 74 / 0.12), transparent 70%),
+      linear-gradient(180deg, var(--ink-900), var(--black) 60%);
+  }
+  .foot {
+    display: grid;
+    /* Phone: the two link lists side by side, the longer names in the wider column. */
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--s-5) var(--gutter);
+    padding-block: var(--s-5);
+  }
+  /* The logo's clear space is this block's gap: nothing sits closer to it than 2rem (twice the
+     height of its COMPANY line). On a phone the location line stands beside it, on its baseline. */
+  .foot__brand {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: end;
+    gap: var(--s-6);
+  }
+  .foot__brand p {
+    max-inline-size: 13rem;
+  }
+  .foot__where span {
+    display: block;
+  }
+  .foot__logo {
+    flex: none;
+    display: block;
+    inline-size: clamp(9rem, 7.5rem + 4vw, 11.875rem); /* 144 to 190px: sharp up to 3x */
+  }
+  /* One list: the email on its own line; on a phone the number joins WhatsApp and Instagram on
+     the next line at text size (the dock already has the call button). */
+  .foot__lead {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: start;
+    gap: 0 var(--s-5);
+  }
+  .foot__line:first-child {
+    flex-basis: 100%;
+  }
+  .foot__route,
+  .foot__line--phone .foot__big {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+  }
+  .foot__line--phone .foot__big {
+    padding-block: 0;
+    font-family: var(--font-sans);
+    font-size: var(--t-body);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+  }
+  .foot__logo :global(.logo) {
+    inline-size: 100%;
+    block-size: auto;
+  }
+  .foot__big {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem; /* a full thumb target */
+    padding-block: 0.15em;
+    font-family: var(--font-serif);
+    font-size: var(--t-title);
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ivory);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color var(--dur-ui) ease;
+  }
+  .foot__group {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .foot__links a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem; /* "Home", "Work": still a full target */
+    line-height: 1.25;
+    color: var(--stone-300);
+    text-decoration: none;
+    transition: color var(--dur-ui) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .foot__links a {
+      min-block-size: 2.25rem; /* a mouse needs less than a thumb */
+    }
+    .foot__links a:hover,
+    .foot__big:hover {
+      color: var(--gold-100);
+    }
+  }
+  .foot__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-6);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--rule);
+    color: var(--text-3);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer {
+      padding-block: var(--s-6); /* no dock from here up */
+    }
+    .foot {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--s-6) var(--gutter);
+      padding-block: var(--s-6) var(--s-7);
+    }
+    .foot__brand {
+      grid-column: 1 / span 5;
+      flex-direction: column;
+      align-items: start;
+    }
+    /* From here the number is a headline again, on its own line under the email. */
+    .foot__line--phone {
+      flex-basis: 100%;
+    }
+    .foot__line--phone .foot__big {
+      padding-block: 0.15em;
+      font-family: var(--font-serif);
+      font-size: var(--t-title);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .foot__lead {
+      grid-column: 6 / -1;
+    }
+    .foot__group {
+      grid-column: span 7;
+    }
+    .foot__group:first-of-type {
+      grid-column: 1 / span 5;
+    }
+  }
+  /* ── Compact (a page whose body already lists every page): the logo, one line of routes at
+        text size, the legal line. No lists of pages. */
+  .site-footer--compact .foot__line:first-child {
+    flex-basis: auto;
+  }
+  .site-footer--compact .foot__big {
+    padding-block: 0;
+    font-family: var(--font-sans);
+    font-size: var(--t-body);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+  }
+  @media (min-width: 48rem) {
+    .site-footer--compact .foot {
+      padding-block-end: var(--s-6);
+      align-items: end;
+    }
+    .site-footer--compact .foot__line--phone {
+      flex-basis: auto;
+    }
+  }
+  @media (min-width: 68rem) {
+    .site-footer--compact .foot__lead {
+      grid-column: 4 / -1;
+    }
+  }
+  /* One row: logo · reach · services · company. */
+  @media (min-width: 68rem) {
+    .foot__brand {
+      grid-column: 1 / span 3;
+    }
+    .foot__lead {
+      grid-column: 4 / span 4;
+    }
+    .foot__group:first-of-type {
+      grid-column: 8 / span 3;
+    }
+    .foot__group {
+      grid-column: span 2;
+    }
+  }
+</style>

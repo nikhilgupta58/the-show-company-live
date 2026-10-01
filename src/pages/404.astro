@@ -1,0 +1,232 @@
+---
+// The 404 (built to dist/404.html; served for any unknown URL at any depth, so every href and src
+// stays root-absolute). Head and h1 are production's (docs/redesign-2.0/content/404.md §1, S2;
+// strategy §6.11): noindex, follow, no canonical, no JSON-LD. Body lines kept from production.
+// One screen on a desktop: the message beside the empty hall, then a door to every main page.
+// The page itself is the way out, so it carries no NextBand: "Back to homepage" is its one solid door.
+// The two buttons and the doors link every main page between them, so the footer is the compact
+// one (logo, contact routes, legal) and a phone gets no picture: the page stays short there.
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { photos } from '../data/photos';
+
+// Every page in the menu, except the two the buttons already name (Home, and the enquiry).
+const doors = site.nav.menu.filter((page) => page.href !== '/' && page.href !== site.nav.cta.href);
+---
+
+<Base
+  title="Page Not Found | The Show Company"
+  description="This page doesn't exist. Find stand-up comedy shows, corporate entertainment, college fests, artist booking & pricing guides from The Show Company."
+  path="/404.html"
+  noindex
+  footer="compact"
+>
+  <section class="lost">
+    <div class="wrap lost__grid">
+      <div class="lost__copy">
+        <p class="t-label" data-enter style="--enter-delay:120ms">Page not found</p>
+        {/* Three digits rise one after another. No whitespace between them: the heading reads "404". */}
+        <h1 class="lost__code" aria-label="404"><span class="lost__digit"><span data-enter="line" style="--enter-delay:180ms">4</span></span><span class="lost__digit"><span data-enter="line" style="--enter-delay:260ms">0</span></span><span class="lost__digit"><span data-enter="line" style="--enter-delay:340ms">4</span></span></h1>
+        <p class="t-lead" data-enter style="--enter-delay:420ms">This page has taken its final bow — it doesn’t exist, or the curtain has already closed on it.</p>
+        <p class="dim" data-enter style="--enter-delay:500ms">Check the link you followed, or find your way back to one of the pages below.</p>
+        {/* data-dock-away, on the solid button itself: on a phone the dock (whose Enquire is solid) steps
+            aside while "Back to homepage" is on screen, so there is one solid gold thing (DESIGN.md
+            §2.4), and comes back as soon as it has gone, so Enquire is never out of reach. */}
+        <div class="lost__actions" data-enter style="--enter-delay:580ms">
+          <Button href="/" data-dock-away>Back to homepage</Button>
+          <Button href={site.nav.cta.href} variant="outline">Enquire about a show</Button>
+        </div>
+      </div>
+
+      {/* Not `priority`: a phone does not show this picture, and a lazy image that is not shown is
+          never fetched; on a tablet it is below the fold. On a desktop it is in view and loads at once. */}
+      <Photo
+        class="lost__photo"
+        photo={photos.emptyHall}
+        ratio="3/2"
+        ratioSmall="16/9"
+        sizes="(min-width: 60rem) 45vw, 100vw"
+        widths={[480, 768, 1080, 1440, 1920]}
+        caption="Tough crowd."
+        enter
+        glow
+      />
+
+      <nav class="lost__doors" aria-labelledby="doors-title" data-enter style="--enter-delay:660ms">
+        <h2 class="t-label lost__doors-title" id="doors-title">Where to next</h2>
+        <ul class="doors">
+          {
+            doors.map((page) => (
+              <li>
+                <a class="door" href={page.href}>
+                  <span class="door__name">{page.label}</span>
+                  <Icon name="arrow-right" class="door__go" size="1rem" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    padding-block: calc(var(--header-zone) + var(--s-4)) var(--s-7);
+  }
+  /* The message and the buttons first, then every door, then the picture as the last beat. */
+  .lost__grid {
+    display: grid;
+    grid-template-areas: 'copy' 'doors' 'photo';
+    gap: var(--s-7) var(--gutter);
+  }
+  /* Phone: no picture. The doors are the page's job there, and the page stays under two screens. */
+  @media (max-width: 47.99rem) {
+    .lost__grid {
+      grid-template-areas: 'copy' 'doors';
+    }
+    .lost :global(.lost__photo) {
+      display: none;
+    }
+  }
+  .lost__copy {
+    grid-area: copy;
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+  .lost :global(.lost__photo) {
+    grid-area: photo;
+  }
+  .lost__doors {
+    grid-area: doors;
+  }
+
+  /* The figure: wide and light, in the brand's gold. Each digit rises from behind its own baseline. */
+  .lost__code {
+    display: flex;
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 300;
+    font-size: calc(var(--t-h1) * 2.4); /* the page's one figure: the display size, 2.4 times (96 / 197px) */
+    line-height: 0.84;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--gold-text);
+    margin-block: var(--s-1) var(--s-2);
+  }
+  .lost__digit {
+    display: block;
+    overflow: hidden;
+    padding-block-end: 0.06em;
+  }
+  .lost__digit > span {
+    display: block;
+  }
+  .lost__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-4);
+    padding-block-start: var(--s-2);
+  }
+
+  /* The doors: every page, ruled like a programme. The whole cell is the link. */
+  .lost__doors-title {
+    margin-block-end: var(--s-3);
+  }
+  .doors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr; /* a name that wraps makes every row that tall: the rules stay level */
+    column-gap: var(--gutter);
+    border-block-end: 1px solid var(--rule);
+  }
+  .door {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2);
+    block-size: 100%;
+    min-block-size: 3.75rem;
+    padding-block: var(--s-3);
+    border-block-start: 1px solid var(--rule);
+    font-family: var(--font-serif);
+    font-size: var(--t-lead);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    color: var(--ivory);
+    text-decoration: none;
+    transition: color var(--dur-ui) ease;
+  }
+  /* A gold copy of the hairline draws across when the door is lit (hover or focus). */
+  .door::before {
+    content: '';
+    position: absolute;
+    inset: -1px 0 auto 0;
+    block-size: 1px;
+    background: linear-gradient(90deg, var(--gold-100), var(--gold-400) 60%, transparent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 700ms var(--ease-expo);
+  }
+  .door__name {
+    text-wrap: balance;
+  }
+  .door :global(.door__go) {
+    color: var(--gold-300);
+    transition: transform 420ms var(--ease-expo);
+  }
+  .door:focus-visible {
+    color: var(--gold-200);
+  }
+  .door:focus-visible::before {
+    transform: scaleX(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .door:hover {
+      color: var(--gold-200);
+    }
+    .door:hover::before {
+      transform: scaleX(1);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .door:hover :global(.door__go) {
+        transform: translateX(0.3rem);
+      }
+    }
+  }
+  @media (min-width: 48rem) {
+    .doors {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Desktop: the message beside the empty hall, the doors across the full width under both. */
+  @media (min-width: 60rem) {
+    .lost__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas: none;
+      align-items: end;
+      row-gap: var(--s-7);
+    }
+    .lost__copy {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+    }
+    .lost :global(.lost__photo) {
+      grid-column: 7 / -1;
+      grid-row: 1;
+    }
+    .lost__doors {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>

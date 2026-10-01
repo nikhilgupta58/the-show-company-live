@@ -1,0 +1,303 @@
+---
+// The picture primitive. A photograph in a square-cornered window, at full natural brightness.
+// astro:assets makes responsive AVIF + WebP (+ a JPEG fallback) with explicit width and height.
+//
+//   <Photo photo={photos.micPalace} ratio="2/3" sizes="(min-width: 60rem) 40vw, 100vw" priority enter glow />
+//
+// Rules this component enforces (DESIGN.md §6):
+//   · no opacity, filter or blend on the image, ever; a photo is uncovered, never faded in
+//   · text sits beside or under the photo; the one permitted scrim is the caption plate's own
+//     bottom gradient (slot "plate"), which covers at most the bottom 34% of the window
+//   · `priority` = the LCP image: eager + fetchpriority=high. Exactly one per page. Everything else is lazy.
+//   · `enter`  = uncovered by the CSS curtain on page load (above the fold only)
+//   · `reveal` = uncovered when scrolled to (below the fold; the curtain is added by JavaScript,
+//                so without JavaScript the photo is simply there)
+//                Either way a portrait window's curtain rises and a landscape window's is drawn aside.
+//   · `glow`   = the photo lights the black around it: light at the window's edge, falling off over
+//                about 10rem, behind the window and never on it. Only warm pictures glow: a blue or
+//                violet master (registry `glow` hue outside red to yellow) gets none, because the
+//                page may not paint a colour the brand does not own.
+//   · sharpness = `sizes` is scaled up automatically when the picture is wider than its window
+//                (a landscape master in a portrait card is cropped by height, so it needs more
+//                pixels than the window is wide), and for `parallax`, whose picture is drawn 14%
+//                taller than its window. Pass `sizes` as the window's width, as before.
+//   · `positionSmall` = the focal point below 60rem, where `ratioSmall` applies (a portrait
+//                master in a landscape phone window usually needs a different one). Left out,
+//                `position` is used at every width.
+import { Picture } from 'astro:assets';
+import type { Photograph } from '../data/photos';
+
+interface Props {
+  photo: Photograph;
+  alt?: string; // override the registry's alt when the context needs a different description
+  ratio?: '2/3' | '3/2' | '16/9' | '21/9' | '4/5' | '1/1';
+  ratioSmall?: '2/3' | '3/2' | '16/9' | '4/5' | '1/1'; // window shape below 60rem, if different
+  sizes?: string;
+  widths?: number[];
+  priority?: boolean;
+  enter?: boolean;
+  reveal?: boolean;
+  glow?: boolean;
+  parallax?: boolean;
+  position?: string;
+  positionSmall?: string;
+  caption?: string;
+  class?: string;
+  transitionName?: string;
+}
+const {
+  photo,
+  alt = photo.alt,
+  ratio,
+  ratioSmall,
+  sizes = '100vw',
+  widths = [480, 768, 1080, 1440, 1920, 2560],
+  priority = false,
+  enter = false,
+  reveal = false,
+  glow = false,
+  parallax = false,
+  position = photo.position ?? '50% 50%',
+  positionSmall,
+  caption,
+  class: className,
+  transitionName,
+} = Astro.props;
+
+// Never ask for a size larger than the master: that would be an upscale.
+const usable = widths.filter((w) => w <= photo.src.width);
+if (!usable.length || usable[usable.length - 1] < Math.min(photo.src.width, 2560)) usable.push(Math.min(photo.src.width, 2560));
+const shape = ratio ?? `${photo.src.width}/${photo.src.height}`;
+
+// `object-fit: cover` in a window narrower than the picture scales the picture by height, so the
+// rendered image is (photo aspect / window aspect) times wider than the window. Tell the browser.
+// With `parallax` the picture's box is 114% of the window's height (it drifts inside it), so
+// the box it has to cover is that much narrower in shape.
+const aspect = (r: string) => {
+  const [w, h] = r.split('/').map(Number);
+  return w / h;
+};
+const own = photo.src.width / photo.src.height;
+const drift = parallax ? 1.14 : 1;
+const cover = (r: string) => Math.max(1, (own * drift) / aspect(r));
+const coverLarge = cover(shape);
+const coverSmall = cover(ratioSmall ?? shape);
+// One `sizes` entry is "<media condition> <length>"; the length is the last top-level token.
+const entries = sizes.split(/,(?![^(]*\))/).map((entry) => entry.trim());
+const isLarge = (entry: string) => {
+  const m = /min-width:\s*([\d.]+)(rem|em|px)/.exec(entry);
+  return Boolean(m) && Number(m![1]) * (m![2] === 'px' ? 1 : 16) >= 960;
+};
+const hasLarge = entries.some(isLarge);
+const scaled = entries
+  .map((entry) => {
+    const k = isLarge(entry) ? coverLarge : hasLarge ? coverSmall : Math.max(coverLarge, coverSmall);
+    if (k < 1.02) return entry;
+    let depth = 0;
+    let cut = 0;
+    for (let i = 0; i < entry.length; i++) {
+      if (entry[i] === '(') depth++;
+      else if (entry[i] === ')') depth--;
+      else if (entry[i] === ' ' && depth === 0) cut = i + 1;
+    }
+    return `${entry.slice(0, cut)}calc(${entry.slice(cut)} * ${k.toFixed(2)})`;
+  })
+  .join(', ');
+
+// Only warm light is painted on the ground (hue from red through amber to yellow).
+const hue = (hex: string) => {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const max = Math.max(r, g, b);
+  const d = max - Math.min(r, g, b);
+  if (!d) return 0;
+  const h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return (h * 60 + 360) % 360;
+};
+const h = /^#[0-9a-f]{6}$/i.test(photo.glow) ? hue(photo.glow) : 40;
+const warm = h <= 65 || h >= 345;
+
+const wide = (r: string) => aspect(r) > 1.15;
+const style = [`--ratio:${shape}`, ratioSmall ? `--ratio-sm:${ratioSmall}` : '', `--pos:${position}`, positionSmall ? `--pos-sm:${positionSmall}` : '', `--glow:${photo.glow}`, transitionName ? `view-transition-name:${transitionName}` : ''].filter(Boolean).join(';');
+---
+
+<figure
+  class:list={['photo', { 'photo--glow': glow && warm, 'photo--parallax': parallax }, className]}
+  style={style}
+  data-enter={enter ? 'curtain' : undefined}
+  data-reveal={reveal ? 'curtain' : undefined}
+  data-curtain={enter && wide(shape) ? 'wipe' : undefined}
+  data-curtain-sm={enter && wide(ratioSmall ?? shape) ? 'wipe' : undefined}
+>
+  <div class="photo__window">
+    <Picture
+      src={photo.src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={usable}
+      sizes={scaled}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchpriority={priority ? 'high' : undefined}
+      class="photo__img"
+      pictureAttributes={{ class: 'photo__pic' }}
+    />
+    <slot name="plate" />
+  </div>
+  {caption && <figcaption class="photo__caption t-small">{caption}</figcaption>}
+</figure>
+
+<style>
+  /* A one-column grid: the window, then the caption under it. (The grid also lets the glow
+     below take the window's area only, so a caption never sits on a dark gap in the light.) */
+  .photo {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .photo__window {
+    position: relative;
+    aspect-ratio: var(--ratio);
+    overflow: hidden;
+    border-radius: var(--r-frame);
+    background: var(--ink-800);
+  }
+  @media (max-width: 59.99rem) {
+    .photo__window {
+      aspect-ratio: var(--ratio-sm, var(--ratio));
+    }
+  }
+  .photo :global(.photo__pic) {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .photo :global(.photo__img) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: var(--pos);
+  }
+  @media (max-width: 59.99rem) {
+    .photo :global(.photo__img) {
+      object-position: var(--pos-sm, var(--pos));
+    }
+  }
+  .photo__caption {
+    margin-block-start: var(--s-3);
+    color: var(--text-3);
+    max-inline-size: 27.2em; /* 48ch of Anek Latin; em, so the font swap cannot re-wrap it */
+  }
+
+  /* The photo as a light source: its own colour spilling onto the black around it, brightest at
+     the window's edge. Behind the window, never over it. It is a shadow (of light), so it takes
+     no room and can never push the page wider than the screen. */
+  .photo--glow::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    grid-area: 1 / 1 / 2 / 2; /* the window's cell only: an open row end would take the caption's row too */
+    inset: 0;
+    box-shadow: 0 0 10rem 1rem color-mix(in srgb, var(--glow) 20%, transparent);
+    pointer-events: none;
+  }
+
+  /* The only scrim allowed on a photograph: under a caption plate, bottom edge only. It is 0.9
+     black from the bottom edge to above the first line of text whatever the window's size (at
+     least 3.25rem), so the caption holds 4.5 : 1 over any picture, then fades out by 34%. */
+  .photo :global(.photo__plate) {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    block-size: 34%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--s-5);
+    background: linear-gradient(0deg, rgb(5 5 5 / 0.9) 0, rgb(5 5 5 / 0.9) max(45%, 3.25rem), rgb(5 5 5 / 0) 100%);
+    color: var(--ivory);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Curtain up, on load. The cover rests at scaleY(0): if the animation never runs, the photo is bare. */
+    .photo[data-enter='curtain'] .photo__window::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      z-index: 2;
+      background: var(--ground);
+      transform: scaleY(0);
+      transform-origin: center top;
+      animation: curtain-up var(--dur-curtain) var(--ease-in-out) backwards;
+      animation-delay: var(--enter-delay, 120ms);
+    }
+    /* A landscape window's curtain is drawn aside (left to right) instead of rising. */
+    .photo[data-enter='curtain'][data-curtain='wipe'] .photo__window::after {
+      transform: scaleX(0);
+      transform-origin: right center;
+      animation-name: curtain-aside;
+    }
+    @media (max-width: 59.99rem) {
+      .photo[data-enter='curtain'][data-curtain='wipe']:not([data-curtain-sm]) .photo__window::after {
+        transform: scaleY(0);
+        transform-origin: center top;
+        animation-name: curtain-up;
+      }
+      .photo[data-enter='curtain'][data-curtain-sm='wipe'] .photo__window::after {
+        transform: scaleX(0);
+        transform-origin: right center;
+        animation-name: curtain-aside;
+      }
+    }
+    .photo[data-enter='curtain'] :global(.photo__img) {
+      animation: photo-settle 1600ms var(--ease-expo) backwards;
+      animation-delay: var(--enter-delay, 120ms);
+    }
+    .photo--glow[data-enter='curtain']::before {
+      animation: glow-bloom 1800ms ease-out backwards;
+      animation-delay: calc(var(--enter-delay, 120ms) + 500ms);
+    }
+    /* Depth: the picture drifts a little slower than its window. Scroll-driven, CSS only,
+       and only where the browser supports it; elsewhere the photo sits still. */
+    @supports (animation-timeline: view()) {
+      .photo--parallax :global(.photo__img) {
+        inset-block: -7%;
+        block-size: 114%;
+        animation: photo-drift linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+    }
+  }
+  @keyframes curtain-up {
+    from {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes curtain-aside {
+    from {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes photo-settle {
+    from {
+      transform: scale(1.08);
+    }
+  }
+  @keyframes glow-bloom {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes photo-drift {
+    from {
+      transform: translate3d(0, -5.5%, 0);
+    }
+    to {
+      transform: translate3d(0, 5.5%, 0);
+    }
+  }
+</style>

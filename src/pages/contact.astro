@@ -1,0 +1,302 @@
+---
+// /contact/ — new page. The enquiry, with no detour: both production forms (EnquiryForm), and the
+// direct routes beside them (ChannelRows). Head values: build-tools/seo-targets.json "/contact/".
+// Outline: docs/redesign-2.0/seo/strategy.md §6.10; JSON-LD §7.1 (ContactPage + BreadcrumbList).
+// The signature is the run-of-show under the form: the two published promises (a reply within
+// 24 hours, a shortlist or proposal within 48 hours of the brief) turned into real times in IST.
+// Without JavaScript the promises read in full and only the clock lines stay empty.
+// The opening is the system's statement mode (Hero.astro, as on /about/), set by hand because this
+// page opens with the form, not a photograph: the h1 is the gold kicker, on one line, so the name
+// is never broken and never set at display size beside the logo (DESIGN.md §12); the statement
+// carries the size, one step down (h2): the form is the page.
+// The lead asks for what the booking form actually has fields for (date, artist or genre, budget)
+// and names the 48-hour deliverable. The 24-hour reply is said once beside Send and once in the
+// run-of-show, not here as well.
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import ChannelRows from '../components/ChannelRows.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import Rule from '../components/Rule.astro';
+import NextBand from '../components/NextBand.astro';
+import { site, nextAfter } from '../data/site';
+import { photos } from '../data/photos';
+
+const title = 'Contact The Show Company | Book a Show or an Artist';
+const description =
+  'Contact The Show Company to book a show or an artist: send an enquiry, call or WhatsApp +91 70602 93132, or email contact@theshowcompany.in. Reply in 24 hours.';
+const path = '/contact/';
+const url = new URL(path, site.url).href;
+const { contact } = site;
+const next = nextAfter(path);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    inLanguage: site.lang,
+    isPartOf: { '@id': `${site.url}/#website` },
+    mainEntity: {
+      '@type': 'EntertainmentBusiness',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      telephone: contact.phone.href.replace('tel:', ''),
+      email: contact.email.label,
+      areaServed: { '@type': 'Country', name: 'India' },
+      sameAs: [contact.instagram.href],
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Contact', item: url },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd}>
+  <section class="enquire" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="enquire__crumbs" data-enter style="--enter-delay:120ms">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+      </div>
+
+      <div class="enquire__grid">
+        <div class="enquire__aside">
+          <div class="enquire__head">
+            {/* If a line ever has to break (a fallback face, a very narrow phone), it breaks before the name, never inside it. */}
+            <h1 class="t-kicker enquire__name" id="contact-title" data-enter style="--enter-delay:200ms">Contact <span class="nowrap">The Show Company</span></h1>
+            <p class="t-h2 enquire__statement" data-enter style="--enter-delay:290ms">Tell us about the show.</p>
+          </div>
+          <p class="t-lead" data-enter style="--enter-delay:380ms">
+            Start with the date, the act you have in mind and your budget. A shortlist or proposal follows within 48 hours of your brief.
+          </p>
+          {/* data-dock-away: on a phone the dock steps aside while these rows are on screen, so the routes show once. */}
+          <div data-enter data-dock-away style="--enter-delay:460ms">
+            <ChannelRows channels={['call', 'whatsapp', 'email', 'instagram']} />
+          </div>
+          <div class="enquire__notes t-small" data-enter style="--enter-delay:540ms">
+            <p class="dimmer">{contact.location}</p>
+            <p class="dim">Not sure what to budget? The <a class="link" href="/comedian-booking-cost-india/">booking cost guide</a> has the 2026 fee bands.</p>
+            <p class="dim">Artists: send your portfolio, showreel and a short introduction to <a class="link" href={contact.email.href}>{contact.email.label}</a>.</p>
+          </div>
+        </div>
+
+        <div class="enquire__form">
+          {/* Names the form column, and keeps the outline whole: h1 › h2 › the two tab panels' h3. */}
+          <h2 class="t-label enquire__form-title">Send an enquiry</h2>
+          <EnquiryForm />
+        </div>
+      </div>
+
+      <div class="cues">
+        <Rule variant="lit" reveal />
+        <h2 class="t-label cues__title">What happens next</h2>
+        <ol class="cues__list" data-reveal="stagger">
+          <li class="cue">
+            <span class="cue__when t-title">Now</span>
+            <span class="cue__clock t-small tnum" data-cue="0"></span>
+            <span class="cue__what">You send the brief.</span>
+          </li>
+          <li class="cue">
+            <span class="cue__when t-title">Within 24 hours</span>
+            <span class="cue__clock t-small tnum" data-cue="24"></span>
+            <span class="cue__what">We reply.</span>
+          </li>
+          <li class="cue">
+            <span class="cue__when t-title">Within 48 hours</span>
+            <span class="cue__clock t-small tnum" data-cue="48"></span>
+            <span class="cue__what">Your shortlist or proposal.</span>
+          </li>
+          <li class="cue">
+            <span class="cue__when t-title">Show day</span>
+            <span class="cue__what">A producer on the ground, from <span class="nowrap">sound-check</span> to the final bow.</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="500+ shows produced in 50+ cities." photo={photos.micPalaceWide} contact={false} />
+
+  <script>
+    // The run-of-show clock: each [data-cue] gets the real time its promise falls due, in IST.
+    // Text only (the one thing that moves is the tally light, in CSS). Without this script the
+    // lines stay empty and the promises still read in full.
+    const zone = 'Asia/Kolkata';
+    const clock = new Intl.DateTimeFormat('en-IN', { timeZone: zone, hour: 'numeric', minute: '2-digit' });
+    const day = new Intl.DateTimeFormat('en-IN', { timeZone: zone, weekday: 'short', day: 'numeric', month: 'short' });
+    const cues = document.querySelectorAll<HTMLElement>('[data-cue]');
+    const tick = () => {
+      const now = Date.now();
+      cues.forEach((el) => {
+        const hours = Number(el.dataset.cue);
+        const at = new Date(now + hours * 3_600_000);
+        const date = day.formatToParts(at).filter((p) => p.type !== 'literal').map((p) => p.value).join(' '); // "Fri 2 Oct"
+        el.textContent = hours ? `${date}, by ${clock.format(at)}` : `${clock.format(at)} IST`;
+      });
+    };
+    if (cues.length) {
+      tick();
+      window.setInterval(tick, 15_000);
+      document.querySelector('.cues')?.classList.add('is-live'); // the clock runs: light the tally
+    }
+  </script>
+</Base>
+
+<style>
+  .enquire {
+    padding-block: var(--header-zone) calc(var(--section) / 2);
+  }
+  .enquire__crumbs {
+    margin-block-end: var(--s-2);
+  }
+  .enquire__grid {
+    display: grid;
+    gap: var(--block) var(--gutter);
+  }
+  .enquire__aside {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    min-inline-size: 0;
+  }
+  /* The name, then the statement: one unit, a step closer together than the rest of the column. */
+  .enquire__head {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .enquire__statement {
+    text-wrap: balance;
+  }
+  /* The narrowest phones: the kicker's tracking gives a little, so the name line keeps clear of the
+     page edge (at 0.12em it needs 318 of a 360px phone's 320). */
+  @media (max-width: 24rem) {
+    .enquire__name {
+      letter-spacing: 0.08em;
+    }
+  }
+  .enquire__notes {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .enquire__form {
+    min-inline-size: 0;
+  }
+  .enquire__form-title {
+    margin-block-end: var(--s-2);
+  }
+  /* Side by side from 64rem: the routes on the left edge, the form hung one column past the midline. */
+  @media (min-width: 64rem) {
+    .enquire__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+    .enquire__aside {
+      grid-column: 1 / span 5;
+    }
+    .enquire__form {
+      grid-column: 7 / -1;
+      padding-block-start: var(--s-1); /* "Send an enquiry" shares the kicker's baseline */
+    }
+  }
+  /* From 80rem the statement is one line: it may run a few pixels into the empty sixth column (the
+     form starts 90px or more beyond it), and the routes and the notes under it stay in the first screen. */
+  @media (min-width: 80rem) {
+    .enquire__statement {
+      white-space: nowrap;
+    }
+  }
+
+  /* The run-of-show: what happens after Send, as a producer would write it. Gold has one job here,
+     the times. A timeline across on a desktop; ruled rows (time left, cue right) on a phone. */
+  .cues {
+    margin-block-start: var(--block); /* part of the same idea as the form: one step, not two */
+  }
+  .cues__title {
+    margin-block: var(--s-5) var(--s-4);
+  }
+  .cues__list {
+    display: grid;
+    border-block-end: 1px solid var(--rule);
+  }
+  .cue {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    column-gap: var(--s-5);
+    row-gap: var(--s-1);
+    align-content: start;
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+  }
+  .cue__when {
+    grid-row: 1 / span 2;
+    color: var(--gold-text); /* set in .t-title, the size of the channel values beside the form */
+  }
+  /* A tally light beside "Now", lit only once the clock is running (the script adds .is-live). */
+  .cues.is-live .cue:first-child .cue__when::after {
+    content: '';
+    display: inline-block;
+    inline-size: 0.28em;
+    block-size: 0.28em;
+    margin-inline-start: 0.45em;
+    border-radius: 50%;
+    background: var(--gold-200);
+    vertical-align: 0.2em;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cues.is-live .cue:first-child .cue__when::after {
+      animation: tally 2.4s var(--ease-in-out) infinite;
+    }
+  }
+  @keyframes tally {
+    50% {
+      opacity: 0.3;
+    }
+  }
+  .cue__clock {
+    grid-column: 2;
+    color: var(--stone-400);
+  }
+  .cue__clock:empty {
+    display: none; /* holds no text: nothing is hidden, the line simply takes no room */
+  }
+  .cue__what {
+    grid-column: 2;
+    color: var(--ivory);
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  @media (min-width: 56rem) {
+    .cues__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .cue {
+      grid-template-columns: 1fr;
+      row-gap: var(--s-2);
+      padding: var(--s-5) var(--s-5) var(--s-6) 0;
+    }
+    .cue + .cue {
+      border-inline-start: 1px solid var(--rule);
+      padding-inline-start: var(--s-5);
+    }
+    .cue__when,
+    .cue__clock,
+    .cue__what {
+      grid-row: auto;
+      grid-column: auto;
+    }
+    .cue__what {
+      margin-block-start: var(--s-3);
+      max-inline-size: 26ch;
+    }
+  }
+</style>

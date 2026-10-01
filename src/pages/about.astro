@@ -1,0 +1,373 @@
+---
+// /about/ — new page (strategy.md §6.9). Who is behind The Show Company, and can they be trusted.
+// Head values are the plan's (build-tools/seo-targets.json); facts are the strategy's ledger (§5).
+// Signature: the credits. People and partners hang from a lit midline, as at the end of a show.
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import TextLink from '../components/TextLink.astro';
+import Photo from '../components/Photo.astro';
+import Scroller from '../components/Scroller.astro';
+import NextBand from '../components/NextBand.astro';
+import { photos, type Photograph } from '../data/photos';
+import { site, nextAfter } from '../data/site';
+// Crops (no resize, no tonal edit) of each founder's one decodable photo in public/assets/team-*.jpeg.
+// The two corrupt files there are both spare photos of Nikhil Gupta (assets.md §1.3).
+import adbhutPhoto from '../components/pages/about/adbhut-tripathi.jpg';
+import aryanPhoto from '../components/pages/about/aryan-kaushik.jpg';
+import nikhilPhoto from '../components/pages/about/nikhil-gupta.jpg';
+
+const title = 'About The Show Company | Team, Partners & How We Work';
+const description =
+  'About The Show Company: the team behind 500+ live shows in 50+ Indian cities, our partners OML, Oriole Entertainment and VIGOR MENTORS, and how we work.';
+const pageUrl = new URL('/about/', site.url).href;
+const orgId = `${site.url}/#organization`;
+const next = nextAfter(Astro.url.pathname);
+
+const portrait = (src: ImageMetadata, name: string): Photograph => ({ src, alt: `Portrait of ${name}`, glow: '#c98a4a', position: '50% 30%' });
+const initials = (name: string) => name.split(' ').map((w) => w[0]).join('');
+
+// Names and titles exactly as the facts ledger gives them (strategy.md §5.6). A founder without a
+// usable photo: leave `photo` out and the window becomes a nameplate with their initials. Never a
+// stock or generated face.
+const founders: { name: string; role: string; photo?: Photograph }[] = [
+  { name: 'Adbhut Tripathi', role: 'Founder', photo: portrait(adbhutPhoto, 'Adbhut Tripathi') },
+  { name: 'Aryan Kaushik', role: 'Co-Founder, Events & Artist Relations', photo: portrait(aryanPhoto, 'Aryan Kaushik') },
+  { name: 'Nikhil Gupta', role: 'Co-Founder, Design & Tech', photo: portrait(nikhilPhoto, 'Nikhil Gupta') },
+];
+
+// The partners the strategy gives this page (§6.9; not REAL HOST or DMF), then the campuses.
+// All in type: a logo only when every partner has a clean file (DESIGN.md §14).
+const credits: { label: string; names: string[] }[] = [
+  { label: 'Sound and lighting partner', names: ['VIGOR MENTORS'] },
+  { label: 'On the artist side', names: ['OML', 'Oriole Entertainment'] },
+  { label: 'In association with', names: ['PLAYGROUND', 'LVC'] },
+  { label: 'Campuses', names: ['Graphic Era', 'DPS', 'BITS Pilani'] },
+];
+
+const aboutPage = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: title,
+  description,
+  inLanguage: site.lang,
+  isPartOf: { '@id': `${site.url}/#website` },
+  breadcrumb: { '@id': `${pageUrl}#breadcrumb` },
+  mainEntity: {
+    '@type': 'Organization',
+    '@id': orgId,
+    name: site.name,
+    url: `${site.url}/`,
+    logo: `${site.url}/assets/logo.png`,
+    founder: founders.map((f) => ({ '@type': 'Person', name: f.name, jobTitle: f.role, worksFor: { '@id': orgId } })),
+  },
+};
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${pageUrl}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'About', item: pageUrl },
+  ],
+};
+---
+
+<Base title={title} description={description} path="/about/" jsonLd={[aboutPage, breadcrumbs]}>
+  {/* A full house beside "the team behind 500+ shows". The lead is one sentence, two lines on a phone: on a
+      short screen every line it gives up goes to the photograph (the window takes what the words leave). */}
+  <Hero photo={photos.fullHouseStalls} size="compact" ratio="4/5" ratioSmall="3/2">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+    <h1 slot="title">About The Show Company</h1>
+    <p slot="statement">The team behind 500+ shows in 50+ cities.</p>
+    <p slot="lead" class="t-lead hero-lead">We are a live entertainment production company based in India.</p>
+    <Fragment slot="actions">
+      <Button href={site.nav.cta.href} icon="arrow-right">Talk to the team</Button>
+    </Fragment>
+  </Hero>
+
+  <section class="section">
+    <div class="wrap">
+      <SectionHeader
+        lead="The Show Company was founded by Adbhut Tripathi, with co-founders Aryan Kaushik and Nikhil Gupta. We create live entertainment that connects audiences, celebrates creativity and leaves every crowd smiling long after the curtains close."
+      >
+        <Fragment slot="title">One team, from first enquiry to <em>final bow</em></Fragment>
+        <TextLink href="/event-management-company-india/">Full-service event management</TextLink>
+      </SectionHeader>
+    </div>
+    <div class="chapters" data-reveal>
+      <Scroller label="The Show Company in four parts" item="var(--chapter-w)">
+        <div class="chapter flow">
+          <h3 class="t-h3">What we stage</h3>
+          <p class="prose">
+            Stand-up comedy, college fests, corporate events and large-scale auditorium productions. We have booked 100+ artists: comedians, singers, DJs, live bands and emcees. For colleges, that means comedy nights, music gigs, EDM nights and campus festivals; for companies, annual days, offsites and galas. Next, we are expanding into advertising and brand collaborations.
+          </p>
+        </div>
+        <div class="chapter flow">
+          <h3 class="t-h3">How we work</h3>
+          <p class="prose">
+            We shortlist artists against your budget and audience, handle contracts and travel, coordinate the venue and crew, and put a producer on the ground on show day. Our partners are OML and Oriole Entertainment on the artist side and VIGOR MENTORS for sound and lighting, so quality never depends on whichever local vendor is free that weekend.
+          </p>
+        </div>
+        <div class="chapter flow">
+          <h3 class="t-h3">What we promise</h3>
+          <p class="prose">
+            One point of contact, one agreement, one invoice. Written quotes, GST invoices and signed artist contracts: no handshake deals. Cancellation terms in every contract, and a backup option of comparable profile for every booking. A reply to every enquiry within 24 hours, and a shortlist of 3–6 artists within 48 hours of your brief.
+          </p>
+        </div>
+        <div class="chapter flow">
+          <h3 class="t-h3">Where and when</h3>
+          <p class="prose">
+            Across India, in cities including Delhi NCR, Mumbai, Bangalore, Chennai, Hyderabad, Kolkata, Jaipur, Dehradun, Lucknow and Indore. Rooms run from 50-seat club nights to 2,000-seat auditoriums. International events can be arranged on request. Plan college shows 1–3 months ahead, most corporate events 2–4 weeks ahead, and large auditorium shows 3–6 months ahead.
+          </p>
+        </div>
+      </Scroller>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap roll">
+      <span class="roll__beam" aria-hidden="true"></span>
+      <SectionHeader
+        stack
+        size="h3"
+        class="roll__head"
+        title="The people behind the show"
+        lead="Every show ends with credits. Here are ours."
+      >
+        <TextLink href="/work/">See recent shows</TextLink>
+      </SectionHeader>
+      <ul class="roll__cast">
+        {
+          founders.map((f) => (
+            <li class="roll__person">
+              {f.photo ? (
+                <Photo photo={f.photo} ratio="4/5" sizes="(min-width: 64rem) 6.25rem, 5rem" class="roll__still" reveal />
+              ) : (
+                <span class="roll__still roll__plate" aria-hidden="true">{initials(f.name)}</span>
+              )}
+              <div class="roll__who">
+                <h3 class="roll__name" data-reveal="lines">{f.name}</h3>
+                <p class="t-small dim" data-reveal>{f.role}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <dl class="roll__credits" data-reveal="stagger">
+        {
+          credits.map((c) => (
+            <div class="roll__line">
+              <dt class="t-label">{c.label}</dt>
+              <dd>
+                <ul class="roll__names">
+                  {c.names.map((n) => (
+                    <li>{n}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  {/* Not fullHouseBalcony: it is a second crop of the hero's own frame. The house opens the page; a lit, waiting stage ends it. */}
+  <NextBand href={next.href} title={next.label} blurb="Tell us the date, the city and the audience." photo={photos.emptyStageTruss} contact={false} />
+</Base>
+
+<style>
+  /* The hero's lead is two lines at every width: keep them even, not "…company based / in India." */
+  .hero-lead {
+    text-wrap: balance;
+  }
+
+  /* ── Four short chapters, each on a hairline. From 80rem they fill the row exactly, so the scroller has
+        nothing to scroll; below that the same row runs sideways with the next chapter cut by the edge, and the
+        copy costs a phone one chapter's height instead of four. */
+  .chapters {
+    --chapter-w: min(80vw, 20rem);
+  }
+  @media (min-width: 80rem) {
+    .chapters {
+      --chapter-w: calc((100% - 3 * var(--gutter)) / 4);
+    }
+  }
+  .chapter {
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--rule);
+  }
+
+  /* ── The credits. Phone: heading, people, then ruled rows. From 64rem: the heading stands at the
+        left edge beside the founders, and everything else hangs from the midline: the still or the
+        label on the left of a lit beam, the name on the right. */
+  .roll {
+    position: relative;
+    display: grid;
+    gap: var(--block);
+  }
+  .roll__beam {
+    display: none;
+  }
+  .roll__cast {
+    display: grid;
+    gap: var(--s-5);
+  }
+  /* The stills stay small on purpose: the three photos on file are 200 to 320px wide, and a
+     window of 72 to 100px shows each of them without enlarging it on a 2x screen. */
+  .roll__person {
+    display: grid;
+    grid-template-columns: clamp(4.5rem, 3rem + 6vw, 6.25rem) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--s-4);
+  }
+  /* A founder with no usable photo gets a nameplate in the same window: initials, no face. */
+  .roll__plate {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    background: var(--ink-800);
+    box-shadow: inset 0 0 0 1px var(--rim);
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 300;
+    font-size: var(--t-h3);
+    letter-spacing: 0.04em;
+    color: var(--gold-text);
+  }
+  .roll__who {
+    display: grid;
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+  .roll__name {
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 300;
+    font-size: var(--t-h3);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    color: var(--ivory);
+  }
+  .roll__line {
+    display: grid;
+    gap: var(--s-2);
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+  }
+  .roll__line:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+  .roll__names {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2) var(--s-4);
+    font-family: var(--font-wide);
+    font-stretch: 118%;
+    font-weight: 400;
+    font-size: var(--t-lead);
+    line-height: 1.25;
+    color: var(--ivory);
+  }
+  .roll__names li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-4);
+  }
+  /* A small gold mark between names. It trails its name, so a wrapped line never starts with one. */
+  .roll__names li:not(:last-child)::after {
+    content: '';
+    inline-size: 0.25rem;
+    block-size: 0.25rem;
+    border-radius: 50%;
+    background: var(--gold-700);
+  }
+
+  @media (min-width: 64rem) {
+    .roll__beam {
+      display: block;
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 50%;
+      inline-size: 1px;
+      /* The system's lit rule, turned upright: bright where the light enters, fading as it falls. */
+      background: linear-gradient(180deg, var(--gold-200) 0%, var(--rule-strong) 22%, var(--rule) 70%, transparent 100%);
+      transform-origin: center top;
+    }
+    .roll,
+    .roll__line {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+    .roll {
+      align-items: start;
+    }
+    .roll > :global(.roll__head) {
+      grid-column: 1 / span 4;
+      grid-row: 1;
+    }
+    /* Columns 5 to 12 of the page: the still ends on the midline, the name starts after it. */
+    .roll__cast {
+      grid-column: 5 / -1;
+      grid-row: 1;
+    }
+    .roll__person {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+    .roll :global(.roll__still) {
+      grid-column: 1 / span 2;
+      justify-self: end;
+      inline-size: 6.25rem;
+    }
+    .roll__who {
+      grid-column: 3 / -1;
+      padding-block-end: var(--s-1);
+    }
+    /* Billing size: the longest name is 8.9 times the font size wide, and fits its six columns
+       from 64rem up (437 of 453px at 1024, 535 of 642px at 1440). */
+    .roll__name {
+      font-size: var(--t-h2);
+    }
+    .roll__credits {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+    .roll__line,
+    .roll__line:last-child {
+      align-items: baseline;
+      padding-block: var(--s-3);
+      border: 0;
+    }
+    .roll__line dt {
+      grid-column: 1 / span 6;
+      text-align: end;
+    }
+    .roll__line dd {
+      grid-column: 7 / span 6;
+    }
+  }
+  /* The beam draws down as the credits come into view. Scroll-linked, CSS only; where scroll
+     timelines are unsupported, or motion is reduced, it simply stands there. */
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .roll__beam {
+        animation: beam-draw linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+    }
+  }
+  @keyframes beam-draw {
+    from {
+      transform: scaleY(0);
+    }
+  }
+</style>

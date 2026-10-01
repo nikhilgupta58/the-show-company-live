@@ -1,0 +1,101 @@
+---
+// Tabs over one shared space: N panels cost the height of one. Every panel is in the DOM;
+// without JavaScript they simply stack, each under its own heading. src/client/ui.ts builds
+// the tablist (roles, arrow keys, the sliding marker) and hides the inactive panels.
+// Children: <TabPanel id="…" label="…">. One control only: no arrows, no autoplay.
+interface Props {
+  label: string; // names the tablist for assistive tech
+  class?: string;
+}
+const { label, class: className } = Astro.props;
+---
+
+<div class:list={['tabs', className]} data-tabs>
+  <div class="tabs__list" role="tablist" aria-label={label} data-tab-list hidden></div>
+  <div class="tabs__panels"><slot /></div>
+</div>
+
+<style is:global>
+  .tabs__list {
+    position: relative;
+    display: flex;
+    gap: clamp(0.25rem, 3vw - 1rem, 1.25rem);
+    margin-block-end: var(--s-6);
+    border-block-end: 1px solid var(--rule);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs__list[hidden] {
+    display: none;
+  }
+  .tabs__tab {
+    flex: none;
+    min-block-size: 3.25rem;
+    min-inline-size: 2.75rem; /* a short label ("City") is still a full target */
+    padding: 0 0.5rem;
+    font-family: var(--font-sans);
+    font-stretch: 112%;
+    font-size: var(--t-ui);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--stone-400);
+    white-space: nowrap;
+    transition: color var(--dur-ui) ease;
+  }
+  .tabs__tab:first-of-type {
+    padding-inline-start: 0; /* the first label starts on the edge, like everything else */
+  }
+  .tabs__tab[aria-selected='true'] {
+    color: var(--ivory);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tabs__tab:hover {
+      color: var(--gold-100);
+    }
+  }
+  .tabs__marker {
+    position: absolute;
+    inset: auto auto 0 0;
+    inline-size: 100px;
+    block-size: 2px;
+    background: var(--gold-200);
+    transform-origin: left center;
+    transition: transform 380ms var(--ease-in-out);
+    pointer-events: none;
+  }
+  /* Stacked (no JavaScript): each panel is a block under its own heading. */
+  .tabs__panel + .tabs__panel {
+    margin-block-start: var(--section);
+    padding-block-start: var(--block);
+    border-block-start: 1px solid var(--rule);
+  }
+  .tabs__heading {
+    margin-block-end: var(--s-5);
+  }
+  .tabs.is-enhanced .tabs__panel + .tabs__panel {
+    margin-block-start: 0;
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+  /* With the tablist on screen the tab names the panel; the panel's own heading stays in the
+     DOM (search, screen readers) but no longer takes a line. */
+  .tabs.is-enhanced .tabs__heading {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .tabs__panel[hidden] {
+    display: none;
+  }
+  /* Windows High Contrast: the marker is a background and vanishes; underline the chosen tab. */
+  @media (forced-colors: active) {
+    .tabs__tab[aria-selected='true'] {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.4em;
+    }
+  }
+</style>

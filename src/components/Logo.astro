@@ -1,0 +1,35 @@
+---
+// The company's logo, exactly as it is (BRIEF §3.10): the whole artwork of public/assets/logo.png
+// (crest, lettering, metallic finish). Nothing here redraws, recolours, crops or adds an effect;
+// the file is only resized by astro:assets, and stays a PNG: lossless, and for this flat artwork
+// smaller than WebP or AVIF at every size (132px: PNG 5.8 KB, WebP 9.9, AVIF 17.5).
+//
+//   <Logo width={86} />                 header and menu
+//   <Logo width={190} loading="lazy" /> footer
+//
+// The artwork is a 598×357 raster with no vector, so it is sharp only up to about 200 CSS px
+// wide on a 3x phone and 300 on a 2x screen. Never set `width` above 200.
+// Clear space: at least a fifth of the logo's height on every side, on black or near-black.
+// Do not style the <img>: no filter, opacity, blend, shadow, mask or border-radius.
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+
+interface Props {
+  width?: number; // CSS pixels; the height follows the artwork's own ratio
+  loading?: 'eager' | 'lazy';
+  alt?: string;
+  class?: string;
+}
+const { width = 86, loading = 'eager', alt = 'The Show Company', class: className } = Astro.props;
+const w = Math.min(width, 200);
+const h = Math.round((w * logo.height) / logo.width);
+---
+
+<Image src={logo} alt={alt} width={w} height={h} densities={[1, 2, 3]} format="png" loading={loading} decoding="async" class:list={['logo', className]} />
+
+<style is:global>
+  .logo {
+    display: block;
+    max-inline-size: none;
+  }
+</style>

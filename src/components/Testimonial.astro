@@ -1,0 +1,85 @@
+---
+// One voice at a time, in a black frame: a window onto a real show above, the quote below.
+// The photograph is of a real night, not of the speaker, and is never presented as them.
+// Attribution is printed exactly as the source gives it. No stars, no avatar initials, no
+// giant quotation glyph: a star is a claim, and a claim needs a source.
+// Put several inside <Scroller>; lead with the quote that names an institution.
+// OWNER: the six quotes on production are unverified (content/index.md S11). Do not ship any
+// until the owner confirms them.
+import Photo from './Photo.astro';
+import type { Photograph } from '../data/photos';
+interface Props {
+  quote: string; // without quotation marks; they are added typographically
+  name: string;
+  role?: string;
+  photo?: Photograph;
+}
+const { quote, name, role, photo } = Astro.props;
+---
+
+<figure class:list={['voice', { 'voice--plain': !photo }]}>
+  {photo && <Photo photo={photo} ratio="3/2" sizes="(min-width: 56rem) 24rem, 86vw" widths={[480, 720, 960, 1280]} class="voice__photo" />}
+  <div class="voice__words">
+    <blockquote class="voice__quote t-quote">
+      <p>&ldquo;{quote}&rdquo;</p>
+    </blockquote>
+    <figcaption class="voice__by">
+      <span class="voice__name">{name}</span>
+      {role && <span class="voice__role t-small">{role}</span>}
+    </figcaption>
+  </div>
+</figure>
+
+<style>
+  .voice {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    padding: var(--s-4);
+    background: var(--black);
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .voice__quote {
+    padding-inline: var(--s-3);
+    padding-block-start: var(--s-2);
+    color: var(--ivory);
+  }
+  .voice__quote p {
+    max-inline-size: 17em; /* 30ch of Newsreader italic */
+    text-indent: -0.42em; /* hang the opening mark */
+    padding-inline-start: 0.42em;
+  }
+  .voice__by {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-1) var(--s-4);
+    margin-inline: var(--s-3);
+    padding-block: var(--s-4) var(--s-2);
+    border-block-start: 1px solid var(--rule-strong);
+  }
+  .voice__name {
+    font-weight: 500;
+    font-stretch: 112%;
+  }
+  .voice__role {
+    color: var(--text-3);
+  }
+  .voice__words {
+    display: grid;
+    gap: var(--s-5);
+    align-content: space-between;
+  }
+  /* From 56rem the card is wide and low: the window on the left, the words beside it. */
+  @media (min-width: 56rem) {
+    .voice {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      align-items: stretch;
+      gap: var(--s-6);
+      padding: var(--s-5);
+    }
+    .voice--plain {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

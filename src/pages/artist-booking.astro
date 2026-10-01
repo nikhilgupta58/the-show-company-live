@@ -1,0 +1,438 @@
+---
+// /artist-booking/ — Redesign 2.0. Replaces src/pages/artist-booking.html.
+// Head values: build-tools/seo-targets.json. Facts: docs/redesign-2.0/content/artist-booking.md and the
+// ledger in docs/redesign-2.0/seo/strategy.md §5 (outline §6.5). This page sells the artist only;
+// production is one door away (event management, FAQ 3).
+// Signature: the redline. The lead of "What a booking includes" names the three habits of artist
+// booking in India, and a gold rule strikes each one through as the lead scrolls into view.
+// After the critique (reviews/pages-comedy.md): proof in the first screen (the small ledger), the
+// five acts as a ruled roster instead of a five-up grid, and the way out to event management
+// closing "Who we book", where the strategy puts it.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import StatLedger from '../components/StatLedger.astro';
+import TextLink from '../components/TextLink.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import { photos } from '../data/photos';
+import { site, nextAfter } from '../data/site';
+// The H1's punchline word is italic and above the fold: preload that face so it does not swap in late.
+import italicUrl from '../assets/fonts/newsreader-italic-var.woff2?url';
+
+const path = '/artist-booking/';
+const pageUrl = `${site.url}${path}`;
+const next = nextAfter(path);
+const enquire = site.nav.cta.href;
+const costGuide = '/comedian-booking-cost-india/';
+
+const acts = [
+  { name: 'Stand-up comedians', text: 'From rising club acts to national headliners, matched to your audience and its boundaries.', link: { href: '/stand-up-comedy-shows/', label: 'stand-up comedian booking' } },
+  { name: 'Singers and live bands', text: 'Playback, indie and cover artists for concerts, pro-nights, weddings and galas.' },
+  { name: 'DJs', text: 'Club, festival and wedding DJs with their own rigs or ours, matched to the crowd you expect.' },
+  { name: 'Emcees and anchors', text: 'Bilingual hosts for award nights, town halls, fests and televised-style run-of-shows.' },
+  { name: 'Celebrity appearances', text: 'Headline names for milestone events, scoped honestly against your budget, under a contract we negotiate.' },
+];
+
+const steps = [
+  { name: 'Curated shortlist', text: '3–6 artists that fit your brief, with honest fee bands and real availability, within 48 hours.' },
+  { name: 'Contract and advance', text: 'A signed performance agreement and a managed payment schedule. No handshake deals.' },
+  { name: 'Travel and rider', text: 'Flights, stay, ground transport and hospitality, handled to the artist’s rider and billed transparently.' },
+  { name: 'Show-day coordination', text: 'Sound-check scheduling, technical liaison and an on-call producer until the artist leaves the stage.' },
+];
+
+// One source for each answer: the page shows the HTML, the FAQPage JSON-LD gets the same words without tags.
+const faqs = [
+  {
+    q: 'How do artist fees work in India?',
+    a: `Fees vary by profile, date, city and format — a weekday club set and a Saturday fest headline slot from the same artist can differ 2–3x. We quote a total that includes fee, travel and production so you can compare options honestly. Detailed ranges are in our <a href="${costGuide}">booking cost guide</a>.`,
+  },
+  {
+    q: 'Can you get a specific artist we have in mind?',
+    a: 'Usually, yes — name the artist in your enquiry and we’ll come back with their real availability and fee. If they’re outside your budget or unavailable, we’ll propose comparable artists your audience will love.',
+  },
+  {
+    q: 'Do you only book, or also produce the event?',
+    a: 'Both. Booking-only is fine if you have production covered; otherwise we deliver the full show — stage, sound, lighting and show-calling — through our production team and partners. See <a href="/corporate-entertainment/">corporate events</a> and <a href="/college-fest-entertainment/">college fests</a>.',
+  },
+  {
+    q: 'What if an artist cancels?',
+    a: 'Cancellation terms are written into every contract, and for every booking we maintain a backup option of comparable profile. In the rare case of a cancellation, you get the replacement or the refund — your event doesn’t absorb the risk.',
+  },
+  {
+    q: 'How do I book an artist for an event?',
+    a: `Send us the occasion, audience, city, date and budget band through the <a href="${enquire}">enquiry form</a>, WhatsApp or email. Within 48 hours you get a shortlist of 3–6 artists, with fee bands and availability. Once you pick, we negotiate the contract, manage the advance and book travel against the rider.`,
+  },
+  {
+    q: 'I’m an artist. How can I collaborate with The Show Company?',
+    a: `We’re always looking for talented artists. Send your portfolio, showreel, and a brief introduction to <a href="${site.contact.email.href}">${site.contact.email.label}</a>. Our talent acquisition team reviews all submissions and reaches out to artists whose style aligns with our upcoming projects. We offer artist management, booking, and full production support to help artists focus on their craft while we handle the logistics.`,
+  },
+];
+const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
+    name: 'Artist Booking & Management',
+    serviceType: 'Artist Booking Agency',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+    },
+    areaServed: { '@type': 'Country', name: 'India' },
+    description: 'End-to-end artist booking across India: stand-up comedians, singers, DJs, live bands and emcees. Curated shortlists, transparent quotes, contracts, travel and rider management.',
+    url: pageUrl,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Artist booking', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })),
+  },
+];
+---
+
+<Base
+  title="Artist Booking Agency in India | The Show Company"
+  description="Artist booking agency for comedians, singers, DJs, live bands and emcees in India. 100+ artists booked, written quotes and contracts. Shortlist in 48 hours."
+  path={path}
+  jsonLd={jsonLd}
+>
+  <Fragment slot="head"><link rel="preload" as="font" type="font/woff2" href={italicUrl} crossorigin /></Fragment>
+  <Hero photo={photos.emptyHallMicPortrait} ratio="4/5" ratioSmall="16/9" size="compact">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Artist booking' }]} />
+    <h1 slot="title" class="ab-h1">
+      <span class="t-kicker ab-h1__kicker">Artist booking agency:</span>
+      <span class="ab-h1__line">the artist you want, <em>confirmed</em></span>
+    </h1>
+    <p slot="lead" class="t-lead">Comedians, singers, DJs, live bands and emcees, anywhere in India, with real availability and real prices.</p>
+    <Fragment slot="actions">
+      <Button href={enquire} icon="arrow-right">Request a shortlist</Button>
+      <Button href={costGuide} variant="outline">How fees work</Button>
+    </Fragment>
+    <StatLedger
+      slot="proof"
+      size="sm"
+      reveal={false}
+      items={[
+        { value: '100+', label: 'artists booked' },
+        { value: '3–6', label: 'artists on a shortlist' },
+        { value: '48 h', label: 'from brief to shortlist' },
+      ]}
+    />
+  </Hero>
+
+  <section class="section">
+    <div class="wrap who">
+      <div class="who__head">
+        <SectionHeader stack title="Who we book">
+          <p class="t-lead who__lead">The Show Company has booked 100+ artists alongside our partners OML and Oriole Entertainment, so availability and fees come from the industry, not from Instagram DMs.</p>
+        </SectionHeader>
+      </div>
+      <ul class="acts" data-reveal="stagger">
+        {
+          acts.map((act) => (
+            <li class="act">
+              <h3 class="act__name">{act.name}</h3>
+              <p class="act__text">
+                {act.text}
+                {act.link && (
+                  <Fragment>
+                    {' '}
+                    More on <a class="link" href={act.link.href}>{act.link.label}</a>.
+                  </Fragment>
+                )}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="door" data-reveal>
+        <p class="dim">Need the stage, sound and lighting as well?</p>
+        <TextLink href="/event-management-company-india/">Full-service event management</TextLink>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <SectionHeader title={'What\u00a0a\u00a0booking includes'}>
+        <p class="t-lead redline" data-redline>
+          Artist booking in India usually means <s class="rl">unverified manager numbers<span class="rl__line" aria-hidden="true"></span></s>, <s class="rl">quotes that inflate<span class="rl__line" aria-hidden="true"></span></s> and <s class="rl">no contract until show week<span class="rl__line" aria-hidden="true"></span></s>. <span class="redline__turn">We work differently.</span>
+        </p>
+      </SectionHeader>
+      <ol class="steps" data-reveal="stagger">
+        {
+          steps.map((step, i) => (
+            <li class="step">
+              <span class="step__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="step__name">{step.name}</h3>
+              <p class="step__text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split__aside">
+        <SectionHeader stack size="h3" title="Artist booking FAQs" lead="Tell us who you’re imagining on stage. We’ll tell you what it takes.">
+          <TextLink href={enquire}>Request a shortlist</TextLink>
+        </SectionHeader>
+      </div>
+      <div class="split__main">
+        {
+          faqs.map((f) => (
+            <FaqItem question={f.q} group="artist-faq">
+              <p set:html={f.a} />
+            </FaqItem>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Artists, production and crew, run as one team." photo={photos.emptyStageTruss} />
+</Base>
+
+<style>
+  /* The H1 is one string for search ("Artist booking agency: the artist you want, confirmed"): the
+     keyword as the system's kicker (.t-kicker, tracked for sentence case), the promise at display
+     size with its first letter capitalised by CSS, and "confirmed" in the punchline italic. */
+  .ab-h1__kicker {
+    display: block;
+    margin-block-end: var(--s-4);
+    letter-spacing: 0.06em;
+  }
+  .ab-h1__line {
+    display: block;
+  }
+  .ab-h1__line::first-letter {
+    text-transform: uppercase;
+  }
+
+  /* Who we book: a roster, not a features grid. The five acts are ruled rows, the name at the
+     sub-head size and its sentence at body size beside it. Phones keep run-in entries (name, then
+     its sentence, on one measure). From 72rem the heading, its lead and the way out stand on the
+     left edge and the roster hangs from column 5 (one of the system's two second anchors). */
+  .who {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+  }
+  .acts {
+    border-block-start: 1px solid var(--rule);
+  }
+  .act {
+    padding-block: var(--s-3);
+    border-block-end: 1px solid var(--rule);
+  }
+  .act__name {
+    display: inline;
+    margin-inline-end: 0.3em;
+    font-family: var(--font-serif);
+    font-size: var(--t-lead);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--ivory);
+  }
+  .act__text {
+    display: inline;
+    color: var(--text-2);
+  }
+  .door {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--s-5);
+  }
+  @media (min-width: 40rem) {
+    /* One names column for the whole roster, as wide as its longest name, so no name breaks and
+       every sentence starts on the same line. Without subgrid each row falls back to 2 : 3. */
+    .acts {
+      display: grid;
+      grid-template-columns: max-content minmax(0, 1fr);
+      column-gap: var(--gutter);
+    }
+    .act {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      grid-template-columns: subgrid;
+      column-gap: var(--gutter);
+      /* Hung from the top: the capitals of the name and of its sentence's first line share one
+         line, so a two-line sentence stands beside its name instead of trailing below it. */
+      align-items: start;
+    }
+    .act__name {
+      display: block;
+      margin: 0;
+      font-size: var(--t-h3);
+      line-height: var(--lh-h3);
+      letter-spacing: var(--ls-h3);
+    }
+    .act__text {
+      display: block;
+      max-inline-size: var(--measure-body);
+    }
+  }
+  @media (min-width: 72rem) {
+    .who {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto 1fr;
+      align-items: start;
+    }
+    .who__head {
+      grid-area: 1 / 1 / 2 / span 4;
+    }
+    /* Two gutters of air between the lead and the names. */
+    .who__lead {
+      padding-inline-end: var(--gutter);
+    }
+    .acts {
+      grid-area: 1 / 5 / span 2 / -1;
+    }
+    .door {
+      grid-area: 2 / 1 / 3 / span 4;
+      align-self: end;
+    }
+  }
+
+  /* The redline. Each struck phrase is an <s> (struck even with no CSS) set as one unbreakable
+     run; its gold rule rests drawn (the final state, with or without JavaScript) and the script
+     below only holds it back until it is seen. */
+  .redline .rl {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--text-3);
+  }
+  .rl__line {
+    position: absolute;
+    inset-inline: -0.08em;
+    inset-block-start: 0.68em;
+    block-size: max(2px, 0.085em);
+    background: var(--gold-300);
+    transform-origin: left center;
+    pointer-events: none;
+  }
+  /* The answer to the three struck habits: its own line, in the heading colour. */
+  .redline__turn {
+    display: block;
+    color: var(--text);
+  }
+
+  /* What a booking includes: four steps. Phone and tablet: numeral beside name and sentence.
+     Desktop: four ruled columns. */
+  .steps {
+    border-block-start: 1px solid var(--rule);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    column-gap: var(--s-4);
+    row-gap: var(--s-1);
+    padding-block: var(--s-4);
+    border-block-end: 1px solid var(--rule);
+  }
+  .step__num {
+    grid-row: 1 / span 2;
+    padding-block-start: 0.2rem;
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 400;
+    font-size: var(--t-body);
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--stone-400);
+  }
+  /* Names of acts and steps share one size (the lead's), so each holds one line in its column. */
+  .step__name {
+    font-family: var(--font-serif);
+    font-size: var(--t-lead);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+  }
+  .step__text {
+    color: var(--text-2);
+  }
+  @media (min-width: 64rem) {
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-block-end: 1px solid var(--rule);
+    }
+    .step {
+      grid-template-columns: minmax(0, 1fr);
+      align-content: start;
+      row-gap: var(--s-3);
+      padding: var(--s-5) var(--s-5) var(--s-6) 0;
+      border-block-end: 0;
+    }
+    .step + .step {
+      padding-inline-start: var(--s-5);
+      border-inline-start: 1px solid var(--rule);
+    }
+    .step__num {
+      grid-row: auto;
+      padding: 0;
+      margin-block-end: var(--s-2);
+      font-size: var(--t-figure-sm);
+      line-height: 1;
+    }
+  }
+</style>
+
+<script>
+  // The redline, struck when it is first seen: three gold rules, one after another, like a pen
+  // through a contract. Same contract as src/client/motion.ts: the rules rest drawn in CSS, and are
+  // held back by paused Web Animations only if the lead is still below the fold when this runs. No
+  // script, reduced motion, or an observer that never fires: the rules are simply there.
+  const lead = document.querySelector<HTMLElement>('[data-redline]');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (lead && !calm && 'IntersectionObserver' in window && typeof lead.animate === 'function' && lead.getBoundingClientRect().top > window.innerHeight * 0.94) {
+    const strikes = Array.from(lead.querySelectorAll<HTMLElement>('.rl__line')).map((line, i) => {
+      const anim = line.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
+        duration: 560,
+        delay: 650 + i * 380,
+        easing: 'cubic-bezier(0.77, 0, 0.175, 1)',
+        fill: 'backwards',
+      });
+      anim.pause();
+      anim.addEventListener('finish', () => anim.cancel());
+      return anim;
+    });
+    let struck = false;
+    const strike = () => {
+      if (struck) return;
+      struck = true;
+      io.disconnect();
+      window.removeEventListener('scroll', sweep);
+      strikes.forEach((anim) => anim.play());
+    };
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && strike(), { rootMargin: '0px 0px -22% 0px' });
+    // Belt and braces, as in motion.ts: a scroll that brings the lead into view strikes it too.
+    const sweep = () => lead.getBoundingClientRect().top < window.innerHeight * 0.78 && strike();
+    io.observe(lead);
+    window.addEventListener('scroll', sweep, { passive: true });
+    window.addEventListener('beforeprint', strike);
+  }
+</script>

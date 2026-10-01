@@ -1,0 +1,531 @@
+---
+// /corporate-entertainment/ — Redesign 2.0.
+// Head strings: build-tools/seo-targets.json. Outline, voice and facts: docs/redesign-2.0/seo/strategy.md §6.3, §5.
+// Facts: docs/redesign-2.0/content/corporate-entertainment.md (the cancellation line is artist-booking.md FAQ 4,
+// which applies to every booking). The page ranks for "corporate event entertainment": the six format lines,
+// the "hour" line and the four production FAQs are production's own words (FAQ 4 says "financial-year-end", as
+// the ledger and `leadTime` do, where production's FAQ said "year-end"); `brief` and `leadTime` are verbatim.
+// The FAQ is rendered from the same array as the FAQPage JSON-LD, so the two cannot drift apart.
+// The hero lead is one clause (three lines on a phone) so the ledger ends above the dock; the 48-hour
+// shortlist and the one point of contact it used to name are in the cue sheet and the `brief` passage.
+// Photographs: no verified photograph of a corporate show exists (photo-library.md). The hero is a comedy-show
+// photograph and the formats open beside the company's own photograph of a rigged, lit stage; neither is
+// captioned as a corporate event. `conferenceAudience` (unverified provenance) is not used.
+// Signature: the cue sheet. The booking is set out as five numbered cues (Q1 to Q5) on one line; every cue
+// opens with who answers for it, and the light calls the cues one by one as the line is read.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import TextLink from '../components/TextLink.astro';
+import StatLedger from '../components/StatLedger.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Rule from '../components/Rule.astro';
+import Photo from '../components/Photo.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import { site, nextAfter } from '../data/site';
+import { photos } from '../data/photos';
+
+const path = '/corporate-entertainment/';
+const url = `${site.url}${path}`;
+const costGuide = '/comedian-booking-cost-india/';
+const next = nextAfter(path);
+
+// The three formats that have a page of their own lead the board, so their links share one line;
+// the wording of all six is production's.
+const formats = [
+  {
+    name: 'Corporate stand-up comedy',
+    text: 'Comedians briefed on your audience and boundaries — funny without an HR escalation. The most-requested format for annual days and offsites.',
+    link: { href: '/stand-up-comedy-shows/', label: 'Book a comedian for a corporate event' },
+  },
+  {
+    name: 'Full event production',
+    text: 'Stage, sound, lighting, backdrop and show-calling for events from 50-person offsites to 1,000+ galas.',
+    link: { href: '/event-management-company-india/', label: 'Full-service event management' },
+  },
+  {
+    name: 'Celebrity appearances',
+    text: 'Headline names for milestone events — scoped honestly against budget, with contracts we negotiate for you.',
+    link: { href: '/artist-booking/', label: 'How artist booking works' },
+  },
+  { name: 'Live bands and singers', text: 'Acoustic sets for dinners, full bands for after-parties, playback and indie artists for award nights.' },
+  { name: 'DJ nights and after-parties', text: 'Club-grade sound and lighting brought to your venue, with DJs who read a corporate room.' },
+  { name: 'Emcees and anchors', text: 'Bilingual anchors who keep award ceremonies and town halls moving — the glue of a good run-of-show.' },
+];
+
+// Production's two passages that Google's AI Overview quotes for "corporate event entertainment"
+// (seo/raw/036): kept word for word, and visible.
+const brief =
+  'One brief gets you a curated menu of options — a corporate-safe stand-up comedian, a live band, a DJ-led evening, an emcee to hold the run-of-show together, or a combination. We then execute end-to-end: artist contracts, travel, technical production with our partner VIGOR MENTORS, stage and backdrop design, and a producer on the ground on event day. You get one point of contact and one invoice.';
+const leadTime =
+  'Booking lead time for corporate events is typically 2–4 weeks depending on complexity; peak season dates (December, financial-year-end) are best locked 6–8 weeks out.';
+
+// The cue sheet: when, what, and who answers for it (every sentence opens with the owner).
+// Kept short on purpose: the `brief` passage, in the section above, carries the detail.
+const cues = [
+  { when: 'Day one', what: 'The brief', how: '<b>You</b> send the date, headcount and city, plus your red lines.' },
+  { when: 'Within 48 hours', what: 'The shortlist', how: '<b>We</b> shortlist corporate event entertainers, with real availability and fee bands.' },
+  { when: '2–4 weeks before', what: 'The contract', how: '<b>You</b> choose. <b>We</b> sign it, with cancellation terms and a comparable backup.' },
+  { when: 'Show day', what: 'The show', how: '<b>Our producer</b> is on the ground, calling the show.' },
+  { when: 'After', what: 'The invoice', how: '<b>We</b> raise a single invoice against that contract. Artist travel is already in the quote.' },
+];
+const leadTimeCue = 2; // the footnote hangs under "The contract"
+
+const faqs = [
+  {
+    q: 'What does corporate entertainment cost in India?',
+    a: `Most mid-size corporate events land between ₹2–8 lakh for a headline act plus production; intimate offsites can start under ₹1 lakh. Our <a href="${costGuide}">pricing guide</a> breaks down what moves the number.`,
+  },
+  {
+    q: 'Can the content be kept corporate-appropriate?',
+    a: 'Yes. We brief every artist on your audience, industry and red lines before the show, and we only shortlist performers with a track record in corporate rooms.',
+  },
+  {
+    q: 'Do you work outside the metros?',
+    a: 'Yes — we’ve produced events in 50+ cities including Dehradun, Jaipur, Lucknow and Indore. Artist travel is built into the quote so there are no surprise costs.',
+  },
+  {
+    q: 'How far in advance should we book?',
+    a: '2–4 weeks for most events; 6–8 weeks for December and financial-year-end dates, when artist calendars fill fastest.',
+  },
+  {
+    // The plan's secondary phrase "corporate event entertainment ideas" lives here: the formats heading no longer repeats it.
+    q: 'What are some corporate event entertainment ideas?',
+    a: 'We deliver six formats as entertainment for corporate events: stand-up comedy for annual days and offsites; live bands and singers for dinners, after-parties and award nights; DJ nights for the after-party; emcees for award ceremonies and town halls; celebrity appearances for milestone events; and full event production, from 50-person offsites to 1,000+ galas. One brief can combine several.',
+  },
+  {
+    q: 'What does “corporate entertainment” mean?',
+    a: 'Corporate entertainment is the live entertainment a company books for its own events: annual days, offsites, galas, award nights and client evenings. For corporate entertainment in India, The Show Company covers both the artists — comedians, bands and singers, DJs, emcees and celebrity appearances — and the production around them: stage, sound, lighting and a producer on the ground.',
+  },
+];
+
+const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+// A line that breaks after a hyphen or an en dash ("50-" / "person", "2–" / "4 weeks") reads badly:
+// keep each compound on one line. Only for strings without attributes (it would split a URL).
+const nb = (s: string) => s.replace(/[\p{L}\p{N}]+(?:[-–][\p{L}\p{N}]+)+/gu, '<span class="nb">$&</span>');
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: 'Corporate Event Entertainment',
+    serviceType: 'Corporate Entertainment Production',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+    },
+    // India plus the cities this page names (FAQ 3). Pune and Gurugram wait for the owner (strategy §5.5).
+    areaServed: [
+      { '@type': 'Country', name: 'India' },
+      ...['Dehradun', 'Jaipur', 'Lucknow', 'Indore'].map((name) => ({ '@type': 'City', name })),
+    ],
+    description:
+      'Live entertainment for corporate events across India: stand-up comedy, live bands, DJs, emcees and full technical production for annual days, offsites, galas, award nights and client events.',
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Corporate entertainment', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })),
+  },
+];
+---
+
+<Base
+  title="Corporate Event Entertainment in India | The Show Company"
+  description="Corporate event entertainment across India: stand-up comedy, live bands, DJs and emcees for annual days, offsites and galas. A curated line-up in 48 hours."
+  path={path}
+  jsonLd={jsonLd}
+>
+  <Hero photo={photos.crowdworkHoodie} size="compact" ratio="4/5" ratioSmall="3/2">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Corporate entertainment' }]} />
+    <h1 slot="title">Corporate event entertainment that people remember</h1>
+    <p slot="lead" class="t-lead">Corporate event entertainment in India for annual days, offsites, galas and client evenings.</p>
+    <Fragment slot="actions">
+      <Button href={site.nav.cta.href}>Plan your event</Button>
+      <TextLink href={costGuide}>What it costs</TextLink>
+    </Fragment>
+    <StatLedger slot="proof" size="sm" reveal={false} items={site.stats} />
+  </Hero>
+
+  <section class="section" aria-labelledby="formats-title">
+    <div class="wrap">
+      <Rule variant="lit" reveal />
+      <div class="intro">
+        <h2 id="formats-title" data-reveal="lines">Six formats we deliver</h2>
+        <p class="t-lead intro__lead" data-reveal>
+          The hardest part of a corporate event isn’t the venue or the catering — it’s the hour where the room either comes alive or checks its phones. The Show
+          Company builds that hour.
+        </p>
+        <p class="dim intro__brief" data-reveal set:html={nb(brief)} />
+        <Photo
+          class="intro__photo"
+          photo={photos.emptyStageTruss}
+          ratio="3/2"
+          ratioSmall="16/9"
+          sizes="(min-width: 64rem) 30vw, 100vw"
+          widths={[480, 768, 1080, 1280]}
+          reveal
+          parallax
+        />
+      </div>
+      <ul class="lineup" data-reveal="stagger">
+        {
+          formats.map((f) => (
+            <li class="lineup__item">
+              <h3 class="t-title lineup__name" set:html={nb(f.name)} />
+              {/* one line: phones read the link at the end of the sentence; from 40rem the <p> dissolves and the link takes the cell's third row */}
+              <p class="lineup__text"><span set:html={nb(f.text)} />{f.link && <Fragment> <a class="link lineup__link" href={f.link.href}>{f.link.label}</a></Fragment>}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ros-title">
+    <div class="wrap">
+      <SectionHeader id="ros-title" title="Every cue has an owner" />
+      <div class="ros" style={`--step:${1 / (cues.length - 1)};--note-x:${leadTimeCue / cues.length}`}>
+        <ol class="ros__cues" data-reveal="stagger">
+          {
+            cues.map((c, i) => (
+              <li class="ros__cue" style={`--f:${i / (cues.length - 1)}`}>
+                <p class="ros__when">{c.when}</p>
+                <p class="t-label ros__q" data-q={`Q${i + 1}`}>{`Q${i + 1}`}</p>
+                {i < cues.length - 1 && (
+                  <span class="ros__rail" aria-hidden="true">
+                    <span class="ros__lit" />
+                  </span>
+                )}
+                <h3 class="t-title ros__what">{c.what}</h3>
+                <p class="ros__how" set:html={nb(c.how)} />
+              </li>
+            ))
+          }
+        </ol>
+        <p class="ros__note t-small" data-reveal set:html={nb(leadTime)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap split">
+      <div class="split__aside">
+        <SectionHeader stack size="h3" id="faq-title" title="Corporate booking FAQs">
+          <TextLink href={site.nav.cta.href}>Plan your event</TextLink>
+        </SectionHeader>
+      </div>
+      <div class="split__main">
+        {
+          faqs.map((f) => (
+            <FaqItem question={f.q} group="corporate-faq">
+              <p set:html={f.a} />
+            </FaqItem>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Comedy nights, EDM nights and pro-night concerts." photo={photos.collegeTentAudience} contact />
+</Base>
+
+<style>
+  /* ── The formats open the way the college nights do: the heading and the two intro passages beside
+        one photograph. It is the company's own picture of a stage, rigged and lit; nothing here
+        captions it as a corporate event, because no photograph of one exists. */
+  .intro {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+    padding-block-start: var(--s-5);
+  }
+  /* Phones: the hero's photograph is one screen above; a second one costs a quarter of a screen. */
+  .intro :global(.intro__photo) {
+    display: none;
+  }
+  @media (min-width: 40rem) {
+    .intro :global(.intro__photo) {
+      display: grid;
+    }
+  }
+  /* Desktop: the board's own three columns. Heading across two, the two passages under it, the photograph in the third. */
+  @media (min-width: 64rem) {
+    .intro {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+    .intro h2 {
+      grid-column: 1 / span 2;
+    }
+    .intro__lead {
+      grid-area: 2 / 1;
+    }
+    .intro__brief {
+      grid-area: 2 / 2;
+    }
+    .intro :global(.intro__photo) {
+      grid-area: 1 / 3 / span 2 / auto;
+    }
+  }
+
+  /* ── The six formats: a ruled board, three across on a desktop. A cell is three rows (name, line,
+        link) and the board shares them (subgrid), so the three links sit on one line. */
+  .lineup {
+    display: grid;
+    column-gap: var(--gutter);
+    margin-block-start: var(--block);
+  }
+  .lineup__item {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+  }
+  .lineup__name {
+    margin-block-end: var(--s-2);
+  }
+  .lineup__text {
+    color: var(--text-2);
+  }
+  /* The door out of a format. Phones: at the end of its sentence. From 40rem the paragraph
+     dissolves, so the link takes the cell's third row and the three links share one line. */
+  .lineup__link {
+    font-weight: 500;
+    font-stretch: 112%;
+  }
+  @media (min-width: 40rem) {
+    .lineup__text {
+      display: contents;
+    }
+    .lineup__link {
+      justify-self: start;
+      padding-block: var(--s-2);
+    }
+  }
+  @media (min-width: 40rem) {
+    .lineup {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .lineup {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ── The cue sheet (this page's signature). The booking as five numbered cues on one line: the
+        time above the line, the cue number on it, who does what below it. The light travels along
+        the line and calls each cue (its number turns gold) as the reader reaches it. Phone and
+        tablet: the numbers run down the left and the line joins them.
+        Base state = every cue called (no animation, reduced motion, unsupported browsers). */
+  .ros {
+    --rail: 2.25rem; /* phone: the column the cue numbers and the line run in */
+    --row-gap: var(--s-5);
+  }
+  .ros__cues {
+    display: grid;
+    row-gap: var(--row-gap);
+    max-inline-size: 40rem; /* tablet: keeps each time beside its title */
+  }
+  /* Phone and tablet: a cue sheet. Number, title and time share the first line; the sentence runs
+     under the title and the time. */
+  .ros__cue {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr) auto;
+    align-items: baseline;
+    row-gap: var(--s-2);
+    view-timeline: --cue block;
+  }
+  .ros__when {
+    grid-area: 1 / 3;
+    padding-inline-start: var(--s-4);
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 400;
+    font-size: var(--t-ui);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--gold-text);
+    white-space: nowrap;
+  }
+  /* The cue number: quiet until its cue is called. The gold copy and its light sit over it. */
+  .ros__q {
+    grid-area: 1 / 1;
+    position: relative;
+    isolation: isolate;
+    justify-self: start;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--text-3);
+  }
+  .ros__q::after {
+    content: attr(data-q);
+    content: attr(data-q) / '';
+    position: absolute;
+    inset: 0;
+    color: var(--gold-200);
+  }
+  /* A called cue throws a little light on the black around it (amber, under 20%). */
+  .ros__q::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -0.9rem -1rem;
+    background: radial-gradient(closest-side, rgb(242 178 74 / 0.2), transparent);
+    pointer-events: none;
+  }
+  /* One segment per cue, from its number to the next number. */
+  .ros__rail {
+    position: absolute;
+    inset-inline-start: 0.6rem;
+    inset-block-start: 1.9rem;
+    inline-size: 1px;
+    block-size: calc(100% + var(--row-gap) - 2.05rem);
+    background: var(--rule-strong);
+  }
+  .ros__lit {
+    position: absolute;
+    inset: 0;
+    background: var(--gold-200);
+    transform-origin: center top;
+  }
+  .ros__what {
+    grid-area: 1 / 2;
+  }
+  .ros__how {
+    grid-column: 2 / -1;
+    color: var(--text-2);
+  }
+  /* Who answers for the cue. */
+  .ros__how :global(b) {
+    font-weight: 500;
+    color: var(--ivory);
+  }
+  /* The lead-time footnote: under the cues on a phone, hung from the contract cue on a desktop. */
+  .ros__note {
+    max-inline-size: 40rem;
+    margin-block-start: var(--s-5);
+    padding-inline-start: var(--rail);
+    color: var(--text-3);
+  }
+  :global(.nb) {
+    white-space: nowrap;
+  }
+
+  /* Desktop: one horizontal line, five cues across. */
+  @media (min-width: 72rem) {
+    .ros {
+      --q-w: 2.5rem; /* the number's place at the start of each segment */
+    }
+    .ros__cues {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      row-gap: 0;
+      max-inline-size: none;
+    }
+    .ros__cue {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      align-content: start;
+      row-gap: var(--s-3);
+    }
+    .ros__when,
+    .ros__q,
+    .ros__what,
+    .ros__how {
+      grid-area: auto;
+    }
+    .ros__when {
+      padding-inline-start: 0;
+      font-size: var(--t-body);
+    }
+    .ros__q {
+      margin-block-end: var(--s-1);
+    }
+    .ros__rail {
+      inset-inline-start: var(--q-w);
+      inset-block-start: calc(var(--t-body) * 1.3 + var(--s-3) + var(--t-label) * 0.65);
+      inline-size: calc(100% + var(--gutter) - var(--q-w) - 0.75rem);
+      block-size: 1px;
+    }
+    .ros__lit {
+      transform-origin: left center;
+    }
+    .ros__how {
+      padding-inline-end: var(--s-3);
+    }
+    .ros__note {
+      max-inline-size: none;
+      margin-block-start: var(--s-5);
+      margin-inline-start: calc((100% + var(--gutter)) * var(--note-x));
+      padding-inline-start: 0;
+    }
+  }
+
+  /* The light travels. Scroll-linked, CSS only, transform and opacity only.
+     Phone: each segment fills, and each cue is called, as it crosses the reading line 55% down the screen.
+     Desktop: one sweep along the line while it passes the middle of the screen, cue after cue. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .ros__lit {
+        animation: ros-fill-y linear both;
+        animation-timeline: --cue;
+        animation-range: cover 45vh cover calc(100% - 55vh);
+      }
+      .ros__q::before,
+      .ros__q::after {
+        animation: ros-lamp linear both;
+        animation-timeline: --cue;
+        animation-range: cover 44vh cover 46vh;
+      }
+      @media (min-width: 72rem) {
+        .ros {
+          view-timeline: --ros block;
+        }
+        .ros__lit {
+          animation-name: ros-fill-x;
+          animation-timeline: --ros;
+          animation-range: cover calc(35vh + var(--f) * 28vh) cover calc(35vh + (var(--f) + var(--step)) * 28vh);
+        }
+        .ros__q::before,
+        .ros__q::after {
+          animation-timeline: --ros;
+          animation-range: cover calc(34vh + var(--f) * 28vh) cover calc(35vh + var(--f) * 28vh);
+        }
+      }
+    }
+  }
+  @keyframes ros-fill-y {
+    from {
+      transform: scaleY(0);
+    }
+  }
+  @keyframes ros-fill-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes ros-lamp {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

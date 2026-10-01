@@ -1,0 +1,18 @@
+---
+// One panel of <Tabs>. `label` is the tab's text; `heading` is the panel's own visible heading
+// (defaults to the label). Keep the heading: it is what a visitor without JavaScript reads.
+// The heading's id is `<id>-heading`, so content inside can be named by it (aria-labelledby).
+interface Props {
+  id: string;
+  label: string;
+  heading?: string;
+  level?: 3 | 4;
+}
+const { id, label, heading = label, level = 3 } = Astro.props;
+const H = `h${level}` as 'h3' | 'h4';
+---
+
+<section class="tabs__panel" id={id} data-tab-panel data-tab-label={label}>
+  <H class="tabs__heading t-h3" id={`${id}-heading`}>{heading}</H>
+  <slot />
+</section>

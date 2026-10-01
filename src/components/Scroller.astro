@@ -1,0 +1,161 @@
+---
+// The side-scroller: the one place content may sit off screen, and only for a row of like
+// things (photographs, cards, quotes). Native scroll with snap, so touch, trackpad and keyboard
+// work with no script; src/client/ui.ts adds the previous / next buttons. The next item is
+// always cut by the edge, so it is obvious there is more. No autoplay, no dots, no loop.
+// Every item is in the DOM. Children: one element per item (each becomes a list item).
+// Slot `aside`: the section's one door (a <TextLink>, "See all recent shows"), set on the row of
+// the controls, at its start. It is on the page with or without JavaScript.
+//   <Scroller label="Photographs from recent shows">
+//     …items…
+//     <TextLink slot="aside" href="/work/">See all recent shows</TextLink>
+//   </Scroller>
+import Icon from './Icon.astro';
+interface Props {
+  label: string; // what the row holds, for assistive tech: "Photographs from recent shows"
+  item?: string; // CSS width of one item; default "min(72vw, 20rem)"
+  class?: string;
+}
+const { label, item = 'min(72vw, 20rem)', class: className } = Astro.props;
+---
+
+<div class:list={['scroller', className]} data-scroller style={`--item:${item}`}>
+  <div class="scroller__track" data-scroller-track role="region" aria-label={label} tabindex="0">
+    <slot />
+  </div>
+  <div class="scroller__foot wrap">
+    {
+      Astro.slots.has('aside') && (
+        <div class="scroller__aside">
+          <slot name="aside" />
+        </div>
+      )
+    }
+    <div class="scroller__controls" data-scroller-controls hidden>
+      <div class="scroller__bar" aria-hidden="true"><span class="scroller__fill"></span></div>
+      <div class="scroller__buttons">
+        <button class="scroller__btn" type="button" data-scroller-prev aria-label={`Previous: ${label}`}><Icon name="arrow-left" /></button>
+        <button class="scroller__btn" type="button" data-scroller-next aria-label={`Next: ${label}`}><Icon name="arrow-right" /></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .scroller {
+    /* Full bleed: the track runs to both screen edges; its first item starts on the page margin. */
+    --pad: max(var(--margin), (100vw - var(--max)) / 2);
+    timeline-scope: --scroller;
+  }
+  .scroller__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--item);
+    column-gap: var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    padding-inline: var(--pad);
+    padding-block: var(--s-2);
+    scrollbar-width: none;
+    scroll-timeline: --scroller x;
+  }
+  .scroller__track::-webkit-scrollbar {
+    display: none;
+  }
+  .scroller__track > :global(*) {
+    scroll-snap-align: start;
+    min-inline-size: 0;
+  }
+  /* One row under the track: [the door] [progress line ………] [previous] [next]. The line takes
+     what is left; on a narrow screen the controls drop under the door. The space above belongs to
+     the two items, so an empty row (no door, controls not needed) adds no height. */
+  .scroller__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--s-6);
+  }
+  .scroller__aside {
+    margin-block-start: var(--s-4);
+  }
+  .scroller__controls {
+    flex: 1 1 14rem;
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+    margin-block-start: var(--s-4);
+  }
+  .scroller__controls[hidden] {
+    display: none;
+  }
+  .scroller__bar {
+    flex: 1;
+    block-size: 1px;
+    background: var(--rule);
+    overflow: hidden;
+  }
+  .scroller__fill {
+    display: block;
+    block-size: 100%;
+    background: var(--gold-200);
+    transform: scaleX(0.12);
+    transform-origin: left center;
+  }
+  @supports (animation-timeline: scroll()) {
+    .scroller__fill {
+      animation: scroller-fill linear both;
+      animation-timeline: --scroller;
+    }
+  }
+  @keyframes scroller-fill {
+    from {
+      transform: scaleX(0.12);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  .scroller__buttons {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .scroller__btn {
+    display: grid;
+    place-items: center;
+    inline-size: 3rem;
+    block-size: 3rem;
+    border-radius: var(--r-control);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+    color: var(--ivory);
+    transition:
+      background-color var(--dur-ui) ease,
+      color var(--dur-ui) ease,
+      transform var(--dur-press) var(--ease-out);
+  }
+  .scroller__btn:active {
+    transform: scale(0.95);
+  }
+  .scroller__btn[aria-disabled='true'] {
+    color: var(--gold-700);
+    box-shadow: inset 0 0 0 1px var(--rule);
+    cursor: default;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .scroller__btn:not([aria-disabled='true']):hover {
+      background: var(--gold-300);
+      color: var(--black);
+    }
+  }
+  /* Windows High Contrast drops box-shadows: give the round buttons a real border. */
+  @media (forced-colors: active) {
+    .scroller__btn {
+      border: 1px solid ButtonText;
+    }
+    .scroller__btn[aria-disabled='true'] {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+// One fee or budget drawn on the page's shared rupee scale (₹0 to ₹12 lakh, linear): a hairline
+// track with the range lit on it. Decoration only (aria-hidden): the figure beside it is the fact.
+// Leave `to` out for an open band ("and above"): it runs to the end of the scale and ends in an
+// arrowhead. Without JavaScript the bar is simply drawn; with it, it draws in from its left edge
+// when scrolled to (the shared `data-reveal="rule"`, transform only).
+import { MAX } from './scale';
+
+interface Props {
+  from: number; // lakh
+  to?: number; // lakh
+  class?: string;
+}
+const { from, to, class: className } = Astro.props;
+---
+
+<span class:list={['bar', { 'bar--open': to === undefined }, className]} aria-hidden="true" style={`--a:${from / MAX};--b:${(to ?? MAX) / MAX}`}>
+  <span class="bar__fill" data-reveal="rule"></span>
+</span>
+
+<style>
+  .bar {
+    position: relative;
+    display: block;
+    block-size: 0.75rem;
+  }
+  .bar::before {
+    content: '';
+    position: absolute;
+    inset: calc(50% - 0.5px) 0 auto 0;
+    block-size: 1px;
+    background: var(--rule);
+  }
+  .bar__fill {
+    position: absolute;
+    inset-block-start: calc(50% - 2px);
+    inset-inline-start: calc(var(--a) * 100%);
+    inline-size: calc((var(--b) - var(--a)) * 100%);
+    block-size: 4px;
+    background: var(--bar, var(--gold-300));
+    transform-origin: left center;
+    transition: background-color var(--dur-ui) ease;
+  }
+  /* The arrowhead rides the bar's leading edge. */
+  .bar--open .bar__fill::after {
+    content: '';
+    position: absolute;
+    inset-block-start: calc(50% - 0.25rem);
+    inset-inline-end: 1px;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-block-start: 2px solid var(--bar, var(--gold-300));
+    border-inline-end: 2px solid var(--bar, var(--gold-300));
+    rotate: 45deg;
+    transition: border-color var(--dur-ui) ease;
+  }
+</style>

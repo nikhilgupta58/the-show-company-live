@@ -1,0 +1,84 @@
+---
+// The followspot: the system's one signature. A soft amber pool on the black ground behind a
+// headline. It lights words; it never sits on a photograph, on the logo or in the header zone.
+// <Hero> carries one already. A page opening that is not a <Hero> wraps its words in it:
+//
+//   <Followspot class="lobby__copy">
+//     <h1>…</h1>
+//     <p class="t-lead">…</p>
+//   </Followspot>
+//
+// The wrapper is the light's stage: the pool cannot leave it and fades out at its edges, so give
+// it the words only, on plain black. It rests behind the first <h1> (or <h2>) inside, or behind
+// the element marked `data-spot-target`. One per page.
+// Behaviour (src/client/motion.ts): with a mouse it follows the pointer over the wrapper with an
+// operator's lag and goes back to the headline when the pointer leaves; on touch it swings in
+// once; with reduced motion or without JavaScript it simply rests. Transform only: no layout shift.
+//
+// Without children it renders the stage alone, for a component that places it itself (as <Hero>
+// does, in its copy cell): the parent then needs `position: relative; isolation: isolate`, or
+// its own placement for the `class` it passes.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const wrap = Astro.slots.has('default');
+---
+
+{
+  wrap ? (
+    <div class:list={['spot-scope', className]} data-spot-scope>
+      <div class="spot-stage" aria-hidden="true">
+        <div class="spot" data-spot></div>
+      </div>
+      <slot />
+    </div>
+  ) : (
+    <div class:list={['spot-stage', className]} aria-hidden="true">
+      <div class="spot" data-spot></div>
+    </div>
+  )
+}
+
+<style>
+  .spot-scope {
+    position: relative;
+    isolation: isolate;
+  }
+  /* The stage: behind its block's words, clipped to the block, its edges faded, so the pool can
+     never light anything outside. The pool's place is a transform (`translate`, set by the script
+     from the headline's position), so moving it never shifts layout. */
+  .spot-stage {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(farthest-side at 42% 58%, #000 52%, transparent 100%);
+    mask-image: radial-gradient(farthest-side at 42% 58%, #000 52%, transparent 100%);
+  }
+  .spot {
+    --d: min(42rem, 120vw);
+    position: absolute;
+    left: 32%;
+    top: 58%;
+    inline-size: var(--d);
+    block-size: var(--d);
+    margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
+    translate: var(--rx, 0px) var(--ry, 0px);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(242 178 74 / 0.18), rgb(242 178 74 / 0.085) 42%, rgb(242 178 74 / 0.025) 72%, transparent);
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* The light comes up after the words have started to arrive. */
+    .spot {
+      animation: spot-up 1800ms ease-out 300ms backwards;
+    }
+  }
+  @keyframes spot-up {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

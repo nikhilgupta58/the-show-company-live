@@ -1,0 +1,112 @@
+---
+// A ruled list for things that are not links: what a booking includes, how a show day runs, what
+// moves a fee. Each item is a short title and, if needed, one or two lines of text, with a
+// hairline between items. It is ServiceRow without the door: no arrow, no hover, nothing to click.
+// On a desktop the title hangs on the left edge and the text from column 5; on a phone they stack.
+//
+//   <RuledList items={[{ title: 'Artist contracts', text: 'Signed before any money moves.' }, …]} />
+//   <RuledList numbered items={steps} />     (only when the order is a real sequence)
+//
+// An item may end with one link, set after its text (a step that sends the reader on: "See what
+// comedians cost."). One per item, and only where the step really leads somewhere; a list whose
+// items are all doors is a <ServiceRow> list.
+//   { title: 'We send a shortlist', text: 'Within 48 hours.', link: { href: '/comedian-booking-cost-india/', label: 'See what comedians cost.' } }
+//
+// `level` makes the titles headings (3 or 4) when they belong in the page outline; by default
+// they are plain text, so a long list does not flood the outline.
+interface Props {
+  items: readonly { title: string; text?: string; link?: { href: string; label: string } }[];
+  numbered?: boolean;
+  level?: 3 | 4;
+  class?: string;
+}
+const { items, numbered = false, level, class: className } = Astro.props;
+const List = numbered ? 'ol' : 'ul';
+const T = level ? (`h${level}` as 'h3' | 'h4') : 'p';
+---
+
+<List class:list={['rlist', { 'rlist--numbered': numbered }, className]} data-reveal="stagger">
+  {
+    items.map((item, i) => (
+      <li class="rlist__item">
+        {numbered && (
+          <span class="rlist__n tnum" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+        )}
+        <T class="rlist__title">{item.title}</T>
+        {(item.text || item.link) && (
+          <p class="rlist__text">
+            {item.text}
+            {item.link && <a class="link" href={item.link.href}>{item.link.label}</a>}
+          </p>
+        )}
+      </li>
+    ))
+  }
+</List>
+
+<style>
+  .rlist__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2) var(--gutter);
+    padding-block: var(--s-5);
+    border-block-start: 1px solid var(--rule);
+  }
+  .rlist__item:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+  .rlist--numbered .rlist__item {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+  }
+  .rlist--numbered .rlist__text {
+    grid-column: 2;
+  }
+  .rlist__n {
+    padding-block-start: 0.35em;
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: var(--t-label);
+    letter-spacing: var(--ls-label);
+    color: var(--gold-text);
+  }
+  .rlist__title {
+    font-family: var(--font-serif);
+    font-size: var(--t-title);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ivory);
+    max-inline-size: 13.5em; /* 24ch of Newsreader, in em so the font swap cannot re-wrap it */
+  }
+  .rlist__text {
+    color: var(--text-2);
+  }
+  @media (min-width: 56rem) {
+    .rlist__item {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: baseline;
+      padding-block: clamp(1rem, 1.5vw, 1.375rem);
+    }
+    .rlist__title {
+      grid-column: 1 / span 4;
+    }
+    .rlist__text {
+      grid-column: 5 / span 7;
+    }
+    .rlist--numbered .rlist__item {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .rlist--numbered .rlist__n {
+      grid-column: 1;
+    }
+    .rlist--numbered .rlist__title {
+      grid-column: 2 / span 3;
+    }
+    .rlist--numbered .rlist__text {
+      grid-column: 5 / span 7;
+    }
+  }
+</style>

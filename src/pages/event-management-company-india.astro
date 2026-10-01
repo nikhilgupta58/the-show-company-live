@@ -1,0 +1,607 @@
+---
+// /event-management-company-india/ — Redesign 2.0. The hub: the whole-event offer, and the four service lines.
+// Head strings: build-tools/seo-targets.json. Outline, voice and facts: docs/redesign-2.0/seo/strategy.md §6.7, §5.
+// Facts: docs/redesign-2.0/content/event-management-company-india.md, plus the four service pages' contracts for
+// the figure on each door. The unconfirmed Graphic Era quote is left out (strategy §6.7).
+// The FAQ is rendered from the same array as the FAQPage JSON-LD, so the two cannot drift apart.
+//
+// Signature: four doors, one house. The page opens on its four service lines as four lit windows, each one a
+// photograph of what is behind it; their curtains lift one after another as the page loads. Opening a door
+// (hover or focus) draws a gold sill under its window and lets its light spill onto the floor.
+// There is no single hero photograph, so no <Hero>: the four doors are the picture. The <h1> is set at the h2
+// step, where its nine words hold three lines at every width (at the h1 step they break into five), and the
+// lobby's words stand in the system's followspot (<Followspot>), which ends at the doors' rule.
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import Followspot from '../components/Followspot.astro';
+import Rule from '../components/Rule.astro';
+import Scroller from '../components/Scroller.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import StatLedger from '../components/StatLedger.astro';
+import TextLink from '../components/TextLink.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import { site, nextAfter } from '../data/site';
+import { photos } from '../data/photos';
+
+const path = '/event-management-company-india/';
+const url = `${site.url}${path}`;
+const next = nextAfter(path);
+
+// Each door shows what is behind it in the least-repeated frame the library has for it (design review,
+// pages-buyers.md P1-1): a rigged stage for corporate; the campus tent (the only cleared campus frame:
+// ledMandalaWall is a 2.46:1 band and would be upscaled in a square door); a comedy night with its audience, by a
+// comedian no page opens on; and the artist booking hall, the one door that repeats an opening picture (its own
+// page's, which /about/ shares). Kinds are mixed: a stage, a campus, a comedian, a room. Every master is larger
+// than its window at the declared shapes (no upscaling).
+// A door is named as the navigation names its page (site.ts); `service` is the full name, for the structured data.
+const label = (href: string) => site.nav.menu.find((page) => page.href === href)!.label;
+const doors = [
+  {
+    href: '/corporate-entertainment/',
+    service: 'Corporate entertainment',
+    kicker: 'For HR, admin and event teams',
+    text: 'Corporate-safe comedy, live bands, DJs and emcees for annual days, offsites, galas and client evenings, fully produced.',
+    figure: '50–1,000+',
+    unit: 'guests, from offsites to galas',
+    cta: 'Corporate event entertainment',
+    photo: photos.emptyStageTruss,
+  },
+  {
+    href: '/college-fest-entertainment/',
+    service: 'College fest entertainment',
+    kicker: 'For fest committees',
+    text: 'Comedy nights, EDM and DJ nights and pro-night concerts, with written quotes, GST invoices and contracts your dean will sign.',
+    figure: '1–3',
+    unit: 'months ahead: when to lock a fest headliner',
+    cta: 'College fest artist booking',
+    photo: photos.collegeTentAudience,
+  },
+  {
+    href: '/stand-up-comedy-shows/',
+    service: 'Stand-up comedy shows',
+    kicker: 'For comedy nights of any size',
+    text: 'We book the comedian, build the stage and run the night, from sound-check and compering to the last cue.',
+    figure: '50–2,000',
+    unit: 'seats, from club nights to auditorium specials',
+    cta: 'Stand-up comedian booking',
+    // Lower than the registry's point, so the square and the phone's 3:2 window both keep the front row.
+    photo: { ...photos.standupStool, position: '56% 75%' },
+  },
+  {
+    href: '/artist-booking/',
+    service: 'Artist booking',
+    kicker: 'When you only need the artist',
+    text: 'Comedians, singers, DJs, live bands and emcees, with real availability and fees, and a backup option for every booking.',
+    figure: '3–6',
+    unit: 'artists on your shortlist within 48 hours',
+    cta: 'Artist booking agency',
+    // Higher than the registry's point, so the phone's 3:2 window keeps the whole microphone head and the balcony.
+    photo: { ...photos.emptyHallMicPortrait, position: '49% 42%' },
+  },
+];
+
+// Who answers for each part of the event: a name against every job.
+const sheet = [
+  { job: 'The artist', detail: 'Shortlist, contract, advance, travel and rider', owner: 'Our team, with OML and Oriole Entertainment' },
+  { job: 'The stage', detail: 'Design, backdrop and technical crew', owner: 'Our production team' },
+  { job: 'Sound and lighting', detail: 'PA, monitors, stage wash and show cues', owner: 'VIGOR MENTORS, our partner' },
+  { job: 'Show day', detail: 'Venue coordination, sound-check, compering and show-calling', owner: 'A producer on the ground' },
+  { job: 'The paperwork', detail: 'A written quote, one agreement, one invoice', owner: 'One point of contact' },
+];
+
+const faqs = [
+  {
+    q: 'What does a full-service event management company actually do?',
+    a: 'Our event management services run end to end: artist booking and management, stage design and setup, sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, on-ground show management and post-event wrap-up. It’s handled from concept to curtain call, so you don’t have to juggle vendors.',
+  },
+  {
+    q: 'How is an event management company different from an artist booking agency?',
+    a: 'A booking agency finds you an artist and stops there. A full-service event management company also handles contracts, travel, technical production, stage and backdrop design, and a producer on the ground on event day: one point of contact and one invoice, instead of separate vendors for talent, sound and staging.',
+  },
+  {
+    q: 'What does event management cost in India?',
+    a: 'Intimate offsites and college comedy nights can start under ₹1 lakh; most mid-size corporate events and campus fests with a headline act plus production land between ₹2–8 lakh; large galas and auditorium shows with a national headliner can exceed ₹10 lakh. Our <a href="/comedian-booking-cost-india/">pricing guide</a> breaks down what moves the number.',
+  },
+  {
+    q: 'Which cities in India do you operate in?',
+    a: 'We’re pan-India, having produced shows in 50+ cities including Delhi, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Dehradun, Jaipur, Lucknow and Indore. Artist and crew travel is built into the quote, so there are no surprise costs outside metros.',
+  },
+  {
+    q: 'How do I choose an event management company?',
+    a: 'Ask any company four things: how many shows it has produced at your scale, whether the quote is in writing, whether the artist and the production are under a signed contract, and who will be on the ground on the day. Our answers: 500+ shows produced, a written quote within 48 hours of your brief, signed contracts with a backup option for every booking, and a producer at your venue on show day.',
+  },
+  {
+    q: 'What does a corporate event planner handle?',
+    a: 'A corporate event planner looks after the event as a whole: the venue, the schedule, the guests and every supplier. The part we take is what happens on stage, from the artists to sound, lighting, the backdrop and show-calling, for annual days, offsites, galas, award nights and client evenings. We work alongside HR teams, admin teams and event agencies, or directly with you.',
+  },
+];
+
+const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: 'Full-Service Event Management',
+    serviceType: 'Event Management',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+    },
+    // India plus the ten cities this page names (the cities row and FAQ 4). Pune and Gurugram wait for the owner (strategy §5.5).
+    areaServed: [
+      { '@type': 'Country', name: 'India' },
+      ...['Delhi', 'Mumbai', 'Bangalore', 'Chennai', 'Hyderabad', 'Kolkata', 'Jaipur', 'Dehradun', 'Lucknow', 'Indore'].map((name) => ({ '@type': 'City', name })),
+    ],
+    description:
+      'End-to-end event management across India: artist booking and management, stage design, sound and lighting, venue coordination, technical production and on-ground show execution for corporate events, college fests, comedy shows and auditorium productions.',
+    url,
+    // The four service lines, as the page shows them.
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Event management service lines',
+      itemListElement: doors.map((d) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: d.service, url: `${site.url}${d.href}` } })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Event management company', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })),
+  },
+];
+---
+
+<Base
+  title="Event Management Company & Event Organisers in India"
+  description="Full-service event management company in India. Event organisers for corporate events, college fests and comedy shows: artists, production and crew, one team."
+  path={path}
+  jsonLd={jsonLd}
+>
+  <header class="lobby wrap">
+    {/* The system's signature light, behind the lobby's words: it stops at the doors' rule, so it never reaches a photograph. */}
+    <Followspot class="lobby__stage">
+      <div data-enter style="--enter-delay:80ms">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Event management company' }]} />
+      </div>
+      <div class="lobby__grid">
+        {/* No italic in a first view: the italic file is not preloaded (DESIGN §3). The statement below carries it. */}
+        <h1 class="t-h2 lobby__title" data-enter style="--enter-delay:160ms">A full-service event management company built for India</h1>
+        <div class="lobby__aside">
+          <p class="t-lead" data-enter style="--enter-delay:260ms">
+            The Show Company is an event management company in India that runs the whole event, not just the booking: 500+ shows produced
+            across 50+ cities.
+          </p>
+          <div class="lobby__actions" data-enter style="--enter-delay:350ms">
+            {/* Phones: the dock carries Enquire, so the solid button gives way to a text link (one solid per screen). */}
+            <Button class="lobby__btn" href={site.nav.cta.href} icon="arrow-right">Get a proposal</Button>
+            <TextLink class="lobby__link" href={site.nav.cta.href}>Get a proposal</TextLink>
+            <p class="t-small dimmer">Still scoping? One brief gets you a plan and a proposal within 48 hours.</p>
+          </div>
+        </div>
+      </div>
+    </Followspot>
+  </header>
+
+  <section class="doors" aria-labelledby="service-lines">
+    <div class="wrap">
+      <Rule variant="lit" />
+      <h2 id="service-lines" class="t-h3 doors__head">Four kinds of event, one team</h2>
+    </div>
+    <Scroller label="Service lines" item="var(--door-w)">
+      {
+        doors.map((d, i) => (
+          <article class="door" style={`--enter-delay:${440 + i * 110}ms`}>
+            {/* Square from 60rem, so the four door names are in the first view at 1440×900. */}
+            <Photo
+              photo={d.photo}
+              ratio="1/1"
+              ratioSmall="3/2"
+              sizes="(min-width: 75rem) 23vw, (min-width: 60rem) 22rem, (min-width: 48rem) 42vw, 72vw"
+              widths={[360, 540, 720, 960, 1280]}
+              priority={i === 0}
+              enter
+              class="door__photo"
+            />
+            <span class="door__sill" aria-hidden="true" />
+            <div class="door__plate" data-enter style={`--enter-delay:${560 + i * 110}ms`}>
+              <p class="t-label">{d.kicker}</p>
+              <h3 class="t-title door__name">{label(d.href)}</h3>
+              <p class="t-small door__text">{d.text}</p>
+              <p class="door__fact">
+                <span class="t-figure door__figure">{d.figure}</span> <span class="t-small">{d.unit}</span>
+              </p>
+              {/* The arrow never drops to a line of its own: it is tied to the link's last word. */}
+              <a class="door__go" href={d.href}>
+                <span class="door__label">{d.cta.split(' ').slice(0, -1).join(' ')} </span><span class="door__tail"><span class="door__label">{d.cta.split(' ').at(-1)}</span><Icon name="arrow-right" class="door__icon" /></span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </Scroller>
+    <div class="wrap">
+      <div class="doors__note">
+        <h3 class="t-title">Comparing corporate event planners?</h3>
+        <p class="dim">
+          We’re the corporate event management company for what happens on stage: artists, sound, lighting, backdrop and show-calling, alongside
+          your HR team, admin team or event agency.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      {/* An h2 at the h2 size: a display-size line here would outrank the page's h1. */}
+      <SectionHeader eyebrow="Why companies, colleges and promoters book us">
+        <Fragment slot="title">A name against <em>every job.</em></Fragment>
+      </SectionHeader>
+    </div>
+    <div class="wrap split">
+      <div class="split__aside proof" data-reveal>
+        <p class="t-lead">
+          Search for event organisers in India and you’ll mostly find directories. Here, one team answers for the whole event, so you aren’t
+          managing a comedian, a sound vendor and a stage contractor as three separate relationships.
+        </p>
+        <StatLedger size="sm" items={site.stats} reveal={false} />
+        <TextLink href="/about/">Meet the team</TextLink>
+      </div>
+      <div class="split__main">
+        <h3 class="t-h4 sheet__title">Who answers for what</h3>
+        <dl class="sheet" data-reveal="stagger">
+          {
+            sheet.map((row) => (
+              <div class="sheet__row">
+                <dt>
+                  <span class="sheet__job">{row.job}</span> <span class="t-small sheet__detail">{row.detail}</span>
+                </dt>
+                <dd class="t-lead sheet__owner">{row.owner}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="t-small dim sheet__where" data-reveal>
+          As live show organisers we’ve produced shows in Delhi NCR, Mumbai, Bangalore, Chennai, Hyderabad, Kolkata, Jaipur, Dehradun, Lucknow and
+          Indore, for institutions including Graphic Era, DPS and BITS Pilani. See <a class="link" href="/work/">recent shows</a>, photographed on
+          the night.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split__aside">
+        <SectionHeader stack size="h3" title="Event management FAQs">
+          <TextLink href={site.nav.cta.href}>Get a proposal</TextLink>
+        </SectionHeader>
+      </div>
+      <div class="split__main">
+        {
+          faqs.map((f) => (
+            <FaqItem question={f.q} group="emc">
+              <p set:html={f.a} />
+            </FaqItem>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Fee bands by artist tier, and what moves the price." photo={photos.fullHouseBalcony} />
+</Base>
+
+<style>
+  /* ── The lobby: breadcrumb, then the title on the left edge and the lead hung from the midline. */
+  .lobby {
+    padding-block-start: var(--header-zone);
+  }
+  /* The followspot's stage: the lobby's words and the black under them, down to the doors' rule. */
+  .lobby :global(.lobby__stage) {
+    padding-block-end: var(--s-6);
+  }
+  .lobby__grid {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+    padding-block-start: var(--s-3);
+  }
+  .lobby__aside {
+    display: grid;
+    gap: var(--s-5);
+    justify-items: start;
+  }
+  .lobby__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2) var(--s-5);
+  }
+  .lobby__actions p {
+    max-inline-size: 36ch;
+  }
+  .lobby__actions :global(.lobby__btn) {
+    display: none;
+  }
+  @media (min-width: 48rem) {
+    .lobby__actions :global(.lobby__btn) {
+      display: inline-flex;
+    }
+    .lobby__actions :global(.lobby__link) {
+      display: none;
+    }
+  }
+  @media (min-width: 60rem) {
+    .lobby__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+    .lobby__title {
+      grid-column: 1 / span 6;
+    }
+    /* The lead's first line sits on the title's first line. */
+    .lobby__aside {
+      grid-column: 7 / -1;
+      padding-block-start: 0.7rem;
+    }
+  }
+
+  /* ── The doors. Four across from 75rem (they fill the row exactly, so the scroller has nothing to scroll);
+        below that the same row scrolls sideways, with the next door cut by the edge. */
+  .doors {
+    --door-w: min(72vw, 20rem);
+    padding-block-end: calc(var(--section) / 2);
+  }
+  @media (min-width: 48rem) {
+    .doors {
+      --door-w: min(42vw, 22rem);
+    }
+  }
+  @media (min-width: 75rem) {
+    .doors {
+      --door-w: calc((100% - 3 * var(--gutter)) / 4);
+    }
+  }
+  .doors__head {
+    padding-block: var(--s-4) var(--s-5);
+  }
+
+  /* A door is seven rows (window, sill, kicker, name, text, fact, link) and the four doors share them
+     (subgrid), so every kicker, name, fact and link sits on one line across the row at any width. */
+  .door {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-row: span 7;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+  /* Phones: a door's window takes the height the lobby leaves in the first screen (from its 3:2 up to 4:5), so
+     the dock crosses a photograph, never a line of the plate under it. 39rem is where the windows start under
+     this lobby's copy from 375 to 430 wide (627 to 633px): re-measure it if the lobby's copy changes length.
+     ponytail: `sizes` still describes the 3:2 window, so on a 3x phone 896px or taller the two landscape masters
+     are drawn at up to 1.3 times their fetched width (still 2.3x density); give <Photo> a fluid phone window if
+     that ever shows. */
+  @media (max-width: 30rem) {
+    @supports (block-size: 100svh) {
+      .door :global(.photo__window) {
+        aspect-ratio: auto;
+        block-size: clamp(calc(var(--door-w) * 2 / 3), calc(100svh - 39rem), calc(var(--door-w) * 1.25));
+      }
+    }
+  }
+  /* The sill: a hairline under the window. Opening the door draws it in gold. */
+  .door__sill {
+    position: relative;
+    display: block;
+    block-size: 1px;
+    background: var(--rule-strong);
+  }
+  .door__sill::before {
+    content: '';
+    position: absolute;
+    inset: -1px 0 0;
+    background: linear-gradient(90deg, var(--gold-100), var(--gold-400) 70%, transparent);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  /* The light that spills out of an open door onto the floor: amber, under the words, never over the photograph. */
+  .door__sill::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    block-size: 15rem;
+    background: radial-gradient(farthest-side at 50% 0, rgb(242 178 74 / 0.2), rgb(242 178 74 / 0.09) 50%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .door__plate {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: var(--s-2);
+    padding-block-start: var(--s-4);
+  }
+  .door__name {
+    transition: color var(--dur-ui) ease;
+  }
+  .door__text {
+    color: var(--text-2);
+  }
+  .door__fact {
+    display: grid;
+    align-content: start;
+    gap: var(--s-1);
+    margin-block-start: var(--s-2);
+    padding-block: var(--s-3);
+    border-block: 1px solid var(--rule);
+    color: var(--text-2);
+  }
+  .door__figure {
+    font-size: var(--t-figure-sm);
+  }
+  .door__go {
+    justify-self: start;
+    padding-block: var(--s-3);
+    font-size: var(--t-ui);
+    font-weight: 500;
+    font-stretch: 106%;
+    line-height: 1.3;
+    color: var(--ivory);
+    text-decoration: none;
+  }
+  .door__label {
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-underline-offset: 0.3em;
+    transition: text-decoration-color var(--dur-ui) ease;
+  }
+  .door__tail {
+    white-space: nowrap;
+  }
+  .door__go :global(.door__icon) {
+    margin-inline-start: 0.45em;
+    color: var(--gold-300);
+  }
+  /* The whole door is the link; the link text itself stays short. */
+  .door__go::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .door__go:focus-visible {
+    outline: none;
+  }
+  .door:has(.door__go:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
+  }
+  .door:focus-within .door__sill::before {
+    transform: scaleX(1);
+  }
+  .door:focus-within .door__sill::after {
+    opacity: 1;
+  }
+  .door:focus-within .door__name {
+    color: var(--gold-200);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .door:hover .door__sill::before {
+      transform: scaleX(1);
+    }
+    .door:hover .door__sill::after {
+      opacity: 1;
+    }
+    .door:hover .door__name {
+      color: var(--gold-200);
+    }
+    .door:hover .door__label {
+      text-decoration-color: var(--gold-300);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .door__sill::before {
+      transition: transform 700ms var(--ease-expo);
+    }
+    .door__sill::after {
+      transition: opacity 700ms var(--ease-out);
+    }
+    .door :global(.photo__img) {
+      transition: transform 900ms var(--ease-expo);
+    }
+    .door__go :global(.door__icon) {
+      transition: transform var(--dur-ui) var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .door:hover :global(.photo__img) {
+        transform: scale(1.04);
+      }
+      .door:hover .door__go :global(.door__icon) {
+        transform: translateX(0.25em);
+      }
+    }
+  }
+  /* One more buyer, answered where the doors are: a ruled row, the question on the edge, the answer from the midline. */
+  .doors__note {
+    display: grid;
+    gap: var(--s-2) var(--gutter);
+    margin-block-start: var(--s-6);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--rule);
+  }
+  @media (min-width: 60rem) {
+    .doors__note {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: baseline;
+    }
+    .doors__note h3 {
+      grid-column: 1 / span 6;
+    }
+    .doors__note p {
+      grid-column: 7 / span 6;
+    }
+  }
+
+  /* ── Who answers for what: a call sheet. The job on the left, the name that answers for it on the right, in gold. */
+  .proof {
+    display: grid;
+    gap: var(--s-5);
+    justify-items: start;
+  }
+  .proof :global(.ledger) {
+    inline-size: 100%;
+  }
+  .sheet__title {
+    margin-block-end: var(--s-4);
+  }
+  .sheet__where {
+    margin-block-start: var(--s-5);
+  }
+  .sheet__row {
+    display: grid;
+    gap: var(--s-2) var(--gutter);
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+  }
+  .sheet__row:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+  .sheet__job {
+    font-weight: 500;
+    font-stretch: 112%;
+    color: var(--text);
+  }
+  .sheet__detail {
+    display: block;
+    margin-block-start: var(--s-1);
+    color: var(--text-2);
+  }
+  .sheet__owner {
+    max-inline-size: none;
+    line-height: 1.25;
+    color: var(--gold-text);
+  }
+  @media (min-width: 40rem) {
+    .sheet__row {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      align-items: baseline;
+    }
+  }
+</style>

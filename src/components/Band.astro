@@ -1,0 +1,44 @@
+---
+// The one edge-to-edge photograph: the page's breath. Every other picture is a window on the
+// black; once per page at most, one picture runs from screen edge to screen edge so the work has
+// scale. No text on it, ever: the caption sits under it, on the page's left edge.
+//
+//   <Band photo={photos.entranceWide} caption="Doors, Jaipur." />      (directly inside <main>, not in .wrap)
+//
+// Rules:
+//   · at most one per page, never directly after the <Hero> and never directly before the <NextBand>
+//   · the master must be at least 2400px wide (a smaller one would be upscaled across a desktop:
+//     use a <Photo> window for those). Today that means entranceWide, entrance, micPalaceWide,
+//     storytellerWide.
+//   · motion: its curtain is drawn aside as it scrolls in, and the picture drifts a little slower
+//     than the page (scroll-driven CSS, where the browser has it). Reduced motion: still.
+import Photo from './Photo.astro';
+import type { Photograph } from '../data/photos';
+interface Props {
+  photo: Photograph;
+  alt?: string;
+  caption?: string;
+  ratio?: '21/9' | '16/9';
+  ratioSmall?: '16/9' | '3/2' | '4/5'; // the shape below 60rem
+  parallax?: boolean;
+  class?: string;
+}
+const { photo, alt, caption, ratio = '21/9', ratioSmall = '3/2', parallax = true, class: className } = Astro.props;
+if (photo.src.width < 2400) {
+  throw new Error(`<Band> needs a master at least 2400px wide; this one is ${photo.src.width}px. Use a <Photo> window instead.`);
+}
+---
+
+<div class:list={['band', className]}>
+  <Photo photo={photo} alt={alt} caption={caption} ratio={ratio} ratioSmall={ratioSmall} sizes="100vw" widths={[640, 960, 1280, 1920, 2560, 3200, 3840]} reveal parallax={parallax} />
+</div>
+
+<style>
+  .band {
+    margin-block: calc(var(--section) / 2);
+  }
+  .band :global(.photo__caption) {
+    max-inline-size: none;
+    padding-inline: max(var(--margin), (100% - var(--max)) / 2);
+  }
+</style>

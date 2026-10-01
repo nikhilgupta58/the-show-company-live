@@ -1,0 +1,205 @@
+---
+// /comedian-booking-cost-india/ — the booking cost guide (Redesign 2.0).
+// Head, H1 and keywords: build-tools/seo-targets.json. Figures: the facts ledger, strategy §5.3
+// (never type a fee that is not there). Structure: strategy §6.6. Structured data: Article and
+// BreadcrumbList (kept from production) plus a FAQPage that mirrors the visible questions word for word.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import TextLink from '../components/TextLink.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import FeeTable from '../components/pages/comedian-booking-cost-india/FeeTable.astro';
+import Fig from '../components/pages/comedian-booking-cost-india/Fig.astro';
+import ScaleBar from '../components/pages/comedian-booking-cost-india/ScaleBar.astro';
+import { site, nextAfter } from '../data/site';
+import { photos } from '../data/photos';
+
+const path = '/comedian-booking-cost-india/';
+const url = new URL(path, site.url).href;
+const title = 'How Much Does It Cost to Book a Comedian in India? (2026)';
+const description = 'The cost to book a comedian in India: ₹50,000–₹1.5 lakh for emerging acts, ₹2–8 lakh for touring names, ₹10 lakh+ for headliners. Plus what moves the price.';
+const h1 = 'How much does it cost to book a comedian in India?';
+// The launch date, set once (strategy §5.7): the rate card's caption and Article.dateModified. OWNER: set it on launch day.
+const updated = { iso: '2026-10-01', label: 'October 2026' };
+const quote = site.nav.cta.href;
+const next = nextAfter(path);
+
+const fees = [
+  { tier: 'Emerging / club circuit', fee: '₹50K – ₹1.5L', from: 0.5, to: 1.5, bestFor: 'Club nights, small college shows, intimate offsites' },
+  { tier: 'Established touring comedian', fee: '₹2L – ₹8L', from: 2, to: 8, bestFor: 'Fest headline nights, corporate annual days, ticketed shows' },
+  { tier: 'National headliner (OTT special / mass following)', fee: '₹10L+', from: 10, bestFor: 'Marquee corporate galas, large auditorium and arena shows' },
+];
+
+const examples = [
+  { name: 'College comedy night', fig: '~₹2–3 lakh', suffix: 'all-in', from: 2, to: 3, text: 'A well-known touring comedian for the fest’s comedy night, campus auditorium production, travel included. See <a href="/college-fest-entertainment/">college fest artist booking</a>.' },
+  { name: 'Corporate annual day', fig: '~₹4–8 lakh', suffix: 'all-in', from: 4, to: 8, text: 'An established name with corporate-safe material, a 45–60 minute set, full sound and lighting at a hotel ballroom, emcee included. Typical for 300–800 person <a href="/corporate-entertainment/">corporate events</a>.' },
+  { name: 'Ticketed auditorium show', fig: '₹8 lakh+', suffix: '', from: 8, to: undefined, text: 'A headliner in an 800–2,000 seat venue with full production, ticketing and promotion, priced as a revenue-sharing or flat-fee <a href="/stand-up-comedy-shows/">show production</a> deal.' },
+];
+
+// Each answer is written once and used twice: as the visible answer and as the FAQPage text.
+const faqs = [
+  {
+    q: 'How much does a stand-up comedian charge in India?',
+    a: '<p>Stand-up comedian fees in India fall into three bands: ₹50,000–₹1.5 lakh for an emerging club-circuit comedian, ₹2–8 lakh for an established touring name, and ₹10 lakh and above for a national headliner with an OTT special or a mass following. That is the fee for the performance alone. Production and travel come on top, and the date, city and format move the comedian booking price within each band.</p>',
+  },
+  {
+    q: 'What moves the price of booking a comedian?',
+    a: '<p>Five things move comedian booking fees, and they are why two quotes for the same comedian can differ:</p><ul><li><strong>Date and day of week.</strong> Saturday nights in fest or wedding season can price 2–3x a weekday. December and February–March are the most contested calendars.</li><li><strong>City and travel.</strong> Shows in metros where the artist lives cost less than fly-in dates; non-metro venues add flights, stay and ground transport for artist and crew.</li><li><strong>Audience size and format.</strong> A 45–60 minute corporate set, a 90-minute ticketed solo and a fest slot are priced differently by the same artist. The brief matters as much as the name.</li><li><strong>Production scope.</strong> A club has a mic and a spot; an auditorium needs PA, monitors, lighting, a backdrop and a technical crew. Budget ₹40,000–₹3 lakh depending on venue scale.</li><li><strong>Who’s booking.</strong> Direct-to-manager quotes often inflate for corporate buyers. Booking through a production company with ongoing artist relationships usually lands closer to real market rates, and comes with a contract.</li></ul>',
+  },
+  {
+    q: 'How much does it cost to book a comedian for a corporate event?',
+    a: '<p>For a <a href="/corporate-entertainment/">corporate event</a>, the fee bands map cleanly onto company budgets. Intimate corporate offsites can start under ₹1 lakh with an emerging comedian. Mid-size corporate events with a headline act plus production typically run ₹2–8 lakh; our most common corporate annual day booking lands around ₹4–8 lakh all-in for a 300–800 person audience. Large corporate galas with a national headliner can exceed ₹10 lakh.</p><p>These numbers cover the artist and production. If you also need someone to run the whole event, from booking to on-ground show management, that is <a href="/event-management-company-india/">full-service event management</a>, not just artist booking.</p>',
+  },
+  {
+    q: 'Are sound, lighting and travel included in a comedian’s fee?',
+    a: '<p>No. A comedian’s fee covers the performance. Production (sound, lighting, stage) and artist travel come on top: typically ₹40,000–₹3 lakh, depending on venue size and city. We quote one total that includes fee, travel and production, so there are no surprise costs.</p>',
+  },
+  {
+    q: 'What is the average price of a comedy show?',
+    a: '<p>There is no single average, because the format sets the budget. Three realistic budgets: about ₹2–3 lakh all-in for a college comedy night with a well-known touring comedian, about ₹4–8 lakh all-in for a corporate annual day for 300–800 people, and ₹8 lakh+ for a ticketed auditorium show with a headliner, full production, ticketing and promotion.</p>',
+  },
+];
+
+// Plain text for JSON-LD: block boundaries become spaces, tags go.
+const strip = (html: string) => html.replace(/<\/(p|li)>\s*<(p|li|ul)>/g, ' ').replace(/<[^>]+>/g, '').trim();
+const org = { '@type': 'Organization', '@id': `${site.url}/#organization`, name: site.name, url: `${site.url}/`, logo: `${site.url}/assets/logo.png` };
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${url}#article`,
+    headline: h1,
+    description: 'Budget bands for booking stand-up comedians in India by artist tier, event type and city — with the factors that move the price.',
+    author: org,
+    publisher: org,
+    mainEntityOfPage: url,
+    image: `${site.url}/assets/og-image.png`,
+    datePublished: '2026-07-26',
+    dateModified: updated.iso,
+    inLanguage: 'en-IN',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Comedian booking cost guide', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${url}#faq`,
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: strip(f.a) } })),
+  },
+];
+---
+
+<Base title={title} description={description} path={path} og={{ type: 'article' }} jsonLd={jsonLd}>
+  <Hero photo={photos.fullHouseBalcony} size="compact" ratio="3/2" ratioSmall="16/9">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Comedian booking cost guide' }]} />
+    <h1 slot="title">{h1}</h1>
+    <p slot="statement">From <span class="gold">₹50,000</span> to <span class="gold">₹10&nbsp;lakh</span> and above.</p>
+    <p slot="lead" class="t-lead">Honest budget bands from a team that has booked 100+ artists and produced 500+ shows — no <span class="keep">“price on request”</span> games.</p>
+    <Fragment slot="actions"><Button href={quote} icon="arrow-right">Get a real quote</Button></Fragment>
+  </Hero>
+
+  <section class="section" id="fee-bands">
+    <div class="wrap">
+      {/* The short answer (strategy §2.1: kept verbatim), directly above the table it summarises.
+          Two sentences and four prices: reference copy, so it is set in the body face, not as a lead. */}
+      <SectionHeader title="Fee bands by artist tier">
+        <p class="dim">
+          The cost to book a comedian in India is typically <span class="num">₹50,000–₹1.5 lakh</span> for emerging club-circuit comedians, <span class="num">₹2–8 lakh</span> for established touring names, and <span class="num">₹10 lakh</span> and above for national headliners with large social followings or OTT specials. Add production (sound, lighting, stage) and artist travel on top: typically <span class="num">₹40,000–₹3 lakh</span>, depending on venue size and city.
+        </p>
+      </SectionHeader>
+      <FeeTable
+        caption={`Comedian booking cost, India, by artist tier · updated ${updated.label}`}
+        columns={['Artist tier', 'Typical fee', 'Best for']}
+        rows={fees}
+        note="Ranges are indicative for 2026 and vary by date, city and format. A specific artist’s quote can sit outside these bands — always confirm against real availability."
+      >
+        <p slot="covers">Artist fee only, before production and travel.</p>
+      </FeeTable>
+    </div>
+  </section>
+
+  <section class="section" id="budget-examples">
+    <div class="wrap">
+      <SectionHeader title="Three realistic budgets" />
+      <div class="columns" data-reveal="stagger">
+        {
+          examples.map((e) => (
+            <article class="example">
+              <h3 class="example__head">
+                <span class="t-title example__name">{e.name}</span>{' '}<span class="t-figure example__fig"><Fig value={e.fig} />{e.suffix && <span class="t-label example__suffix"> {e.suffix}</span>}</span>
+              </h3>
+              <ScaleBar from={e.from} to={e.to} class="example__bar" />
+              <p class="example__text prose" set:html={e.text} />
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap split">
+      <div class="split__aside">
+        <SectionHeader stack size="h3" title="Comedian cost FAQs" lead="Want an exact number? Tell us your date, city and audience, and we’ll send real artist options with real prices within 48 hours.">
+          <TextLink href={quote}>Get a real quote</TextLink>
+        </SectionHeader>
+      </div>
+      <div class="split__main">
+        {
+          faqs.map((f) => (
+            <FaqItem question={f.q} group="cost">
+              <Fragment set:html={f.a} />
+            </FaqItem>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Recent shows, photographed on the night." photo={photos.entrance} />
+</Base>
+
+<style>
+  /* A figure in running copy never breaks across two lines, and steps up a tone (ivory), not into
+     gold: gold in running copy reads as a link (DESIGN §2.4). */
+  .num {
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+    color: var(--ivory);
+  }
+  /* The quoted phrase in the hero stays on one line. */
+  .keep {
+    white-space: nowrap;
+  }
+
+  /* Three budgets on a broken hairline: the scenario, then its figure in gold on its own line.
+     Sizes are the system's (t-title, t-figure at its small step, t-label). */
+  .example__name {
+    display: block;
+    color: var(--ivory);
+  }
+  .example__fig {
+    display: block;
+    margin-block-start: var(--s-3);
+    font-size: var(--t-figure-sm);
+  }
+  .example__suffix {
+    margin-inline-start: 0.35em;
+  }
+  /* The same scale as the fee table above: every price on the page is read off one ruler. */
+  .example :global(.example__bar) {
+    margin-block-start: var(--s-3);
+  }
+  .example__text {
+    margin-block-start: var(--s-3);
+  }
+</style>

@@ -1,0 +1,3 @@
+/* Entry for the global layer. Imported once, by src/layouts/Base.astro. */
+@import './tokens.css';
+@import './base.css';

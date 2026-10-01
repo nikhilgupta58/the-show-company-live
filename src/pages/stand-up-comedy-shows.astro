@@ -1,0 +1,399 @@
+---
+// /stand-up-comedy-shows/ — stand-up comedian booking (Redesign 2.0).
+// Facts: docs/redesign-2.0/content/stand-up-comedy-shows.md and the strategy's ledger (seo/strategy.md §5).
+// Head, H1 and keywords: build-tools/seo-targets.json. The signature is the "set-up, (beat), punchline"
+// pair in the formats section: two frames of one bit, the second landing a beat lower.
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import StatLedger from '../components/StatLedger.astro';
+import Rule from '../components/Rule.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Photo from '../components/Photo.astro';
+import TextLink from '../components/TextLink.astro';
+import FaqItem from '../components/FaqItem.astro';
+import NextBand from '../components/NextBand.astro';
+import { photos } from '../data/photos';
+import { site, nextAfter } from '../data/site';
+
+const path = '/stand-up-comedy-shows/';
+const url = `${site.url}${path}`;
+const next = nextAfter(path);
+const cost = '/comedian-booking-cost-india/';
+
+// \u2060 (word joiner) after an en dash keeps a range on one line; it is invisible and the judge ignores it.
+const formats = [
+  { name: 'Club and café nights', text: 'Line-up shows and solo sets for 50–\u2060200 seats.' },
+  { name: 'College comedy nights', text: 'Fest headliners for student audiences, clean or edgy.', link: { label: 'College fest artist booking', href: '/college-fest-entertainment/' } },
+  { name: 'Corporate comedy', text: 'Corporate-safe sets for offsites, annual days and client evenings.', link: { label: 'Corporate event entertainment', href: '/corporate-entertainment/' } },
+  { name: 'Auditorium specials', text: 'Ticketed 500–\u20602,000-seat shows with full stage, sound and lighting.', link: { label: 'Full-service event management', href: '/event-management-company-india/' } },
+];
+
+// A step may end in one inline link. Step 2 carries the hero's second action, because on a phone
+// the hero's buttons give way to the dock and the price question needs a visible door.
+const steps = [
+  { name: 'Brief us', text: 'Date, city, venue, audience and budget band, through the', link: { text: 'enquiry form', href: site.nav.cta.href }, end: '.' },
+  { name: 'Get a shortlist', text: 'Comedians who fit the room and the budget, within 48 hours. See the', link: { text: 'booking cost guide', href: cost }, end: '.' },
+  { name: 'Lock the show', text: 'Contract, advance, travel and rider in one agreement.' },
+  { name: 'Show day', text: 'We run the sound-check, compering and cues. You watch the show.' },
+];
+
+// One source for the visible FAQ and the FAQPage JSON-LD, so the two can never drift apart.
+// `link` marks the words that are a link on the page; the JSON-LD carries the same words, unlinked.
+const faqs = [
+  {
+    q: 'How much does it cost to book a stand-up comedian in India?',
+    a: 'Emerging comedians typically start around ₹50,000–₹1.5 lakh; established touring names range ₹2–8 lakh; national headliners go well beyond. The venue, city, date and format all move the number — see our comedian booking cost guide for detailed ranges.',
+    link: { text: 'comedian booking cost guide', href: cost },
+  },
+  {
+    q: 'Can you suggest comedians that fit our audience and budget?',
+    a: "Yes — that’s the core of what we do. Share your city, audience profile and budget band and we’ll send a curated shortlist with real availability, instead of a generic roster page.",
+  },
+  {
+    q: 'Do you handle sound, lighting and the stage too?',
+    a: 'Yes. Through our sound and lighting partner VIGOR MENTORS we deliver full technical production — PA, monitors, stage wash, backdrop and show cues — alongside the artist booking.',
+  },
+  {
+    q: 'Which cities do you cover?',
+    a: 'We operate pan-India — Delhi NCR, Mumbai, Bangalore, Hyderabad, Chennai, Kolkata, Jaipur, Dehradun and 50+ cities so far. If your city has a venue, we can produce a show in it.',
+  },
+  {
+    q: 'How do I book a comedian for a corporate event?',
+    a: "Send us the date, city, audience size and budget band. Within 48 hours you get a shortlist of comedians with a track record in corporate rooms, with real availability. Whoever you choose is briefed on your audience, industry and red lines before the show, and a corporate set typically runs 45–60 minutes. The booking is one contract with one point of contact. Most corporate events need 2–4 weeks’ notice; December and financial-year-end dates need 6–8 weeks.",
+  },
+  {
+    q: 'How do you organise a comedy night?',
+    a: 'Whether you book or hire a stand-up comedian for a fest, an offsite or a ticketed show, the night comes together in four steps. You brief us on the date, city, venue capacity, audience and budget band. Within 48 hours we send a shortlist. We then handle the artist contract, advance, travel and rider. On the night our production team runs the sound-check, compering and cues, with sound and lighting through VIGOR MENTORS.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: 'Stand-Up Comedy Show Booking & Production',
+    serviceType: 'Stand-Up Comedy Booking',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+    },
+    areaServed: [
+      { '@type': 'Country', name: 'India' },
+      ...['Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Dehradun'].map((name) => ({ '@type': 'City', name })),
+    ],
+    description:
+      'Stand-up comedian booking and show production across India: comedian shortlists, artist contracts and travel, stage design, sound and lighting, compering and on-ground show management for college, corporate and ticketed auditorium shows.',
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Stand-up comedy shows', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<Base
+  title="Stand-Up Comedian Booking in India | The Show Company"
+  description="Stand-up comedian booking for colleges, corporates and auditoriums across India. A curated shortlist in 48 hours, full production, 500+ shows produced."
+  path={path}
+  jsonLd={jsonLd}
+>
+  <Hero photo={photos.crowdworkHoodie} ratio="4/5">
+    <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Stand-up comedy shows' }]} />
+    <h1 slot="title">Stand-up comedian booking across India</h1>
+    <p slot="lead" class="t-lead">Book stand-up comedians for college fests, corporate evenings and ticketed shows. From club nights to 2,000-seat auditoriums, we book the comedian, build the stage and fill the room.</p>
+    <Fragment slot="actions">
+      <Button href={site.nav.cta.href} icon="arrow-right">Get a comedian shortlist</Button>
+      <Button href={cost} variant="outline">What does it cost?</Button>
+    </Fragment>
+    <StatLedger
+      slot="proof"
+      size="sm"
+      reveal={false}
+      items={[
+        { value: '500+', label: 'shows produced' },
+        { value: '100+', label: 'artists booked' },
+        { value: '48 h', label: 'from brief to shortlist' },
+      ]}
+    />
+  </Hero>
+
+  <section class="section" aria-labelledby="formats-title">
+    <div class="wrap">
+      <Rule variant="lit" reveal />
+      <div class="formats">
+        <div class="formats__copy">
+          <h2 class="t-h2 formats__title" id="formats-title" data-reveal="lines">Stand-up comedy shows we <em>produce</em></h2>
+          <p class="dim" data-reveal>The Show Company doesn’t just send you a comedian’s number. We match the comedian to the room and produce the night, as we have in 50+ cities, for Graphic Era, DPS and BITS Pilani.</p>
+        </div>
+
+        <div class="beat">
+          <div class="beat__first">
+            <Photo photo={photos.micPalace} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
+            <p class="beat__cue t-title" data-reveal>The set-up.</p>
+            <TextLink class="beat__door" href="/work/">Recent shows</TextLink>
+          </div>
+          <span class="beat__mark t-title" aria-hidden="true" data-reveal>(beat)</span>
+          <div class="beat__late">
+            <Photo photo={photos.highKick} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
+            <p class="beat__cue t-title" data-reveal>The punchline.</p>
+          </div>
+        </div>
+
+        <ul class="formats__list" role="list" data-reveal="stagger">
+          {
+            formats.map((f) => (
+              <li class="fmt">
+                <h3 class="t-title">{f.name}</h3>
+                <p class="fmt__text dim">{f.text}</p>
+                {f.link && <a class="fmt__link link" href={f.link.href}>{f.link.label}</a>}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Booking and questions">
+    <div class="wrap split">
+      <div class="split__aside booking__col">
+        <SectionHeader stack title="How comedian booking works" />
+        <ol class="steps" role="list" data-reveal="stagger">
+          {
+            steps.map((s, i) => (
+              <li class="step">
+                <span class="t-label tnum step__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="t-h4">{s.name}</h3>
+                <p class="t-small dim">
+                  {s.text}
+                  {s.link && (
+                    <Fragment>
+                      {' '}
+                      <a class="link" href={s.link.href}>{s.link.text}</a>{s.end}
+                    </Fragment>
+                  )}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="steps__note t-small dim" data-reveal>Book college shows <strong>1–3 months</strong> ahead, corporate events <strong>2–4 weeks</strong> ahead and large auditorium shows <strong>3–6 months</strong> ahead.</p>
+      </div>
+
+      <div class="split__main booking__col">
+        <SectionHeader stack size="h3" title="Stand-up booking FAQs" />
+        <div class="faqs">
+          {
+            faqs.map((f) => {
+              const [before, after] = f.link ? f.a.split(f.link.text) : [f.a, ''];
+              return (
+                <FaqItem question={f.q} group="standup-faq">
+                  <p>
+                    {before}
+                    {f.link && <a href={f.link.href}>{f.link.text}</a>}
+                    {after}
+                  </p>
+                </FaqItem>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <NextBand href={next.href} title={next.label} blurb="Line-ups for annual days, offsites and galas." photo={photos.fullHouseStalls} />
+</Base>
+
+<style>
+  /* ── Formats: the pair of frames on the left edge, the words and the four rooms from the midline. */
+  .formats {
+    display: grid;
+    gap: var(--s-6) var(--gutter);
+    padding-block-start: var(--s-5);
+  }
+  .formats__copy {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .formats__title {
+    max-inline-size: 16ch;
+  }
+  /* The signature: one bit in two frames, read as one line: "The set-up." (beat) "The punchline."
+     Each frame is 56% of the stage and they overlap on the diagonal; the punchline lands a beat
+     later, `--drop` (% of a frame's width) lower. The two corners the drop leaves empty hold the
+     beat (top right) and the set-up's cue with the way out (bottom left). */
+  .beat {
+    --drop: 84;
+    display: grid;
+    grid-template-columns: 44fr 12fr 44fr;
+    align-items: start;
+  }
+  .beat__first {
+    grid-area: 1 / 1 / 2 / 3;
+    display: grid;
+    gap: var(--s-2);
+  }
+  .beat__late {
+    grid-area: 1 / 2 / 2 / 4;
+    display: grid;
+    gap: var(--s-2);
+    margin-block-start: calc(var(--drop) * 1%);
+  }
+  .beat__late :global(.photo) {
+    box-shadow: 0 0 0 var(--s-2) var(--ground); /* a matte of ground where it overlaps, so two prints stay two */
+  }
+  /* The three cues are stage directions: the italic, at the row-name size (`.t-title`), the two
+     spoken ones in ivory under their frames and the pause between them a tone down. */
+  .beat__cue,
+  .beat__mark {
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .beat__cue {
+    margin-block-start: var(--s-1);
+    color: var(--text);
+  }
+  .beat :global(.beat__door) {
+    justify-self: start;
+    white-space: nowrap;
+  }
+  /* The mark fills the empty corner exactly (its width is 44 of the stage, its height the drop). */
+  .beat__mark {
+    grid-area: 1 / 3 / 2 / 4;
+    aspect-ratio: 44 / calc(var(--drop) * 0.56);
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--s-2);
+    color: var(--stone-400);
+  }
+  .beat__mark::before,
+  .beat__mark::after {
+    content: '';
+    inline-size: 1px;
+    block-size: 1.5rem;
+    background: linear-gradient(180deg, transparent, var(--rule-strong));
+  }
+  .beat__mark::after {
+    background: linear-gradient(180deg, var(--rule-strong), transparent);
+  }
+  @media (min-width: 30rem) {
+    .beat {
+      --drop: 37.5; /* a quarter of a frame's height */
+    }
+  }
+  /* The punchline lands: it travels its last few rems with the scroll, while the set-up stands
+     still. Scroll-linked, transform only; without support (or with reduced motion) it simply rests. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .beat__late {
+        animation: beat-land linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+    }
+  }
+  @keyframes beat-land {
+    from {
+      transform: translate3d(0, clamp(1.5rem, 4vw, 3.5rem), 0);
+    }
+  }
+
+  /* The four rooms: ruled rows, name and link on one line, the room in one line under it. */
+  .fmt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1) var(--s-5);
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--rule);
+  }
+  .fmt:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+  /* A 44px target without a 44px line: the padding is given back by the negative margin. */
+  .fmt__link {
+    justify-self: start;
+    padding-block: 0.55rem;
+    margin-block: -0.3rem;
+    font-weight: 500;
+    font-stretch: 112%;
+  }
+
+  @media (min-width: 40rem) {
+    .fmt {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+    }
+    .fmt__text {
+      grid-column: 1 / -1;
+    }
+    .fmt__link {
+      grid-area: 1 / 2;
+      justify-self: end;
+      text-align: end;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .formats {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+      row-gap: var(--s-6);
+    }
+    .beat {
+      grid-column: 1 / span 6;
+      grid-row: 1 / span 2;
+      padding-inline-end: var(--gutter);
+    }
+    .formats__copy,
+    .formats__list {
+      grid-column: 7 / -1;
+    }
+  }
+
+  /* ── Booking: the system's sticky split. The four steps stay put while the questions open. */
+  .booking__col {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+  .steps {
+    display: grid;
+    border-block-start: 1px solid var(--rule);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    column-gap: var(--s-3);
+    padding-block: var(--s-3);
+    border-block-end: 1px solid var(--rule);
+  }
+  /* The numeral is this section's one gold thing; it sits on the step name's baseline. */
+  .step__n {
+    grid-row: 1 / span 2;
+    line-height: 1.9;
+    color: var(--gold-600);
+  }
+  .steps__note strong {
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+  }
+</style>

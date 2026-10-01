@@ -1,0 +1,133 @@
+---
+// A real <table>, ruled, with no box and no zebra. Header cells are small labels; one column
+// (`figure`, by index) holds the figures and is the row's largest element: gold, tabular, wide.
+// The first column is the row header. Below 44rem each row becomes a labelled stack.
+// Keep cell text verbatim from the content contract: prices are facts.
+interface Props {
+  caption: string; // names the table for assistive tech; shown small above it
+  columns: string[];
+  rows: string[][];
+  figure?: number; // index of the figure column
+  note?: string; // the caveat under the table
+  class?: string;
+}
+const { caption, columns, rows, figure = 1, note, class: className } = Astro.props;
+---
+
+<div class:list={['dtable', className]}>
+  <table>
+    <caption class="t-label">{caption}</caption>
+    <thead>
+      <tr>
+        {columns.map((c) => <th scope="col" class="t-label">{c}</th>)}
+      </tr>
+    </thead>
+    <tbody data-reveal="stagger">
+      {
+        rows.map((row) => (
+          <tr>
+            {row.map((cell, i) =>
+              i === 0 ? (
+                <th scope="row" class="dtable__head">{cell}</th>
+              ) : (
+                <td class:list={[{ dtable__figure: i === figure }]}>
+                  {cell}
+                </td>
+              ),
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  {note && <p class="dtable__note t-small">{note}</p>}
+</div>
+
+<style>
+  table {
+    inline-size: 100%;
+    text-align: start;
+  }
+  caption {
+    padding-block-end: var(--s-4);
+    text-align: start;
+    caption-side: top;
+  }
+  th,
+  td {
+    padding: var(--s-5) var(--s-5) var(--s-5) 0;
+    text-align: start;
+    vertical-align: baseline;
+    border-block-start: 1px solid var(--rule);
+  }
+  thead th {
+    padding-block: var(--s-3);
+    border-block-start-color: var(--rule-strong);
+    font-weight: 500;
+  }
+  tbody tr:last-child > * {
+    border-block-end: 1px solid var(--rule);
+  }
+  .dtable__head {
+    inline-size: 34%;
+    font-family: var(--font-serif);
+    font-size: var(--t-title);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.008em;
+    color: var(--ivory);
+  }
+  .dtable__figure {
+    inline-size: 28%;
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-size: var(--t-figure-sm);
+    font-weight: 300;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+    color: var(--gold-200);
+  }
+  td {
+    color: var(--text-2);
+  }
+  .dtable__note {
+    margin-block-start: var(--s-4);
+    color: var(--text-3);
+    max-inline-size: 34em; /* 60ch of Anek Latin */
+  }
+  @media (max-width: 43.99rem) {
+    /* Stacked rows. The header stays on screen as one small line that names the three parts. */
+    thead tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 var(--s-3);
+      padding-block: var(--s-3);
+      border-block-start: 1px solid var(--rule-strong);
+    }
+    thead th + th::before {
+      content: '/';
+      margin-inline-end: var(--s-3);
+      color: var(--gold-700);
+    }
+    tbody tr {
+      display: grid;
+      gap: var(--s-2);
+      padding-block: var(--s-5);
+      border-block-start: 1px solid var(--rule);
+    }
+    tbody tr:last-child {
+      border-block-end: 1px solid var(--rule);
+    }
+    th,
+    td,
+    tbody tr:last-child > *,
+    .dtable__head,
+    .dtable__figure {
+      display: block;
+      inline-size: auto;
+      padding: 0;
+      border: 0;
+    }
+  }
+</style>
