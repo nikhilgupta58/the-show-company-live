@@ -113,7 +113,7 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <Fragment slot="head"><link rel="preload" as="font" type="font/woff2" href={italicUrl} crossorigin /></Fragment>
-  <Hero photo={photos.emptyHallMicPortrait} ratio="4/5" ratioSmall="16/9" size="compact">
+  <Hero photo={{ ...photos.hallLightBeams, position: '50% 50%' }} ratio="4/5" ratioSmall="16/9" positionSmall="50% 60%" size="compact">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Artist booking' }]} />
     <h1 slot="title" class="ab-h1">
       <span class="t-kicker ab-h1__kicker">Artist booking agency:</span>
@@ -208,7 +208,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="Artists, production and crew, run as one team." photo={photos.emptyStageTruss} />
+  <NextBand href={next.href} title={next.label} blurb="Artists, production and crew, run as one team." photo={photos.ledMandalaWall} />
 </Base>
 
 <style>

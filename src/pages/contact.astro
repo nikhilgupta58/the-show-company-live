@@ -17,9 +17,9 @@ import Breadcrumb from '../components/Breadcrumb.astro';
 import ChannelRows from '../components/ChannelRows.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
 import Rule from '../components/Rule.astro';
+import BookingFlow from '../components/illustrations/BookingFlow.astro';
 import NextBand from '../components/NextBand.astro';
 import { site, nextAfter } from '../data/site';
-import { photos } from '../data/photos';
 
 const title = 'Contact The Show Company | Book a Show or an Artist';
 const description =
@@ -120,11 +120,12 @@ const jsonLd = [
             <span class="cue__what">A producer on the ground, from <span class="nowrap">sound-check</span> to the final bow.</span>
           </li>
         </ol>
+        <BookingFlow alt="Line drawing: a desk calendar with booked show dates marked" class="cues__fig" />
       </div>
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="500+ shows produced in 50+ cities." photo={photos.micPalaceWide} contact={false} />
+  <NextBand href={next.href} title={next.label} blurb="500+ shows produced in 50+ cities." contact={false} />
 
   <script>
     // The run-of-show clock: each [data-cue] gets the real time its promise falls due, in IST.
@@ -297,6 +298,42 @@ const jsonLd = [
     .cue__what {
       margin-block-start: var(--s-3);
       max-inline-size: 26ch;
+    }
+  }
+  /* The booking calendar: under the run-of-show on a phone, centred; beside it (5 of 12 columns)
+     on a tablet (ruled rows) and from 64rem (the four cues two by two). Not 56-64rem, where the
+     cues run four across and need the width. */
+  .cues :global(.cues__fig) {
+    max-inline-size: 28rem;
+    margin: var(--s-5) auto 0;
+  }
+  @media (min-width: 48rem) and (max-width: 55.99rem), (min-width: 64rem) {
+    .cues {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: center;
+    }
+    .cues > :global(*) {
+      grid-column: 1 / -1;
+    }
+    .cues__list {
+      grid-column: 1 / span 7;
+    }
+    .cues :global(.cues__fig) {
+      grid-column: 8 / -1;
+      grid-row: 3;
+      max-inline-size: none;
+      margin-block-start: 0;
+    }
+  }
+  @media (min-width: 64rem) {
+    .cues__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cue + .cue:nth-child(odd) {
+      border-inline-start: 0;
+      padding-inline-start: 0;
     }
   }
 </style>

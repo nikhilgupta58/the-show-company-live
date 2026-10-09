@@ -14,6 +14,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import Photo from '../components/Photo.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
+import FestStage from '../components/illustrations/FestStage.astro';
 import { photos } from '../data/photos';
 import { site, nextAfter } from '../data/site';
 
@@ -53,8 +54,8 @@ const promises: { name: string; text: string; link?: InlineLink }[] = [
   { name: 'Paperwork your dean will sign', text: 'Written quotes, GST invoices and signed artist contracts: everything your admin office needs to release funds.' },
   {
     name: 'Honest budget bands',
-    text: 'We tell you upfront what your budget genuinely gets, and where a sponsor tie-in can stretch it further. Start with what a headliner costs.',
-    link: { text: 'what a headliner costs', href: costGuide },
+    text: 'We tell you upfront what your budget genuinely gets, and where a sponsor tie-in can stretch it further. Start with what an artist, singer or DJ costs.',
+    link: { text: 'what an artist, singer or DJ costs', href: costGuide },
   },
   { name: 'No last-minute ghosting', text: 'Confirmed artists, backup plans and a producer on campus on show day. Your fest doesn’t rest on one phone number.' },
 ];
@@ -68,8 +69,8 @@ const inSeason = (i: number) => seasonStarts.some((s) => i >= s && i <= s + 2);
 // Q1–Q4 are production's, verbatim; Q5–Q6 are the strategy's additions (strategy §6.4).
 const faqs: { q: string; a: string; link?: InlineLink }[] = [
   {
-    q: 'What budget do we need for a fest headliner?',
-    a: 'Emerging comedians and DJs start around ₹50,000–₹1.5 lakh; well-known touring names typically run ₹2–8 lakh plus production and travel. Share your real budget and we’ll show you the strongest line-up it buys — see the pricing guide for detail.',
+    q: 'How much does an artist, singer or DJ cost for a college fest?',
+    a: 'It depends on the act, the date and your footfall. A college comedy night can start under ₹1 lakh; most campus fests with a headline act plus production land between ₹2–8 lakh. Share your real budget and we’ll show you the strongest line-up it buys, with a written quote for every artist, singer or DJ — see the pricing guide for detail.',
     link: { text: 'pricing guide', href: costGuide },
   },
   {
@@ -136,15 +137,15 @@ const jsonLd = [
   path={path}
   jsonLd={jsonLd}
 >
-  {/* The portrait master needs two focal points: low in the tall desktop window (the kick and the
-      raised hand), higher in a phone's landscape window (hand, face and the kicking foot). */}
-  <Hero photo={{ ...photos.highKick, position: '50% 96%' }} ratio="4/5" ratioSmall="3/2" positionSmall="50% 40%" size="compact">
+  {/* A fest crowd, not an artist (round 3). The tall desktop window keeps the spark columns centred; the
+      phone's wide window sits lower, so the raised hands stay in. */}
+  <Hero photo={{ ...photos.festivalSparks, position: '47% 50%' }} ratio="4/5" ratioSmall="3/2" positionSmall="47% 62%" size="compact">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'College fest entertainment' }]} />
     <h1 slot="title">College fest artist booking, produced <em>properly</em></h1>
     <p slot="lead" class="t-lead">The fest your campus talks about for years. Book artists for college fest season: comedians, EDM nights, singers and live bands.</p>
     <Fragment slot="actions">
       <Button href={site.nav.cta.href} icon="arrow-right">Plan your fest</Button>
-      <Button href={costGuide} variant="outline">What a headliner costs</Button>
+      <Button href={costGuide} variant="outline">What an artist, singer or DJ costs</Button>
     </Fragment>
     <StatLedger
       slot="proof"
@@ -246,10 +247,7 @@ const jsonLd = [
           <TextLink href={site.nav.cta.href}>Plan your fest</TextLink>
         </div>
       </fieldset>
-    </div>
-    <div class="wrap split committees__split">
-      <div class="split__aside">
-        <ul class="promises" data-reveal="stagger">
+      <ul class="columns promises" data-reveal="stagger">
           {
             promises.map((p) => {
               const [before, after] = around(p.text, p.link);
@@ -261,7 +259,11 @@ const jsonLd = [
               );
             })
           }
-        </ul>
+      </ul>
+    </div>
+    <div class="wrap split committees__split">
+      <div class="split__aside">
+        <FestStage class="promises__fig" alt="Line drawing of a fest stage with a lighting truss, speakers and a crowd with arms raised" />
       </div>
       <div class="split__main">
         <section class="faqs" id="faqs" aria-labelledby="faqs-title">
@@ -281,7 +283,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="The artist you want, confirmed." photo={photos.emptyHall} contact />
+  <NextBand href={next.href} title={next.label} blurb="The artist you want, confirmed." photo={photos.festivalLasers} contact />
 </Base>
 
 <script>
@@ -362,26 +364,55 @@ const jsonLd = [
   }
 
   /* ── Built for student committees. The fest year (the page's signature) takes the full row
-        under the heading; below it the system's sticky split: the three promises, then the FAQ. */
+        under the heading, the three promises on hairlines under it; below, the system's sticky split:
+        the stage drawing beside the FAQ. */
+  .promises,
   .committees__split {
     margin-block-start: var(--block);
   }
-  .promises {
-    display: grid;
-  }
   .promise {
     display: grid;
+    align-content: start;
     gap: var(--s-2);
-    padding-block: var(--s-4);
   }
-  .promise:first-child {
-    padding-block-start: 0;
+  /* Stacked (below the columns' 52rem), the promises keep a compact list: rules between, none
+     above the first, and the drawing follows them at --s-5. */
+  @media (max-width: 51.99rem) {
+    .promises {
+      row-gap: 0;
+    }
+    .promises > .promise {
+      padding-block: var(--s-4);
+      border-block-start: 0;
+    }
+    .promises > .promise:first-child {
+      padding-block-start: 0;
+    }
+    .promises > .promise:last-child {
+      padding-block-end: 0;
+    }
+    .promises > .promise + .promise {
+      border-block-start: 1px solid var(--rule);
+    }
+    .committees__split {
+      margin-block-start: var(--s-5);
+    }
   }
-  .promise:last-child {
-    padding-block-end: 0;
+  /* Show day, drawn: the stage the promises keep. Column-wide beside the FAQ; capped and centred when stacked. */
+  .committees__split :global(.promises__fig) {
+    max-inline-size: 26rem;
+    margin-inline: auto;
   }
-  .promise + .promise {
-    border-block-start: 1px solid var(--rule);
+  @media (min-width: 64rem) {
+    .committees__split :global(.promises__fig) {
+      max-inline-size: none;
+    }
+  }
+  /* Narrow desktop: the FAQ starts one column earlier (col 5) so its questions wrap less. */
+  @media (min-width: 64rem) and (max-width: 79.99rem) {
+    .committees__split > .split__main {
+      grid-column: 5 / -1;
+    }
   }
   .faq-title {
     margin-block-end: var(--s-4);

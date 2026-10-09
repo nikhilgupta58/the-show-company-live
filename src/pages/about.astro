@@ -40,12 +40,20 @@ const founders: { name: string; role: string; photo?: Photograph }[] = [
 ];
 
 // The partners the strategy gives this page (§6.9; not REAL HOST or DMF), then the campuses.
-// All in type: a logo only when every partner has a clean file (DESIGN.md §14).
-const credits: { label: string; names: string[] }[] = [
-  { label: 'Sound and lighting partner', names: ['VIGOR MENTORS'] },
-  { label: 'On the artist side', names: ['OML', 'Oriole Entertainment'] },
-  { label: 'In association with', names: ['PLAYGROUND', 'LVC'] },
-  { label: 'Campuses', names: ['Graphic Era', 'DPS', 'BITS Pilani'] },
+// Logos as main showed them (OML, Oriole, LVC; PLAYGROUND and VIGOR MENTORS were type there too),
+// each beside its name, artwork unaltered. `more` closes a list with "and many more…".
+type Credit = { name: string; logo?: { src: string; shape: 'wide' | 'square' | 'round' }; note?: string };
+const credits: { label: string; names: Credit[]; more?: boolean }[] = [
+  { label: 'Sound and lighting partner', names: [{ name: 'VIGOR MENTORS', note: 'Dream Big, We Are Here!' }] },
+  {
+    label: 'On the artist side',
+    names: [
+      { name: 'OML', logo: { src: '/assets/logo-oml.webp', shape: 'wide' } },
+      { name: 'Oriole Entertainment', logo: { src: '/assets/logo-oriole.webp', shape: 'square' } },
+    ],
+  },
+  { label: 'In association with', names: [{ name: 'PLAYGROUND' }, { name: 'LVC', logo: { src: '/assets/logo-lvc.webp', shape: 'round' } }], more: true },
+  { label: 'Campuses', names: [{ name: 'Graphic Era' }, { name: 'DPS' }, { name: 'BITS Pilani' }], more: true },
 ];
 
 const aboutPage = {
@@ -79,9 +87,10 @@ const breadcrumbs = {
 ---
 
 <Base title={title} description={description} path="/about/" jsonLd={[aboutPage, breadcrumbs]}>
-  {/* A full house beside "the team behind 500+ shows". The lead is one sentence, two lines on a phone: on a
-      short screen every line it gives up goes to the photograph (the window takes what the words leave). */}
-  <Hero photo={photos.fullHouseStalls} size="compact" ratio="4/5" ratioSmall="3/2">
+  {/* The crew at soundcheck beside "the team behind 500+ shows" (a wide master: a 3/2 window, as on the cost
+      guide). The lead is one sentence, two lines on a phone: on a short screen every line it gives up goes to
+      the photograph (the window takes what the words leave). */}
+  <Hero photo={photos.soundcheck} size="compact" ratio="3/2" ratioSmall="16/9">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
     <h1 slot="title">About The Show Company</h1>
     <p slot="statement">The team behind 500+ shows in 50+ cities.</p>
@@ -167,9 +176,16 @@ const breadcrumbs = {
               <dd>
                 <ul class="roll__names">
                   {c.names.map((n) => (
-                    <li>{n}</li>
+                    <li>
+                      {n.logo && <img class={`roll__logo roll__logo--${n.logo.shape}`} src={n.logo.src} alt="" width="200" height="200" loading="lazy" decoding="async" />}
+                      <span>
+                        {n.name}
+                        {n.note && <span class="roll__note t-small dim">{n.note}</span>}
+                      </span>
+                    </li>
                   ))}
                 </ul>
+                {c.more && <p class="roll__more t-small dim">and many more…</p>}
               </dd>
             </div>
           ))
@@ -178,8 +194,8 @@ const breadcrumbs = {
     </div>
   </section>
 
-  {/* Not fullHouseBalcony: it is a second crop of the hero's own frame. The house opens the page; a lit, waiting stage ends it. */}
-  <NextBand href={next.href} title={next.label} blurb="Tell us the date, the city and the audience." photo={photos.emptyStageTruss} contact={false} />
+  {/* Type only (round 3): no unused photograph is left for this slot. */}
+  <NextBand href={next.href} title={next.label} blurb="Tell us the date, the city and the audience." contact={false} />
 </Base>
 
 <style>
@@ -280,6 +296,34 @@ const breadcrumbs = {
     display: inline-flex;
     align-items: center;
     gap: var(--s-4);
+  }
+  /* Partner logos at one optical height, on the page's own dark: no plate, no filter. OML's file is a
+     wide mark in a square canvas, so its box is cropped to the mark; LVC is a disc, as on main. */
+  .roll__logo {
+    flex: none;
+    block-size: 3.5rem;
+    inline-size: 3.5rem;
+    object-fit: contain;
+  }
+  .roll__logo--wide {
+    inline-size: 10rem;
+    block-size: 2.75rem;
+    object-fit: cover;
+    /* The file's canvas is 15.7% empty either side of the mark (249 of 1583px): pull the box in by that. */
+    margin-inline: -1.55rem;
+  }
+  .roll__logo--round {
+    border-radius: 50%;
+  }
+  .roll__note {
+    display: block;
+    font-family: var(--font-sans);
+    font-stretch: normal;
+    margin-block-start: var(--s-1);
+  }
+  .roll__more {
+    margin-block-start: var(--s-2);
+    font-style: italic;
   }
   /* A small gold mark between names. It trails its name, so a wrapped line never starts with one. */
   .roll__names li:not(:last-child)::after {

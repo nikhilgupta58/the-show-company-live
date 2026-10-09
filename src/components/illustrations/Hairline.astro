@@ -1,0 +1,19 @@
+---
+// Shared Hairline line figure: static <img> that public/illustrations/mount.js swaps for the live
+// figure near the viewport (never under reduced motion). Files: public/illustrations/<slug>.{svg,js}.
+// Make them with docs/redesign-2.0/round3/illustrations/export.mjs.
+interface Props { slug: string; alt?: string; class?: string; loading?: 'lazy' | 'eager' }
+const { slug, alt, class: cls, loading = 'lazy' } = Astro.props;
+---
+<figure class:list={['hl-fig', cls]} data-figure={slug} aria-hidden={alt ? undefined : 'true'}>
+  <img src={`/illustrations/${slug}.svg`} alt={alt ?? ''} width="640" height="512" loading={loading} decoding="async" />
+</figure>
+<script type="module" is:inline src="/illustrations/mount.js"></script>
+
+<style>
+  /* strokes follow `color`; plates take --hairline-plate. Keep in step with export.mjs (it reads tokens.css). */
+  .hl-fig { position: relative; margin: 0; width: 100%; color: var(--gold-300); --hairline-plate: var(--black); --hairline-stroke: 2; }
+  .hl-fig img { display: block; width: 100%; height: auto; }
+  /* mount.js sets data-hl-js when motion is allowed: the finished drawing must not show before the reveal (it un-sets it if loading fails) */
+  .hl-fig[data-hl-js] img { visibility: hidden; }
+</style>

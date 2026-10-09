@@ -1,11 +1,10 @@
 ---
 // /work/ — the proof: real shows in real photographs, at full brightness, large.
 // Head values: build-tools/seo-targets.json. Outline, voice and facts: docs/redesign-2.0/seo/strategy.md
-// §6.8 and §5. Photos: src/data/photos.ts (docs/redesign-2.0/photo-library.md). Captions say only what the
-// picture shows; nothing here names a performer, a client, a venue, a date or an audience size.
-// No venue on any photograph: the frames production captions "Live at BITS Pilani" are the four Canon stills
-// shot on 14 April 2026, which the library holds back as too dark; every photograph here is from the Sony
-// set shot on 20 September 2026 (bits/), whose venue is not on file. BITS Pilani is named as a campus only.
+// §6.8 and §5. Photos: src/data/photos.ts (docs/redesign-2.0/round3/PHOTO-PLAN.md). Captions (round 3): a plain
+// known fact or nothing. Only the BITS Pilani still (one of the four Canon stills shot there on 14 April 2026,
+// tone-corrected) carries one, "Live at BITS Pilani"; the other frames (the Sony set in bits/, 20 September
+// 2026, and an older still) have no venue on file and carry no caption. Nothing names a performer or a client.
 //
 // The signature: the wall. The first row is uncovered by curtains in sequence as the page opens; the second
 // as it scrolls in. Any photograph on it opens full screen in the viewer: the house goes dark, its colour
@@ -21,6 +20,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import Scroller from '../components/Scroller.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ServiceRow from '../components/ServiceRow.astro';
+import BrandBridge from '../components/illustrations/BrandBridge.astro';
 import NextBand from '../components/NextBand.astro';
 import { photos, type Photograph } from '../data/photos';
 import { site, nextAfter } from '../data/site';
@@ -31,7 +31,7 @@ const title = 'Recent Shows and Live Event Work | The Show Company';
 const description =
   'Recent shows produced by The Show Company: stand-up comedy, full-house auditorium nights, college fests and live concerts, in real photographs.';
 
-// OWNER: the wall's show (bits/, 20 September 2026 by the camera) has no venue, date, line-up or audience
+// OWNER: the wall's Sony frames (bits/, 20 September 2026 by the camera) have no venue, date, line-up or audience
 // size on file. Fill any of them in and they appear beside the wall's title; empty ones stay out of the page.
 const showFacts = [
   { label: 'Venue', value: '' },
@@ -40,29 +40,33 @@ const showFacts = [
   { label: 'Audience', value: '' },
 ].filter((fact) => fact.value);
 
-// The wall: two justified rows. On a desktop each row's columns are sized by the pictures' own shapes, so
-// every photograph is shown whole and a row's pictures share one height. On a phone: two up, wide ones across.
+// The wall: two rows, each with fixed window shapes (row 1: 16/9 + 4/5; row 2: three 2/3). On a desktop each
+// row's columns are sized from those shapes, so a row's windows share one height and the row meets both edges
+// of the content column, one gutter between windows. On a phone: the wide one across, the other four two up at 4/5.
 interface Tile {
   photo: Photograph;
-  caption: string;
+  caption?: string;
+  ratio: '16/9' | '4/5' | '2/3';
   sizes: string;
-  small?: '2/3' | '4/5';
+  small?: '4/5';
   wide?: boolean;
 }
 const rows: Tile[][] = [
   [
-    { photo: photos.entranceWide, caption: 'The walk-on: arms wide, lit in red.', sizes: '(min-width: 48rem) 65vw, 92vw', wide: true },
-    { photo: photos.micPalace, caption: 'Mic close, mid-bit, against the palace backdrop.', sizes: '(min-width: 48rem) 25vw, 92vw', small: '4/5', wide: true },
+    { photo: photos.entranceWide, ratio: '16/9', sizes: '(min-width: 48rem) 62vw, 92vw', wide: true },
+    { photo: photos.bitsArmsCrossed, caption: 'Live at BITS Pilani', ratio: '4/5', sizes: '(min-width: 48rem) 28vw, 46vw', small: '4/5' },
   ],
   [
-    { photo: photos.highKick, caption: 'A high kick on the punchline.', sizes: '(min-width: 48rem) 22vw, 46vw', small: '2/3' },
-    { photo: photos.crowdworkHoodie, caption: 'Mid-sentence, one hand open, in front of the curtain.', sizes: '(min-width: 48rem) 24vw, 46vw', small: '2/3' },
-    { photo: photos.micStandHoodie, caption: 'A laugh at the mic stand, on a warm-lit stage.', sizes: '(min-width: 48rem) 23vw, 46vw', small: '2/3' },
-    { photo: photos.storyteller, caption: 'A story, told under an amber wash.', sizes: '(min-width: 48rem) 22vw, 46vw', small: '2/3' },
+    { photo: photos.highKick, ratio: '2/3', sizes: '(min-width: 48rem) 30vw, 46vw', small: '4/5' },
+    { photo: photos.micStandHoodie, ratio: '2/3', sizes: '(min-width: 48rem) 30vw, 46vw', small: '4/5' },
+    { photo: photos.standupStool, ratio: '2/3', sizes: '(min-width: 48rem) 30vw, 46vw', small: '4/5' },
   ],
 ];
-const aspect = (p: Photograph) => p.src.width / p.src.height;
-const columns = (row: Tile[]) => row.map((t) => `${aspect(t.photo).toFixed(4)}fr`).join(' ');
+const shape = (r: string) => {
+  const [w, h] = r.split('/').map(Number);
+  return w / h;
+};
+const columns = (row: Tile[]) => row.map((t) => `${shape(t.ratio).toFixed(4)}fr`).join(' ');
 
 // The large files: the no-JavaScript link target, the viewer's srcset, and the JSON-LD contentUrl.
 const large = await Promise.all(
@@ -95,7 +99,7 @@ const jsonLd = [
       contentUrl: absolute(largeOf(t).src),
       width: largeOf(t).attributes.width,
       height: largeOf(t).attributes.height,
-      caption: t.caption,
+      caption: t.caption ?? t.photo.alt,
     })),
   },
   {
@@ -138,8 +142,8 @@ const jsonLd = [
     <div class="wall__label">
       <div data-enter="rule" style="--enter-delay:480ms"><Rule variant="lit" /></div>
       <div class="wall__label-grid">
-        <h2 class="t-h3 wall__title" id="latest" data-enter style="--enter-delay:540ms">Two comedians, mid-set</h2>
-        <p class="wall__note" data-enter style="--enter-delay:600ms">Six of our most recent show photographs, shot under the stage lights. Open any one to see it whole.</p>
+        <h2 class="t-h3 wall__title" id="latest" data-enter style="--enter-delay:540ms">Stand-up comedy, on stage</h2>
+        <p class="wall__note" data-enter style="--enter-delay:600ms">Five of our most recent show photographs, shot under the stage lights. Open any one to see it whole.</p>
         {
           showFacts.length > 0 && (
             <dl class="wall__facts">
@@ -163,7 +167,7 @@ const jsonLd = [
               <figure class:list={['wall__tile', { 'wall__tile--wide': t.wide }]} style={r === 0 ? `--enter-delay:${420 + i * 160}ms` : undefined}>
                 {/* The caption is the tile's own, not <Photo caption>: the photo's glow is a shadow around its
                     whole figure, so a caption inside that figure reads as a dark plate cut out of the light. */}
-                <Photo photo={t.photo} ratioSmall={t.small} sizes={t.sizes} priority={r === 0 && i === 0} enter={r === 0} reveal={r > 0} glow={r === 0 && i === 0} />
+                <Photo photo={t.photo} ratio={t.ratio} ratioSmall={t.small} sizes={t.sizes} priority={r === 0 && i === 0} enter={r === 0} reveal={r > 0} glow={r === 0 && i === 0} />
                 <a
                   class="wall__open"
                   href={largeOf(t).src}
@@ -173,10 +177,10 @@ const jsonLd = [
                   data-h={t.photo.src.height}
                   data-glow={t.photo.glow}
                   data-alt={t.photo.alt}
-                  data-caption={t.caption}
-                  aria-label={`See it full screen: ${t.caption}`}
+                  data-caption={t.caption ?? ''}
+                  aria-label={`See it full screen: ${t.caption ?? t.photo.alt}`}
                 />
-                <figcaption class="wall__caption t-small">{t.caption}</figcaption>
+                {t.caption && <figcaption class="wall__caption t-small">{t.caption}</figcaption>}
               </figure>
             ))}
           </div>
@@ -189,31 +193,37 @@ const jsonLd = [
     <div class="wrap">
       <SectionHeader id="stage" title="What we stage" lead="One team books the artist and produces the show, from the first enquiry to the final bow." />
     </div>
-    {/* No rise on this block: a parent fade would fade the photographs in it. */}
+    {/* Text cards (round 3): no unused photograph is left for them; each service page carries its own. */}
     <div class="stage">
       <Scroller label="Kinds of show we stage" item="var(--stage-item)">
-        <ServiceCard href="/stand-up-comedy-shows/" name="Comedy night" kicker="Stand-up · Live performance" photo={photos.standupStool} ratio="3/2">
+        <ServiceCard href="/stand-up-comedy-shows/" name="Comedy night" kicker="Stand-up · Live performance">
           Stand-up comedy for full houses, from 50-seat club rooms to 2,000-seat auditoriums.
         </ServiceCard>
-        <ServiceCard href="/college-fest-entertainment/" name="College fest" kicker="Campus · Cultural festival" photo={photos.collegeTentAudience} ratio="3/2">
+        <ServiceCard href="/college-fest-entertainment/" name="College fest" kicker="Campus · Cultural festival">
           Live acts, DJ sets and comedy for university festivals, bringing thousands of students together.
         </ServiceCard>
-        <ServiceCard href="/event-management-company-india/" name="Auditorium show" kicker="Full production" photo={photos.fullHouseStalls} ratio="3/2">
+        <ServiceCard href="/event-management-company-india/" name="Auditorium show" kicker="Full production">
           Sound-check, show time, full house: full LED staging, with sound and lighting through our partner VIGOR MENTORS.
         </ServiceCard>
-        <ServiceCard href="/artist-booking/" name="Live concert" kicker="Music · Live band" photo={photos.ledMandalaWall} ratio="3/2">
+        <ServiceCard href="/artist-booking/" name="Live concert" kicker="Music · Live band">
           Live bands in auditorium settings, with full production support, sound and concert lighting.
         </ServiceCard>
       </Scroller>
     </div>
     <div class="wrap stage__row" data-reveal>
-      <ServiceRow href="/corporate-entertainment/" name="Corporate events" kicker="For companies" cta="Corporate event entertainment">
-        Annual days, offsites, galas and client evenings, with sets that are funny without an HR escalation.
-      </ServiceRow>
+      <div class="stage__rows">
+        <ServiceRow href="/corporate-entertainment/" name="Corporate events" kicker="For companies" cta="Corporate event entertainment">
+          Annual days, offsites, galas and client evenings, with sets that are funny without an HR escalation.
+        </ServiceRow>
+        <ServiceRow href="/contact/" name="Brand collaboration" kicker="For brands" cta="Talk to us about a brand collaboration">
+          We help brands find the right artists: tie-ups, product launches, campaign appearances and brand-funded shows.
+        </ServiceRow>
+      </div>
+      <BrandBridge alt="Line drawing: a bridge connecting an artist's stage to a brand sign" class="stage__fig" />
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="The people and partners behind 500+ shows." photo={photos.emptyHall} />
+  <NextBand href={next.href} title={next.label} blurb="The people and partners behind 500+ shows." photo={photos.outdoorStage} />
 </Base>
 
 <style>
@@ -298,16 +308,17 @@ const jsonLd = [
     }
   }
 
-  /* ── The wall. Phone: two up, wide pictures across. Desktop: justified rows, every picture whole. */
+  /* ── The wall. One gutter, both ways. Phone: one grid of two columns (the rows dissolve into it), the
+     wide picture across, the other four two up at 4/5. Desktop: each row its own grid, columns sized
+     from the windows' shapes, so a row's windows share one height and meet both edges of the column. */
   .wall {
     display: grid;
-    gap: var(--s-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gutter);
+    align-items: start;
   }
   .wall__row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-6) var(--gutter);
-    align-items: start;
+    display: contents;
   }
   .wall__tile {
     position: relative;
@@ -317,20 +328,21 @@ const jsonLd = [
     grid-column: 1 / -1;
   }
   @media (min-width: 48rem) {
+    .wall {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .wall__row {
+      display: grid;
       grid-template-columns: var(--cols);
+      gap: var(--gutter);
+      align-items: start;
     }
     .wall__tile--wide {
       grid-column: auto;
     }
-    /* <Photo> switches to its small shape below 60rem; in a justified row it keeps its own shape. */
+    /* <Photo> switches to its small shape below 60rem; in a row it keeps the row's shape. */
     .wall__tile :global(.photo__window) {
       aspect-ratio: var(--ratio);
-    }
-  }
-  @media (min-width: 60rem) {
-    .wall {
-      gap: var(--s-7);
     }
   }
   /* The whole tile opens the viewer (or, without JavaScript, the large file). */
@@ -378,6 +390,28 @@ const jsonLd = [
   }
   .stage__row {
     margin-block-start: var(--block);
+  }
+  /* The brand bridge: under the two rows on a phone, centred; beside them (5 of 12 columns) on a
+     tablet and from 64rem. Not 56-64rem, where each row splits into its own columns and needs the width. */
+  .stage__row :global(.stage__fig) {
+    max-inline-size: 28rem;
+    margin: var(--s-5) auto 0;
+  }
+  @media (min-width: 48rem) and (max-width: 55.99rem), (min-width: 64rem) {
+    .stage__row {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: center;
+    }
+    .stage__rows {
+      grid-column: 1 / span 7;
+    }
+    .stage__row :global(.stage__fig) {
+      grid-column: 8 / -1;
+      max-inline-size: none;
+      margin-block-start: 0;
+    }
   }
 </style>
 

@@ -2,7 +2,7 @@
 // /stand-up-comedy-shows/ — stand-up comedian booking (Redesign 2.0).
 // Facts: docs/redesign-2.0/content/stand-up-comedy-shows.md and the strategy's ledger (seo/strategy.md §5).
 // Head, H1 and keywords: build-tools/seo-targets.json. The signature is the "set-up, (beat), punchline"
-// pair in the formats section: two frames of one bit, the second landing a beat lower.
+// pair in the formats section: two frames (two comedians: no performer twice on a page), the second landing a beat lower.
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
@@ -14,6 +14,7 @@ import Photo from '../components/Photo.astro';
 import TextLink from '../components/TextLink.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
+import StandupStage from '../components/illustrations/StandupStage.astro';
 import { photos } from '../data/photos';
 import { site, nextAfter } from '../data/site';
 
@@ -113,13 +114,13 @@ const jsonLd = [
   path={path}
   jsonLd={jsonLd}
 >
-  <Hero photo={photos.crowdworkHoodie} ratio="4/5">
+  <Hero photo={photos.micPalace} ratio="4/5">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Stand-up comedy shows' }]} />
     <h1 slot="title">Stand-up comedian booking across India</h1>
     <p slot="lead" class="t-lead">Book stand-up comedians for college fests, corporate evenings and ticketed shows. From club nights to 2,000-seat auditoriums, we book the comedian, build the stage and fill the room.</p>
     <Fragment slot="actions">
       <Button href={site.nav.cta.href} icon="arrow-right">Get a comedian shortlist</Button>
-      <Button href={cost} variant="outline">What does it cost?</Button>
+      <Button href={cost} variant="outline">What a comedian costs</Button>
     </Fragment>
     <StatLedger
       slot="proof"
@@ -144,13 +145,13 @@ const jsonLd = [
 
         <div class="beat">
           <div class="beat__first">
-            <Photo photo={photos.micPalace} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
+            <Photo photo={photos.crowdworkHoodie} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
             <p class="beat__cue t-title" data-reveal>The set-up.</p>
             <TextLink class="beat__door" href="/work/">Recent shows</TextLink>
           </div>
           <span class="beat__mark t-title" aria-hidden="true" data-reveal>(beat)</span>
           <div class="beat__late">
-            <Photo photo={photos.highKick} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
+            <Photo photo={photos.standupWhiteTee} ratio="2/3" sizes="(min-width: 60rem) 25vw, 52vw" widths={[360, 540, 720, 960, 1280]} reveal parallax />
             <p class="beat__cue t-title" data-reveal>The punchline.</p>
           </div>
         </div>
@@ -174,6 +175,11 @@ const jsonLd = [
     <div class="wrap split">
       <div class="split__aside booking__col">
         <SectionHeader stack title="How comedian booking works" />
+        <p class="steps__note t-small dim" data-reveal>Book college shows <strong>1–3 months</strong> ahead, corporate events <strong>2–4 weeks</strong> ahead and large auditorium shows <strong>3–6 months</strong> ahead.</p>
+        <StandupStage class="booking__fig" alt="Line drawing of a mic stand and a stool on a stage, under a spotlight" />
+      </div>
+
+      <div class="split__main booking__col">
         <ol class="steps" role="list" data-reveal="stagger">
           {
             steps.map((s, i) => (
@@ -193,10 +199,6 @@ const jsonLd = [
             ))
           }
         </ol>
-        <p class="steps__note t-small dim" data-reveal>Book college shows <strong>1–3 months</strong> ahead, corporate events <strong>2–4 weeks</strong> ahead and large auditorium shows <strong>3–6 months</strong> ahead.</p>
-      </div>
-
-      <div class="split__main booking__col">
         <SectionHeader stack size="h3" title="Stand-up booking FAQs" />
         <div class="faqs">
           {
@@ -218,7 +220,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="Line-ups for annual days, offsites and galas." photo={photos.fullHouseStalls} />
+  <NextBand href={next.href} title={next.label} blurb="Line-ups for annual days, offsites and galas." />
 </Base>
 
 <style>
@@ -235,7 +237,7 @@ const jsonLd = [
   .formats__title {
     max-inline-size: 16ch;
   }
-  /* The signature: one bit in two frames, read as one line: "The set-up." (beat) "The punchline."
+  /* The signature: two frames read as one line: "The set-up." (beat) "The punchline."
      Each frame is 56% of the stage and they overlap on the diagonal; the punchline lands a beat
      later, `--drop` (% of a frame's width) lower. The two corners the drop leaves empty hold the
      beat (top right) and the set-up's cue with the way out (bottom left). */
@@ -395,5 +397,44 @@ const jsonLd = [
     font-weight: 500;
     color: var(--text);
     white-space: nowrap;
+  }
+  /* Four steps two by two once the column has room, each pair on its own hairlines. */
+  .split__main.booking__col {
+    container-type: inline-size;
+  }
+  @container (min-width: 36rem) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      border-block-start: 0;
+    }
+    .step:nth-child(-n + 2) {
+      border-block-start: 1px solid var(--rule);
+    }
+  }
+  /* Show day, drawn: the stage the four steps lead to. Column-wide under the heading on desktop;
+     beside the heading and note on a tablet; capped and centred when stacked. */
+  .booking__col :global(.booking__fig) {
+    max-inline-size: 26rem;
+    margin-inline: auto;
+  }
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
+    .split__aside.booking__col {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto auto 1fr;
+      column-gap: var(--gutter);
+    }
+    .split__aside.booking__col > :global(*) {
+      grid-column: 1 / span 6;
+    }
+    .booking__col :global(.booking__fig) {
+      grid-column: 7 / -1;
+      grid-row: 1 / -1;
+    }
+  }
+  @media (min-width: 64rem) {
+    .booking__col :global(.booking__fig) {
+      max-inline-size: none;
+    }
   }
 </style>

@@ -8,9 +8,9 @@
 // The FAQ is rendered from the same array as the FAQPage JSON-LD, so the two cannot drift apart.
 // The hero lead is one clause (three lines on a phone) so the ledger ends above the dock; the 48-hour
 // shortlist and the one point of contact it used to name are in the cue sheet and the `brief` passage.
-// Photographs: no verified photograph of a corporate show exists (photo-library.md). The hero is a comedy-show
-// photograph and the formats open beside the company's own photograph of a rigged, lit stage; neither is
-// captioned as a corporate event. `conferenceAudience` (unverified provenance) is not used.
+// Photographs (round3/PHOTO-PLAN.md): the hero is `conferenceAudience`, a seated conference audience of
+// UNVERIFIED provenance (owner to confirm), so it carries no caption; the formats open beside the company's own
+// photograph of a hall with beams over the seats. Neither is captioned as one of our corporate events.
 // Signature: the cue sheet. The booking is set out as five numbered cues (Q1 to Q5) on one line; every cue
 // opens with who answers for it, and the light calls the cues one by one as the line is read.
 import Base from '../layouts/Base.astro';
@@ -24,13 +24,15 @@ import Rule from '../components/Rule.astro';
 import Photo from '../components/Photo.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
-import { site, nextAfter } from '../data/site';
+import CorporateGala from '../components/illustrations/CorporateGala.astro';
+import { site } from '../data/site';
 import { photos } from '../data/photos';
 
 const path = '/corporate-entertainment/';
 const url = `${site.url}${path}`;
 const costGuide = '/comedian-booking-cost-india/';
-const next = nextAfter(path);
+// The way out is the artists, not the comedian cost guide (owner, round 3): label from the site's page map.
+const next = site.ring.find((p) => p.href === '/artist-booking/')!;
 
 // The three formats that have a page of their own lead the board, so their links share one line;
 // the wording of all six is production's.
@@ -151,7 +153,7 @@ const jsonLd = [
   path={path}
   jsonLd={jsonLd}
 >
-  <Hero photo={photos.crowdworkHoodie} size="compact" ratio="4/5" ratioSmall="3/2">
+  <Hero photo={{ ...photos.conferenceAudience, position: '24% 50%' }} size="compact" ratio="4/5" ratioSmall="3/2" positionSmall="40% 62%">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Corporate entertainment' }]} />
     <h1 slot="title">Corporate event entertainment that people remember</h1>
     <p slot="lead" class="t-lead">Corporate event entertainment in India for annual days, offsites, galas and client evenings.</p>
@@ -174,7 +176,7 @@ const jsonLd = [
         <p class="dim intro__brief" data-reveal set:html={nb(brief)} />
         <Photo
           class="intro__photo"
-          photo={photos.emptyStageTruss}
+          photo={photos.beamsOverSeats}
           ratio="3/2"
           ratioSmall="16/9"
           sizes="(min-width: 64rem) 30vw, 100vw"
@@ -225,10 +227,11 @@ const jsonLd = [
 
   <section class="section" aria-labelledby="faq-title">
     <div class="wrap split">
-      <div class="split__aside">
+      <div class="split__aside faq__aside">
         <SectionHeader stack size="h3" id="faq-title" title="Corporate booking FAQs">
           <TextLink href={site.nav.cta.href}>Plan your event</TextLink>
         </SectionHeader>
+        <CorporateGala class="faq__fig" alt="Line drawing of guests at round tables facing a stage with an LED wall" />
       </div>
       <div class="split__main">
         {
@@ -242,13 +245,13 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="Comedy nights, EDM nights and pro-night concerts." photo={photos.collegeTentAudience} contact />
+  <NextBand href={next.href} title={next.label} blurb="Comedians, singers, DJs, live bands and emcees." photo={photos.emptyStageTruss} contact />
 </Base>
 
 <style>
   /* ── The formats open the way the college nights do: the heading and the two intro passages beside
-        one photograph. It is the company's own picture of a stage, rigged and lit; nothing here
-        captions it as a corporate event, because no photograph of one exists. */
+        one photograph. It is the company's own picture of a hall, rigged and lit; nothing here
+        captions it as a corporate event, because no verified photograph of one exists. */
   .intro {
     display: grid;
     gap: var(--s-5) var(--gutter);
@@ -526,6 +529,40 @@ const jsonLd = [
   @keyframes ros-lamp {
     from {
       opacity: 0;
+    }
+  }
+
+  /* ── The FAQ aside: the evening being booked, drawn, under the heading. On a phone the aside
+        dissolves so the heading stays on its questions and the drawing follows them, centred. On a
+        tablet heading and drawing share one row above the questions. On a desktop the drawing is
+        capped so the aside ends with the questions instead of overhanging them. */
+  .faq__aside {
+    display: contents;
+  }
+  .faq__aside :global(.faq__fig) {
+    order: 1;
+    max-inline-size: 26rem;
+    margin-inline: auto;
+  }
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .faq__aside {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: center;
+    }
+    .faq__aside :global(.faq__fig) {
+      order: 0;
+      max-inline-size: 20rem;
+      margin-inline: auto 0;
+    }
+  }
+  @media (min-width: 64rem) {
+    .faq__aside {
+      display: block;
+    }
+    .faq__aside :global(.faq__fig) {
+      max-inline-size: 18.5rem;
     }
   }
 </style>

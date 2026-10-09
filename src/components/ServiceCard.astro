@@ -1,6 +1,6 @@
 ---
-// A service (or a show type) as a picture card: use only where a real photograph exists.
-// The photo is a full-brightness window; the words sit under it, never on it. The whole card
+// A service (or a show type) as a picture card, or, without `photo`, a text card under a rule
+// (used where no unused photograph is left: no repeats). The photo is a full-brightness window; the words sit under it, never on it. The whole card
 // is clickable. The link itself is the name, or, with `linkLabel`, a short text link under the
 // line of copy (use it when the strategy gives the link its own anchor phrase, e.g. "Book a
 // stand-up comedian"). Inside a <Scroller> the cards run sideways and their curtains are drawn
@@ -11,7 +11,7 @@ import type { Photograph } from '../data/photos';
 interface Props {
   href: string;
   name: string;
-  photo: Photograph;
+  photo?: Photograph;
   ratio?: '4/5' | '3/2' | '2/3';
   kicker?: string;
   sizes?: string;
@@ -22,8 +22,8 @@ const { href, name, photo, ratio = '4/5', kicker, sizes = '(min-width: 64rem) 25
 const H = `h${level}` as 'h3' | 'h4';
 ---
 
-<article class="scard">
-  <Photo photo={photo} ratio={ratio} sizes={sizes} widths={[360, 540, 720, 960, 1280, 1600]} class="scard__photo" reveal />
+<article class:list={['scard', { 'scard--text': !photo }]}>
+  {photo && <Photo photo={photo} ratio={ratio} sizes={sizes} widths={[360, 540, 720, 960, 1280, 1600]} class="scard__photo" reveal />}
   <div class="scard__body">
     <div class="scard__head">
       {kicker && <span class="t-label">{kicker}</span>}
@@ -42,6 +42,10 @@ const H = `h${level}` as 'h3' | 'h4';
     gap: var(--s-4);
     align-content: start;
     position: relative;
+  }
+  .scard--text {
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--rule-strong);
   }
   .scard__link {
     color: inherit;

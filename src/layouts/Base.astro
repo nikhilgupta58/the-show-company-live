@@ -18,6 +18,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Loader from '../components/Loader.astro';
 import { site } from '../data/site';
 import anekUrl from '../assets/fonts/anek-latin-var.woff2?url';
 import newsreaderUrl from '../assets/fonts/newsreader-var.woff2?url';
@@ -49,12 +50,26 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {/* The header controls drop in on the first page of a visit only (Header.astro). Runs before
-        the first paint; if storage is blocked the entrance simply plays every time. */}
+        the first paint; if storage is blocked the entrance simply plays every time.
+        The same first page opens behind <Loader> ("The Show Begins..."): is-opening shows it, and
+        on DOM-ready, or at 1.5s at the latest, is-closing fades it over 1s, then it is gone. If
+        storage is blocked it never shows (it is set only after the visit is recorded). */}
     <script is:inline>
-      try {
-        if (sessionStorage.getItem('tsc-visit')) document.documentElement.classList.add('is-return');
-        else sessionStorage.setItem('tsc-visit', '1');
-      } catch (e) {}
+      (function () { try {
+        var h = document.documentElement;
+        if (sessionStorage.getItem('tsc-visit')) h.classList.add('is-return');
+        else {
+          sessionStorage.setItem('tsc-visit', '1');
+          h.classList.add('is-opening');
+          var close = function () {
+            if (!h.classList.contains('is-opening')) return;
+            h.classList.replace('is-opening', 'is-closing');
+            setTimeout(function () { h.classList.remove('is-closing'); }, 1000);
+          };
+          document.addEventListener('DOMContentLoaded', close, { once: true });
+          setTimeout(close, 1500);
+        }
+      } catch (e) {} })();
     </script>
 
     {/* GA4, exactly as production's homepage serves it (site-contract.md §5): the stub runs
@@ -135,6 +150,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <slot name="head" />
   </head>
   <body>
+    <Loader />
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header pathname={Astro.url.pathname} />
     <main id="main-content" tabindex="-1">

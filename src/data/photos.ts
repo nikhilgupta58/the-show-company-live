@@ -6,12 +6,8 @@
 import type { ImageMetadata } from 'astro';
 
 import entrance16x9 from '../assets/photos/entrance-arms-wide-16x9.jpg';
-import entrance3x2 from '../assets/photos/entrance-arms-wide-3x2.jpg';
 import micPalace2x3 from '../assets/photos/mic-palace-backdrop-2x3.jpg';
-import micPalace16x9 from '../assets/photos/mic-palace-backdrop-16x9.jpg';
 import highKick2x3 from '../assets/photos/high-kick-palace-backdrop-2x3.jpg';
-import storyteller2x3 from '../assets/photos/storyteller-amber-2x3.jpg';
-import storyteller16x9 from '../assets/photos/storyteller-amber-16x9.jpg';
 import emptyHall from '../assets/photos/empty-hall-mic-1920.jpg';
 import fullHouseBalcony from '../assets/photos/full-house-balcony-1920.jpg';
 import fullHouseStalls from '../assets/photos/full-house-stalls-1600.jpg';
@@ -20,7 +16,6 @@ import crowdworkHoodie from '../assets/photos/crowdwork-hoodie-tan-curtain-4672.
 import micStandHoodie from '../assets/photos/mic-stand-hoodie-dark-stage-3454.jpg';
 import standupWhiteTee from '../assets/photos/standup-white-tee-blue-curtains-1200.jpg';
 import standupStool from '../assets/photos/standup-stool-blue-curtains-960.jpg';
-import emptyHallMicPortrait from '../assets/photos/empty-hall-mic-portrait-1200.jpg';
 import hallLightBeams from '../assets/photos/empty-hall-light-beams-led-screen-1280.jpg';
 import emptyStageTruss from '../assets/photos/empty-stage-truss-lights-1280.jpg';
 import ledMandalaWall from '../assets/photos/led-mandala-wall-wide-1280.jpg';
@@ -30,6 +25,13 @@ import outdoorStage from '../assets/photos/outdoor-stage-red-carpet-1280.jpg';
 import conferenceAudience from '../assets/photos/conference-audience-blue-beams-1280.jpg';
 import festivalLasers from '../assets/photos/festival-crowd-lasers-1280.jpg';
 import festivalSparks from '../assets/photos/festival-crowd-spark-columns-1280.jpg';
+// Round 3 additions (docs/redesign-2.0/round3/PHOTO-PLAN.md).
+import bitsGesture from '../assets/photos/bits-pilani-gesture-corrected.jpg';
+import bitsArmsCrossed from '../assets/photos/bits-pilani-arms-crossed-corrected.jpg';
+import beamsOverSeats from '../assets/photos/beams-over-seats-crew-1280.jpg';
+import soundcheck from '../assets/photos/soundcheck-crew-on-stage-1280.jpg';
+import concertStageA from '../assets/photos/concert-stage-red-led-beams-1280.jpg';
+import concertStageB from '../assets/photos/concert-stage-green-violet-beams-1280.jpg';
 
 // What a picture shows: comedian = a performer is the subject; audience = the crowd or seats; stage = the stage,
 // rig or hall itself; corporate = a corporate-event setting; college = a college fest (the audit's category;
@@ -56,12 +58,8 @@ const HALL = '#cc7032';
 export const photos = {
   // Hero-grade (Sony A7, 2026-09): bright, sharp, on-brand gold.
   entranceWide: { src: entrance16x9, alt: 'Comedian in a white hoodie walking on stage with arms spread wide, lit in red', glow: RED, position: '46% 40%' },
-  entrance: { src: entrance3x2, alt: 'Comedian in a white hoodie walking on stage with arms spread wide, lit in red', glow: RED, position: '50% 40%' },
   micPalace: { src: micPalace2x3, alt: 'Comedian holding the mic close mid-bit, standing in front of a golden painted palace backdrop', glow: AMBER, position: '50% 30%' },
-  micPalaceWide: { src: micPalace16x9, alt: 'Comedian holding the mic close mid-bit, standing in front of a golden painted palace backdrop', glow: AMBER, position: '50% 35%' },
   highKick: { src: highKick2x3, alt: 'Comedian in a sunflower-print top landing a high kick mid-punchline in front of a painted palace backdrop', glow: AMBER, position: '50% 45%' },
-  storyteller: { src: storyteller2x3, alt: 'Comedian gesturing while telling a story on a stage washed in warm amber light', glow: '#fa9804', position: '70% 60%' },
-  storytellerWide: { src: storyteller16x9, alt: 'Comedian gesturing while telling a story on a stage washed in warm amber light', glow: '#fa9804', position: '72% 50%' },
   // Rooms (older stills, 1600 to 1920 px wide: bands and cards, not full-bleed on large screens).
   emptyHall: { src: emptyHall, alt: 'Microphone on a stand at centre stage, facing an empty tiered auditorium', glow: HALL, position: '50% 55%' },
   fullHouseBalcony: { src: fullHouseBalcony, alt: 'Full auditorium with balcony seating packed out', glow: HALL, position: '50% 50%' },
@@ -82,8 +80,6 @@ export const photos = {
   standupStool: { src: standupStool, alt: 'Comedian in a white shirt and light jeans at the mic on a wooden stage, a stool and a stage monitor beside him, blue curtains behind and audience heads in the foreground', glow: '#553af2', position: '56% 56%', tags: ['comedian'], orientation: 'portrait', luminance: 48, provenance: 'own', original: 'public/assets/comedy-show-blue-stage-960x1280.jpeg' },
 
   // Rooms, rigs and stages (no performer).
-  // The portrait of the hall in emptyHall: bright and symmetrical.
-  emptyHallMicPortrait: { src: emptyHallMicPortrait, alt: 'Microphone on a stand in the foreground, looking out over an empty tiered auditorium with red seats and a ceiling of light strips', glow: '#f29240', position: '49% 52%', tags: ['stage'], orientation: 'portrait', luminance: 102, provenance: 'own', original: 'public/assets/auditorium-mic-empty-stage-1200x1600.jpeg' },
   // Set-up shot: no audience, a few crew with cameras in the front seats. The LED screen shows a third-party event title and a sponsor logo that a crop cannot remove: owner to confirm.
   // Its glow is the mean of the brightest 20% of pixels: the beams are near-white, so a saturation-weighted mean has no stable hue here.
   hallLightBeams: { src: hallLightBeams, alt: 'Auditorium with fans of white moving-light beams converging on a central LED screen that shows a gold winged emblem and an event title, a few crew members and camera stands in the front rows of red seats', glow: '#c3dbed', position: '50% 66%', tags: ['stage'], orientation: 'landscape', luminance: 88, provenance: 'own', original: 'public/assets/auditorium-beam-lights-1280x960.jpeg' },
@@ -103,4 +99,11 @@ export const photos = {
   conferenceAudience: { src: conferenceAudience, alt: 'Seated conference audience wearing lanyards and holding notebooks, in a large hall with blue light beams across the roof truss and warm orange light on the rows', glow: '#5cc2f2', position: '30% 68%', tags: ['corporate', 'audience'], orientation: 'landscape', luminance: 61, provenance: 'unverified', original: 'public/assets/corporate_image.jpg' },
   festivalLasers: { src: festivalLasers, alt: 'Crowd in silhouette, hands raised, facing a stage lit by fans of green and red laser beams and magenta spotlights', glow: '#f23a51', position: '55% 42%', tags: ['audience', 'stage'], orientation: 'landscape', luminance: 43, provenance: 'unverified', original: 'public/assets/college_fest.jpg' },
   festivalSparks: { src: festivalSparks, alt: 'Standing crowd with hands raised facing a stage where white spark columns rise in front of vertical beams of light, with a bright flare in the haze', glow: '#89acf2', position: '58% 52%', tags: ['audience', 'stage'], orientation: 'landscape', luminance: 119, provenance: 'unverified', original: 'public/assets/college_shows.jpg' },
+  // Round 3 additions. BITS stills are tone-corrected (levels + gamma only) copies; the stage stays low-key by nature.
+  bitsGesture: { src: bitsGesture, alt: 'Comedian on a dark stage in a maroon jacket, mic in one hand and the other hand raised, smiling', glow: '#d9694f', position: '48% 50%', tags: ['comedian'], orientation: 'landscape', luminance: 12.7, provenance: 'own', original: 'public/assets/recent-event-standup-gesture-1600x1066.jpeg' },
+  bitsArmsCrossed: { src: bitsArmsCrossed, alt: 'Comedian standing alone on a dark stage in a maroon jacket and wide cream trousers, arms crossed, looking up', glow: '#d9694f', position: '52% 50%', tags: ['comedian'], orientation: 'landscape', luminance: 14.9, provenance: 'own', original: 'public/assets/recent-event-standup-arms-crossed-1600x1066.jpeg' },
+  beamsOverSeats: { src: beamsOverSeats, alt: 'Hall with white light beams fanning over the stage and a screen, red seats in the foreground with a few people seated and one standing', glow: '#9fc2f2', position: '50% 42%', tags: ['stage', 'audience'], orientation: 'landscape', luminance: 96.2, provenance: 'own', original: 'public/assets/auditorium-full-house-1280x960.jpeg' },
+  soundcheck: { src: soundcheck, alt: 'View from the stage across rows of empty red seats, with a mic stand, two stage monitors and a few crew members setting up', glow: '#e07a9a', position: '62% 50%', tags: ['stage'], orientation: 'landscape', luminance: 89, provenance: 'own', original: 'public/assets/auditorium-soundcheck-1280x680.jpeg' },
+  concertStageA: { src: concertStageA, alt: 'Stage washed in red and orange light, with beams crossing over an LED wall and flanking LED panels, speakers at the edges', glow: '#f2573a', position: '50% 50%', tags: ['stage'], orientation: 'landscape', luminance: 125.5, provenance: 'own', original: 'public/assets/concert-stage-purple-1280x575.jpeg' },
+  concertStageB: { src: concertStageB, alt: 'Stage with green and violet light beams crossing over an LED wall and LED panels, a truss of lights above', glow: '#a8f24a', position: '55% 50%', tags: ['stage'], orientation: 'landscape', luminance: 112, provenance: 'own', original: 'public/assets/auditorium-green-purple-1280x575.jpeg' },
 } satisfies Record<string, Photograph>;

@@ -1,0 +1,107 @@
+---
+// "The Show Begins...": the opening curtain from the live site (main:src/pages/index.html), ported
+// as is: black screen, a pulsing gold glow, two rings turning round a microphone, the line under it.
+// It plays on the first page of a visit only (whatever page that is), never on the pages after it.
+//
+// It is shown by a class, never by default: Base.astro's head script adds html.is-opening on the
+// first page of a visit, and clears it on DOM-ready (or at 1.5s at the latest) to start a 1s fade.
+// No JavaScript, storage blocked, or prefers-reduced-motion: it is never shown at all. It is
+// position: fixed, so it moves nothing when it goes (no layout shift), and decorative (aria-hidden).
+// One change from main: each ring carries a brighter arc, since a plain round border shows no turn.
+---
+
+<div class="loader" aria-hidden="true">
+  <div class="loader__mark">
+    <span class="loader__glow"></span>
+    <span class="loader__ring"></span>
+    <span class="loader__ring loader__ring--inner"></span>
+    <svg class="loader__mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+      <path d="M7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V11C17 13.7614 14.7614 16 12 16C9.23858 16 7 13.7614 7 11V8Z" />
+      <path d="M11 8H13" /><path d="M10 11L14 11" />
+      <path d="M20 10V11C20 15.4183 16.4183 19 12 19C7.58172 19 4 15.4183 4 11V10" /><path d="M12 19V22" />
+    </svg>
+  </div>
+  <span class="loader__text">The Show Begins...</span>
+</div>
+
+<style>
+  .loader {
+    display: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.is-opening) .loader,
+    :global(html.is-closing) .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      color: #c6a87c;
+      transition: opacity 1s;
+    }
+  }
+  :global(html.is-closing) .loader {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .loader__mark {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 8rem;
+    block-size: 8rem;
+    margin-block-end: 2rem;
+  }
+  .loader__glow,
+  .loader__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+  }
+  .loader__glow {
+    background: currentColor;
+    opacity: 0.2;
+    filter: blur(40px);
+    animation: loader-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .loader__ring {
+    border: 1px solid rgb(198 168 124 / 0.3);
+    border-block-start-color: rgb(198 168 124 / 0.85);
+    animation: loader-spin 8s linear infinite;
+  }
+  .loader__ring--inner {
+    inset: 1rem;
+    border-color: rgb(71 85 105 / 0.3);
+    border-block-end-color: rgb(148 163 184 / 0.7);
+    animation-duration: 5s;
+    animation-direction: reverse;
+  }
+  .loader__mic {
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    opacity: 0.8;
+    animation: loader-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .loader__text {
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    animation: loader-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes loader-pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  @keyframes loader-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

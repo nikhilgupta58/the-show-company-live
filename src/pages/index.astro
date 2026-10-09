@@ -3,12 +3,14 @@
 // page, and the last one taking the enquiry itself: the shared enquiry form, as on /contact/
 // (owner, 2026-10-01: "we want this to be in homepage too"), under id="contact", so old /#contact
 // links land on the form. The questions sit in that block too, beside the form.
-// Photographs: micPalace is the hero; every other picture here is one the wall on /work/ does not
+// Photographs: the cover (public/assets/stage-lighting, the live site's) is the hero; every other picture here is one the wall on /work/ does not
 // use, so a visitor going from Home to Work does not see the same frames twice.
 // Copy: written here from docs/redesign-2.0/seo/strategy.md (§4 voice, §5 facts ledger, §6.1 outline)
 // and docs/redesign-2.0/content/index.md. Title, description and H1 are frozen by build-tools/seo-targets.json.
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
+import { Picture } from 'astro:assets';
+import cover from '../../public/assets/stage-lighting-1600x1200.webp';
+import italicUrl from '../assets/fonts/newsreader-italic-var.woff2?url';
 import Button from '../components/Button.astro';
 import StatLedger from '../components/StatLedger.astro';
 import SectionHeader from '../components/SectionHeader.astro';
@@ -64,21 +66,27 @@ const routes = [
     text: 'One team for the artists, the production and the on-ground crew.',
   },
   {
+    kicker: 'For brands',
+    name: 'Brand collaboration',
+    href: '/contact/',
+    text: 'The right artists for launches, campaigns, tie-ups and brand-funded shows.',
+  },
+  {
     kicker: 'The budget',
-    name: 'What a comedian costs',
+    name: 'What an artist costs',
     href: '/comedian-booking-cost-india/',
-    text: 'Emerging ₹50,000–₹1.5 lakh, touring ₹2–8 lakh, headliners ₹10 lakh+.',
+    text: 'Fee bands by artist tier, and what moves the price.',
   },
 ];
 
-// Recent work: the house, a comedian, a campus, the rig. None of them is on the wall on /work/.
-// The window is 32rem wide at most: every master here still gives two device pixels per CSS
-// pixel at that size (the smallest, 1200px wide, is drawn 512px wide).
-const work = [
-  { photo: photos.fullHouseBalcony, caption: 'A full auditorium, balcony to stalls.' },
-  { photo: photos.standupWhiteTee, caption: 'Centre stage, mic in hand, mid-set.' },
-  { photo: photos.collegeTentAudience, caption: 'A campus fest crowd under the tent.' },
-  { photo: photos.emptyStageTruss, caption: 'An auditorium stage, rigged and lit.' },
+// Recent work: BITS Pilani, a campus fest, the house. None of these frames is on the wall on /work/.
+// Captions are plain known facts or nothing (round 3): only the BITS Pilani still carries one.
+// Three across the content column from 64rem (about 420px a window at 1440), so the row meets both
+// edges; below that the row runs sideways at 32rem a window at most.
+const work: { photo: (typeof photos)[keyof typeof photos]; caption?: string }[] = [
+  { photo: photos.bitsGesture, caption: 'Live at BITS Pilani' },
+  { photo: photos.collegeTentStage },
+  { photo: photos.fullHouseBalcony },
 ];
 
 // Founders and titles: strategy §5.6 (owner to confirm). Visible in the About block, mirrored in JSON-LD.
@@ -102,7 +110,7 @@ const faqs = [
   },
   {
     q: 'What does it cost to book a show?',
-    a: 'Booking a stand-up comedian in India typically costs ₹50,000–₹1.5 lakh for an emerging club-circuit act, ₹2–8 lakh for an established touring name, and ₹10 lakh and above for a national headliner. Production and artist travel add ₹40,000–₹3 lakh, depending on venue size and city, and most mid-size events land at ₹2–8 lakh for a headline act with production. These ranges are indicative for 2026; our <a href="/comedian-booking-cost-india/">booking cost guide</a> explains what moves the price.',
+    a: 'It depends on the artist, the date, the city and the format. Artist fees run in tiers, from an emerging act to an established touring name to a national headliner. Production and artist travel add ₹40,000–₹3 lakh, depending on venue size and city, and most mid-size events land at ₹2–8 lakh for a headline act with production. These ranges are indicative for 2026; our <a href="/comedian-booking-cost-india/">booking cost guide</a> explains what moves the price.',
   },
   {
     q: 'What cities do you operate in?',
@@ -141,7 +149,7 @@ const jsonLd = [
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Live Entertainment Services',
-      itemListElement: ['Stand-up comedy shows', 'College fest entertainment', 'Corporate entertainment', 'Auditorium shows', 'Artist booking'].map((name) => ({
+      itemListElement: ['Stand-up comedy shows', 'College fest entertainment', 'Corporate entertainment', 'Auditorium shows', 'Artist booking', 'Brand collaboration'].map((name) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name },
       })),
@@ -184,20 +192,36 @@ const jsonLd = [
 ---
 
 <Base title={title} description={description} path="/" jsonLd={jsonLd} og={{ imageAlt: 'The Show Company — Live Entertainment, Stand-Up Comedy & Events across India' }}>
-  {/* Statement mode: the logo has already said the name, so the H1 is the gold kicker and the
-      statement carries the display size. No ratioSmall: on a phone the window takes the height
-      the words leave, so photograph, statement, proof and dock share the first screen. */}
-  <Hero photo={photos.micPalace}>
-    <h1 slot="title">THE SHOW COMPANY</h1>
-    <p slot="statement" class="t-h1">We book the artist<br /> and produce<br /> <em>the whole show.</em></p>
-    {/* Two lines on a 360px phone (the ledger under it already says pan-India). */}
-    <p slot="lead" class="t-lead">Stand-up comedy, corporate events, college fests and auditorium shows.</p>
-    <Fragment slot="actions">
-      <Button href={enquire} icon="arrow-right">Book a show</Button>
-      <Button href="/work/" variant="outline">See recent work</Button>
-    </Fragment>
-    <StatLedger slot="proof" size="sm" reveal={false} items={site.stats} />
-  </Hero>
+  {/* The cover (owner, round 3: "keep cover background photo as the earlier one"): the live site's
+      stage photograph, full-bleed and at full brightness. The comic stands in the light on the
+      left; the words sit in the dark house on the right (on a phone, under the stage), with a
+      soft shade behind the words only. The H1 is the gold kicker, the statement the display line.
+      On a phone the dock is the action, so the buttons stay in the page but off the screen, as
+      in <Hero>. It is the LCP: eager, high priority, sized for a cover crop. */}
+  <link slot="head" rel="preload" as="font" type="font/woff2" href={italicUrl} crossorigin />
+  <header class="cover" data-hero>
+    <Picture
+      class="cover__img"
+      src={cover}
+      alt="A stand-up comic in a spotlight on a curtained stage, seen from the back of a dark auditorium"
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[480, 768, 1080, 1440, 1600]}
+      sizes="(max-aspect-ratio: 4/3) 134vh, 100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="cover__copy">
+      <h1 class="cover__name">THE SHOW COMPANY</h1>
+      <p class="cover__statement t-h1">We book the artist<br /> and produce<br /> <em>the whole show.</em></p>
+      <p class="t-lead">Stand-up comedy, corporate events, college fests and auditorium shows.</p>
+      <div class="cover__actions">
+        <Button href={enquire} icon="arrow-right">Book a show</Button>
+        <Button href="/work/" variant="outline">See recent work</Button>
+      </div>
+      <StatLedger size="sm" reveal={false} items={site.stats} />
+    </div>
+  </header>
 
   <section class="section" id="shows">
     <div class="wrap">
@@ -214,14 +238,14 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section" id="recent-events">
+  <section class="section recent" id="recent-events">
     <div class="wrap">
       <SectionHeader title="Recent work" lead="Full auditoriums, stand-up and campus fests, in real photographs." />
     </div>
     {/* `sizes` is the window's width: <Photo> widens it itself where a picture is cropped by height.
         The section's door sits on the row of the scroller's controls, not in the header. */}
-    <Scroller label="Photographs from recent shows" item="min(84vw, 32rem)">
-      {work.map((w) => <Photo photo={w.photo} ratio="3/2" sizes="(min-width: 38rem) 32rem, 84vw" widths={[480, 720, 960, 1280]} caption={w.caption} reveal />)}
+    <Scroller label="Photographs from recent shows" item="var(--recent-item)">
+      {work.map((w) => <Photo photo={w.photo} ratio="3/2" sizes="(min-width: 64rem) 30vw, (min-width: 38rem) 32rem, 84vw" widths={[480, 720, 960, 1280]} caption={w.caption} reveal />)}
       <TextLink slot="aside" href="/work/">See all recent shows</TextLink>
     </Scroller>
   </section>
@@ -274,10 +298,141 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="Comedians booked, and the whole night produced." photo={photos.standupStool} contact={false} />
+  <NextBand href={next.href} title={next.label} blurb="Comedians booked, and the whole night produced." photo={photos.concertStageA} contact={false} />
 </Base>
 
 <style>
+  /* The cover: the photograph fills the block; the words hang from its foot. */
+  .cover {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: end;
+    min-block-size: 100svh;
+    padding: var(--header-zone) var(--margin) var(--dock-zone);
+    overflow: hidden;
+    background: var(--black);
+  }
+  .cover > :global(picture) {
+    display: contents;
+  }
+  .cover :global(.cover__img) {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: 6% 40%;
+  }
+  .cover__copy {
+    position: relative;
+    display: grid;
+    gap: var(--s-4);
+    max-inline-size: 40rem;
+    /* Every line on the photograph carries its own shadow (round 3, item 11); inherited by all. */
+    text-shadow: 0 1px 2px rgb(5 5 5 / 0.7), 0 2px 16px rgb(5 5 5 / 0.6);
+  }
+  .cover__copy :global(.btn--solid) {
+    text-shadow: none;
+  }
+  .cover__copy :global(.btn--outline) {
+    background: rgb(5 5 5 / 0.45);
+  }
+  /* The shade: behind the words only, never across the picture. */
+  .cover__copy::before {
+    content: '';
+    position: absolute;
+    inset: -3rem -4rem -2rem;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgb(5 5 5 / 0.62), rgb(5 5 5 / 0.3) 65%, transparent);
+    pointer-events: none;
+  }
+  .cover__name {
+    font-family: var(--font-wide);
+    font-stretch: 125%;
+    font-weight: 500;
+    font-size: var(--t-body);
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    color: var(--gold-text);
+  }
+  .cover__statement {
+    max-inline-size: 9em;
+    font-size: var(--t-hero);
+    font-weight: 300;
+    color: var(--ivory);
+    text-wrap: balance;
+  }
+  .cover__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  /* Phones: the dock is the action; the buttons stay in the page, off the screen, until focused. */
+  @media (max-width: 47.99rem) {
+    .cover__actions:not(:focus-within) {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+  /* From 48rem the words move into the dark house on the right, clear of the stage. */
+  @media (min-width: 48rem) {
+    .cover {
+      --cover-h: min(100svh, 75vw);
+      min-block-size: var(--cover-h);
+      padding-block-end: var(--s-6);
+      justify-items: end;
+    }
+    /* Framed from the foot: the lit squares on the back wall ride up above the words, so the
+       name and the statement sit on the dark house (round 3). */
+    .cover :global(.cover__img) {
+      object-position: 50% 100%;
+    }
+    .cover__copy {
+      inline-size: min(50%, 40rem);
+      gap: var(--s-5);
+    }
+    .cover__statement {
+      font-size: min(var(--t-hero), 5.4vw);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cover__copy > :global(*) {
+      animation: enter-rise var(--dur-reveal) var(--ease-expo) backwards;
+      animation-delay: calc(160ms + var(--n, 0) * 90ms);
+    }
+    .cover__copy > :nth-child(2) { --n: 1; }
+    .cover__copy > :nth-child(3) { --n: 2; }
+    .cover__copy > :nth-child(4) { --n: 3; }
+    .cover__copy > :nth-child(5) { --n: 4; }
+    /* First page of a visit: the words wait, held on their first frame, while "The Show Begins..."
+       is up and fading (Base.astro's is-opening, then is-closing), and rise once it is gone. Later
+       pages of the visit show them at once. No JavaScript: neither class exists, so they rise as before. */
+    :global(html.is-opening) .cover__copy > :global(*),
+    :global(html.is-closing) .cover__copy > :global(*) {
+      animation-play-state: paused;
+    }
+    :global(html.is-return) .cover__copy > :global(*) {
+      animation: none;
+    }
+  }
+</style>
+
+<style>
+  /* Recent work: three windows that meet both edges of the content column on a desktop (one
+     gutter between them), running sideways on a phone. */
+  .recent {
+    --recent-item: min(84vw, 32rem);
+  }
+  @media (min-width: 64rem) {
+    .recent {
+      --recent-item: calc((100% - 2 * var(--gutter)) / 3);
+    }
+  }
   /* About: under the statement, the text hangs from the midline and the credit from the edge. */
   .about {
     display: grid;

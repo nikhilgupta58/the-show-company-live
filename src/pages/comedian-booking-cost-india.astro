@@ -99,7 +99,7 @@ const jsonLd = [
 ---
 
 <Base title={title} description={description} path={path} og={{ type: 'article' }} jsonLd={jsonLd}>
-  <Hero photo={photos.fullHouseBalcony} size="compact" ratio="3/2" ratioSmall="16/9">
+  <Hero photo={photos.fullHouseStalls} size="compact" ratio="3/2" ratioSmall="16/9">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Comedian booking cost guide' }]} />
     <h1 slot="title">{h1}</h1>
     <p slot="statement">From <span class="gold">₹50,000</span> to <span class="gold">₹10&nbsp;lakh</span> and above.</p>
@@ -165,7 +165,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <NextBand href={next.href} title={next.label} blurb="Recent shows, photographed on the night." photo={photos.entrance} />
+  <NextBand href={next.href} title={next.label} blurb="Recent shows, photographed on the night." />
 </Base>
 
 <style>

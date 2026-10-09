@@ -1,7 +1,7 @@
 ---
 // The page-ending device. Always the last block of <main>, on every page: one "Next" band that
-// names the next page at display size, shows one bright photograph from it, and is a single
-// large link. Pages form a ring, so no page is a dead end (DESIGN.md §10).
+// names the next page at display size, shows one bright photograph from it (optional: without
+// `photo` the band is type only, the name on the full measure), and is a single large link. Pages form a ring, so no page is a dead end (DESIGN.md §10).
 // It replaces a closing CTA band: do not add one above it.
 // The contact routes are not repeated here: the header (or the phone dock) and the footer carry
 // them on every page. `contact` puts the old "Or talk to us now" row back; it is off by default.
@@ -17,7 +17,7 @@ interface Props {
   href: string;
   title: string; // the destination's real page name
   blurb?: string; // one line saying what is there (max ~48 characters)
-  photo: Photograph;
+  photo?: Photograph; // left out when no unused photograph is left for the slot (no repeats)
   label?: string;
   contact?: boolean; // true adds the "Or talk to us now" row (off by default)
 }
@@ -28,8 +28,8 @@ const { contact: c, nav } = site;
 <section class="next" aria-label="Where to go next">
   <div class="wrap">
     <div class="next__rule" aria-hidden="true" data-reveal="rule"></div>
-    <a class="next__link" href={href}>
-      <Photo photo={photo} ratio="3/2" sizes="(min-width: 56rem) 24vw, 8rem" widths={[240, 360, 480, 720, 960, 1280]} class="next__photo" />
+    <a class:list={['next__link', { 'next__link--bare': !photo }]} href={href}>
+      {photo && <Photo photo={photo} ratio="3/2" sizes="(min-width: 56rem) 24vw, 8rem" widths={[240, 360, 480, 720, 960, 1280]} class="next__photo" />}
       <span class="next__copy">
         <span class="t-label next__label">{label}</span>
         <span class="next__title">{title}</span>
@@ -85,6 +85,14 @@ const { contact: c, nav } = site;
   }
   .next__copy {
     display: contents;
+  }
+  /* No photograph: label / name + arrow / blurb, nothing left empty. */
+  .next__link--bare {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'label label'
+      'title go'
+      'blurb blurb';
   }
   .next__label {
     grid-area: label;
@@ -194,6 +202,10 @@ const { contact: c, nav } = site;
       gap: var(--s-3);
       grid-column: 4 / span 8;
       padding-inline-start: var(--gutter);
+    }
+    .next__link--bare .next__copy {
+      grid-column: 1 / span 10;
+      padding-inline-start: 0;
     }
     .next__label,
     .next__title,
