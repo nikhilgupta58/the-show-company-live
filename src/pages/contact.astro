@@ -19,7 +19,7 @@ import EnquiryForm from '../components/EnquiryForm.astro';
 import Rule from '../components/Rule.astro';
 import BookingFlow from '../components/illustrations/BookingFlow.astro';
 import NextBand from '../components/NextBand.astro';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 
 const title = 'Contact The Show Company | Book a Show or an Artist';
 const description =
@@ -39,16 +39,7 @@ const jsonLd = [
     description,
     inLanguage: site.lang,
     isPartOf: { '@id': `${site.url}/#website` },
-    mainEntity: {
-      '@type': 'EntertainmentBusiness',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      telephone: contact.phone.href.replace('tel:', ''),
-      email: contact.email.label,
-      areaServed: { '@type': 'Country', name: 'India' },
-      sameAs: [contact.instagram.href],
-    },
+    mainEntity: organization,
   },
   {
     '@context': 'https://schema.org',

@@ -8,7 +8,7 @@
  * search engines and users rely on stays as it is on main. Indifferent to markup, class names and
  * section order. Long pages may be split: copy may move and new pages may appear.
  *
- *   node build-tools/verify-redesign.mjs [--base main] [--dist dist] [--targets <file>] [--page <slug>] [--json]
+ *   node build-tools/verify-redesign.mjs [--base c2c3c6a] [--dist dist] [--targets <file>] [--page <slug>] [--json]
  *
  * Exit 0 = no FAIL (WARNs allowed) · 1 = at least one FAIL · 2 = bad usage / environment.
  * <slug> = file name in src/pages (index, 404, artist-booking, ...) or a new page's path (about, work/shows).
@@ -60,12 +60,13 @@ import { fileURLToPath } from 'node:url';
 const SITE = 'https://www.theshowcompany.in';
 const SITE_HOSTS = new Set(['www.theshowcompany.in', 'theshowcompany.in']);
 const REPO = fileURLToPath(new URL('..', import.meta.url));
-const USAGE = 'usage: node build-tools/verify-redesign.mjs [--base main] [--dist dist] [--targets build-tools/seo-targets.json] [--page <slug>] [--json]';
+const USAGE = 'usage: node build-tools/verify-redesign.mjs [--base c2c3c6a] [--dist dist] [--targets build-tools/seo-targets.json] [--page <slug>] [--json]';
 const die = (m) => { console.error(`verify-redesign: ${m}`); process.exit(2); };
 process.on('uncaughtException', (e) => die(`internal error (exit 2, not a FAIL): ${e?.stack ?? e}`));
 
 // ───────────────────────────── args, git, parser ─────────────────────────────
-const opt = { base: 'main', dist: 'dist', targets: '', page: '', json: false };
+// default base: the last commit that still has the old src/pages/*.html (deleted in 24078df)
+const opt = { base: 'c2c3c6a', dist: 'dist', targets: '', page: '', json: false };
 const argv = process.argv.slice(2);
 for (let i = 0; i < argv.length; i++) {
   const [k, v] = argv[i].split(/=(.*)/s);
@@ -475,13 +476,17 @@ function strictChecks(bp, np, out) {
   if (moreGa.length) out('analytics', 'WARN', 'analytics id(s) that production does not have', moreGa);
 }
 
+// Deliberate type changes: no public street address, so the LocalBusiness subtype became Organization
+// (docs/redesign-2.0/seo/tech-audit-2026-11-12.md M2/M3).
+const RETYPED = { EntertainmentBusiness: 'Organization' };
+
 function siteChecks(bp, np, out) {
   const pool = others(np);
 
   // JSON-LD: every @type main had here is still here (or moved, where that is allowed)
   const kept = []; const moved = []; const lost = [];
   for (const t of [...bp.B.types].sort()) {
-    if (hasType(np, t)) { kept.push(t); continue; }
+    if (hasType(np, t) || (RETYPED[t] && hasType(np, RETYPED[t]))) { kept.push(t); continue; }
     const have = pool.filter((p) => hasType(p, t));
     const fresh = have.filter((p) => !BASE_BY_ROUTE.get(p.route)?.B.types.has(t)); // a new page, or a page that had none on main
     const to = t === 'FAQPage' ? have : PINNED.has(t) ? [] : fresh;

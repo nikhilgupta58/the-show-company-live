@@ -1,8 +1,10 @@
 ---
-// /stand-up-comedy-shows/ — stand-up comedian booking (Redesign 2.0).
-// Facts: docs/redesign-2.0/content/stand-up-comedy-shows.md and the strategy's ledger (seo/strategy.md §5).
+// /stand-up-comedy-shows/ — stand-up comedian booking (Redesign 2.0, booking-page rebuild 2026-11-12).
+// Facts: docs/redesign-2.0/content/stand-up-comedy-shows.md §9 and the cost guide contract
+// (docs/redesign-2.0/content/comedian-booking-cost-india.md S3–S8): every rupee figure here is copied from there.
 // Head, H1 and keywords: build-tools/seo-targets.json. The signature is the "set-up, (beat), punchline"
 // pair in the formats section: two frames (two comedians: no performer twice on a page), the second landing a beat lower.
+// No named roster: no comedian name exists in the repo. Tiers, not names (seo/city-pages-plan.md §8).
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
@@ -13,22 +15,33 @@ import SectionHeader from '../components/SectionHeader.astro';
 import Photo from '../components/Photo.astro';
 import TextLink from '../components/TextLink.astro';
 import FaqItem from '../components/FaqItem.astro';
+import RuledList from '../components/RuledList.astro';
+import DataTable from '../components/DataTable.astro';
 import NextBand from '../components/NextBand.astro';
 import StandupStage from '../components/illustrations/StandupStage.astro';
 import { photos } from '../data/photos';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 
 const path = '/stand-up-comedy-shows/';
 const url = `${site.url}${path}`;
 const next = nextAfter(path);
 const cost = '/comedian-booking-cost-india/';
 
-// \u2060 (word joiner) after an en dash keeps a range on one line; it is invisible and the judge ignores it.
+// ⁠ (word joiner) after an en dash keeps a range on one line; it is invisible and the judge ignores it.
 const formats = [
-  { name: 'Club and café nights', text: 'Line-up shows and solo sets for 50–\u2060200 seats.' },
+  { name: 'Club and café nights', text: 'Line-up shows and solo sets for 50–⁠200 seats.' },
   { name: 'College comedy nights', text: 'Fest headliners for student audiences, clean or edgy.', link: { label: 'College fest artist booking', href: '/college-fest-entertainment/' } },
   { name: 'Corporate comedy', text: 'Corporate-safe sets for offsites, annual days and client evenings.', link: { label: 'Corporate event entertainment', href: '/corporate-entertainment/' } },
-  { name: 'Auditorium specials', text: 'Ticketed 500–\u20602,000-seat shows with full stage, sound and lighting.', link: { label: 'Full-service event management', href: '/event-management-company-india/' } },
+  { name: 'Auditorium specials', text: 'Ticketed 500–⁠2,000-seat shows with full stage, sound and lighting.', link: { label: 'Full-service event management', href: '/event-management-company-india/' } },
+];
+
+// What one booking covers (the scope list from the content contract S3).
+const includes = [
+  { title: 'Artist negotiation and contract', text: 'Fee, advance, travel and rider in one agreement, with one point of contact.' },
+  { title: 'Travel and stay', text: 'Flights, hotel and ground transport for the artist and crew, arranged by us.' },
+  { title: 'Sound and lighting', text: 'PA, monitors, stage wash and backdrop through our production partner VIGOR MENTORS.' },
+  { title: 'Stage design and compering', text: 'A stage that fits the venue and a compere who holds the room between sets.' },
+  { title: 'On-ground show management', text: 'Sound-check, cues and front-of-house on the night. You watch the show.' },
 ];
 
 // A step may end in one inline link. Step 2 carries the hero's second action, because on a phone
@@ -40,6 +53,27 @@ const steps = [
   { name: 'Show day', text: 'We run the sound-check, compering and cues. You watch the show.' },
 ];
 
+// Cost guide S4, cell text verbatim (the spaced en dashes and the unspaced ₹10L+ are the source's).
+const tiers = [
+  ['Emerging / club circuit', '₹50K – ₹1.5L', 'Club nights, small college shows, intimate offsites'],
+  ['Established touring comedian', '₹2L – ₹8L', 'Fest headline nights, corporate annual days, ticketed shows'],
+  ['National headliner (OTT special / mass following)', '₹10L+', 'Marquee corporate galas, large auditorium and arena shows'],
+];
+
+// Cost guide S6: the H3 strings and their paragraphs, verbatim.
+const budgets = [
+  { title: 'College comedy night · ~₹2–3 lakh all-in', text: 'A well-known touring comedian for the fest’s comedy night, campus auditorium production, travel included. The most-booked package on the college fest circuit.' },
+  { title: 'Corporate annual day · ~₹4–8 lakh all-in', text: 'An established name with corporate-safe material, 45–60 minute set, full sound and lighting at a hotel ballroom, emcee included. Typical for 300–800 person corporate events.' },
+  { title: 'Ticketed auditorium show · ₹8 lakh+', text: 'A headliner in a 800–2,000 seat venue with full production, ticketing and promotion, priced as a revenue-sharing or flat-fee show production deal.' },
+];
+
+// Corporate mapping (cost guide S7) and the lead times (content contract S5), by buyer.
+const buyers = [
+  { title: 'Corporate', text: 'Intimate offsites can start under ₹1 lakh with an emerging comedian. Mid-size events with a headline act plus production run ₹2–8 lakh; our most common annual day booking lands around ₹4–8 lakh all-in for a 300–800 person audience. Galas with a national headliner can exceed ₹10 lakh. A corporate set runs 45–60 minutes and the comedian is briefed on your audience, industry and red lines. Book 2–4 weeks ahead, 6–8 weeks for December and financial-year-end dates.' },
+  { title: 'College', text: 'A fest comedy night with a touring comedian lands around ₹2–3 lakh all-in, campus auditorium production and travel included. Clean or edgy is the committee’s call. Book 1–3 months ahead; fest season calendars fill first.' },
+  { title: 'Auditorium', text: 'A ticketed show with a headliner in an 800–2,000 seat venue starts at ₹8 lakh, priced flat or as a revenue share, with ticketing and promotion in the deal. Book 3–6 months ahead.' },
+];
+
 // One source for the visible FAQ and the FAQPage JSON-LD, so the two can never drift apart.
 // `link` marks the words that are a link on the page; the JSON-LD carries the same words, unlinked.
 const faqs = [
@@ -47,6 +81,10 @@ const faqs = [
     q: 'How much does it cost to book a stand-up comedian in India?',
     a: 'Emerging comedians typically start around ₹50,000–₹1.5 lakh; established touring names range ₹2–8 lakh; national headliners go well beyond. The venue, city, date and format all move the number — see our comedian booking cost guide for detailed ranges.',
     link: { text: 'comedian booking cost guide', href: cost },
+  },
+  {
+    q: 'What is the average price of a comedy show?',
+    a: 'All-in, with the comedian, production and travel: a college comedy night lands around ₹2–3 lakh, a corporate annual day around ₹4–8 lakh, and a ticketed auditorium show with a headliner starts at ₹8 lakh. Production alone is ₹40,000–₹3 lakh depending on venue size and city, and a Saturday night in fest or wedding season can price 2–3x a weekday.',
   },
   {
     q: 'Can you suggest comedians that fit our audience and budget?',
@@ -77,13 +115,7 @@ const jsonLd = [
     '@id': `${url}#service`,
     name: 'Stand-Up Comedy Show Booking & Production',
     serviceType: 'Stand-Up Comedy Booking',
-    provider: {
-      '@type': 'Organization',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      logo: `${site.url}/assets/logo.png`,
-    },
+    provider: organization,
     areaServed: [
       { '@type': 'Country', name: 'India' },
       ...['Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Dehradun'].map((name) => ({ '@type': 'City', name })),
@@ -110,7 +142,7 @@ const jsonLd = [
 
 <Base
   title="Stand-Up Comedian Booking in India | The Show Company"
-  description="Stand-up comedian booking for colleges, corporates and auditoriums across India. A curated shortlist in 48 hours, full production, 500+ shows produced."
+  description="Stand-up comedian booking for colleges, corporates and auditoriums across India. Fee bands by tier, three worked budgets, a shortlist in 48 hours."
   path={path}
   jsonLd={jsonLd}
 >
@@ -140,7 +172,7 @@ const jsonLd = [
       <div class="formats">
         <div class="formats__copy">
           <h2 class="t-h2 formats__title" id="formats-title" data-reveal="lines">Stand-up comedy shows we <em>produce</em></h2>
-          <p class="dim" data-reveal>The Show Company doesn’t just send you a comedian’s number. We match the comedian to the room and produce the night, as we have in 50+ cities, for Graphic Era, DPS and BITS Pilani.</p>
+          <p class="dim" data-reveal>The Show Company doesn’t just send you a comedian’s number. We match the comedian to the room and produce the night, as we have in 50+ cities, for Graphic Era, DPS and BITS Pilani. Four rooms, each with its own brief.</p>
         </div>
 
         <div class="beat">
@@ -171,11 +203,17 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section" aria-label="Booking and questions">
+  <section class="section" aria-labelledby="includes-title">
+    <div class="wrap">
+      <SectionHeader id="includes-title" title="What a booking includes" lead="One brief, one contract, one invoice." />
+      <RuledList items={includes} />
+    </div>
+  </section>
+
+  <section class="section" aria-label="How booking works">
     <div class="wrap split">
       <div class="split__aside booking__col">
         <SectionHeader stack title="How comedian booking works" />
-        <p class="steps__note t-small dim" data-reveal>Book college shows <strong>1–3 months</strong> ahead, corporate events <strong>2–4 weeks</strong> ahead and large auditorium shows <strong>3–6 months</strong> ahead.</p>
         <StandupStage class="booking__fig" alt="Line drawing of a mic stand and a stool on a stage, under a spotlight" />
       </div>
 
@@ -199,7 +237,61 @@ const jsonLd = [
             ))
           }
         </ol>
-        <SectionHeader stack size="h3" title="Stand-up booking FAQs" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="fees-title">
+    <div class="wrap">
+      <SectionHeader id="fees-title" title="Comedian booking fees by tier" lead="Artist fee only, before production and travel. Ranges are indicative for 2026 and vary by date, city and format; a specific artist’s quote can sit outside these bands, so we confirm against real availability before you see a number." />
+      <DataTable
+        caption="Comedian booking fees in India by artist tier"
+        columns={['Artist tier', 'Typical fee', 'Best for']}
+        rows={tiers}
+        note="No roster with a price against each name: fees move with the date and the room. Your shortlist carries live prices."
+      />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="travel-title">
+    <div class="wrap">
+      <SectionHeader id="travel-title" title="What travel and production add">
+        <div class="prose dim">
+          <p>Production and travel sit on top of the fee: typically ₹40,000–₹3 lakh, depending on venue size and city. A club has a mic and a spot. An auditorium needs PA, monitors, lighting, a backdrop and a technical crew.</p>
+          <p>Shows in metros where the artist lives cost less than fly-in dates; non-metro venues add flights, stay and ground transport for artist and crew. The calendar moves it too: Saturday nights in fest or wedding season can price 2–3x a weekday, and December and February–March are the most contested dates.</p>
+        </div>
+      </SectionHeader>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="budgets-title">
+    <div class="wrap">
+      <SectionHeader id="budgets-title" title="Three worked budgets" lead="The packages we book most often, all-in. Your date and venue move each one." />
+      <RuledList level={3} items={budgets} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="buyers-title">
+    <div class="wrap">
+      <SectionHeader id="buyers-title" title="Corporate, college or auditorium: what changes" lead="Same comedian, different brief. Set length, material, production and lead time all shift with the room." />
+      <RuledList items={buyers} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="promise-title">
+    <div class="wrap">
+      <SectionHeader id="promise-title" variant="statement" title="Real comedian options, with prices, within 48 hours." />
+      <p class="promise t-lead dim" data-reveal>Tell us your date, city and audience. Every option comes with a fee, availability checked and the production costed for your venue.</p>
+      <TextLink class="promise__door" href={site.nav.cta.href}>Get a comedian shortlist</TextLink>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Questions">
+    <div class="wrap split">
+      <div class="split__aside">
+        <SectionHeader stack title="Stand-up booking FAQs" />
+      </div>
+      <div class="split__main">
         <div class="faqs">
           {
             faqs.map((f) => {
@@ -370,7 +462,7 @@ const jsonLd = [
     }
   }
 
-  /* ── Booking: the system's sticky split. The four steps stay put while the questions open. */
+  /* ── Booking: the system's sticky split. The drawing stays put while the steps pass. */
   .booking__col {
     display: grid;
     gap: var(--s-5);
@@ -393,11 +485,6 @@ const jsonLd = [
     line-height: 1.9;
     color: var(--gold-600);
   }
-  .steps__note strong {
-    font-weight: 500;
-    color: var(--text);
-    white-space: nowrap;
-  }
   /* Four steps two by two once the column has room, each pair on its own hairlines. */
   .split__main.booking__col {
     container-type: inline-size;
@@ -413,7 +500,7 @@ const jsonLd = [
     }
   }
   /* Show day, drawn: the stage the four steps lead to. Column-wide under the heading on desktop;
-     beside the heading and note on a tablet; capped and centred when stacked. */
+     beside the heading on a tablet; capped and centred when stacked. */
   .booking__col :global(.booking__fig) {
     max-inline-size: 26rem;
     margin-inline: auto;
@@ -421,7 +508,6 @@ const jsonLd = [
   @media (min-width: 48rem) and (max-width: 63.99rem) {
     .split__aside.booking__col {
       grid-template-columns: repeat(12, minmax(0, 1fr));
-      grid-template-rows: auto auto 1fr;
       column-gap: var(--gutter);
     }
     .split__aside.booking__col > :global(*) {
@@ -436,5 +522,14 @@ const jsonLd = [
     .booking__col :global(.booking__fig) {
       max-inline-size: none;
     }
+  }
+
+  /* ── The promise: the page's one statement, a sentence under it and one door. */
+  .promise {
+    max-inline-size: 60ch;
+    margin-block-start: var(--s-4);
+  }
+  .wrap > :global(.promise__door) {
+    margin-block-start: var(--s-4);
   }
 </style>

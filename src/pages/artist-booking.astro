@@ -18,7 +18,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
 import { photos } from '../data/photos';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 // The H1's punchline word is italic and above the fold: preload that face so it does not swap in late.
 import italicUrl from '../assets/fonts/newsreader-italic-var.woff2?url';
 
@@ -79,13 +79,7 @@ const jsonLd = [
     '@id': `${pageUrl}#service`,
     name: 'Artist Booking & Management',
     serviceType: 'Artist Booking Agency',
-    provider: {
-      '@type': 'Organization',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      logo: `${site.url}/assets/logo.png`,
-    },
+    provider: organization,
     areaServed: { '@type': 'Country', name: 'India' },
     description: 'End-to-end artist booking across India: stand-up comedians, singers, DJs, live bands and emcees. Curated shortlists, transparent quotes, contracts, travel and rider management.',
     url: pageUrl,

@@ -14,7 +14,7 @@ import NextBand from '../components/NextBand.astro';
 import FeeTable from '../components/pages/comedian-booking-cost-india/FeeTable.astro';
 import Fig from '../components/pages/comedian-booking-cost-india/Fig.astro';
 import ScaleBar from '../components/pages/comedian-booking-cost-india/ScaleBar.astro';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 import { photos } from '../data/photos';
 
 const path = '/comedian-booking-cost-india/';
@@ -65,7 +65,7 @@ const faqs = [
 
 // Plain text for JSON-LD: block boundaries become spaces, tags go.
 const strip = (html: string) => html.replace(/<\/(p|li)>\s*<(p|li|ul)>/g, ' ').replace(/<[^>]+>/g, '').trim();
-const org = { '@type': 'Organization', '@id': `${site.url}/#organization`, name: site.name, url: `${site.url}/`, logo: `${site.url}/assets/logo.png` };
+const org = organization;
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -74,7 +74,7 @@ const jsonLd = [
     headline: h1,
     description: 'Budget bands for booking stand-up comedians in India by artist tier, event type and city — with the factors that move the price.',
     author: org,
-    publisher: org,
+    publisher: { '@id': org['@id'] },
     mainEntityOfPage: url,
     image: `${site.url}/assets/og-image.png`,
     datePublished: '2026-07-26',

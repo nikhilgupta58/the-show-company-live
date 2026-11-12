@@ -21,7 +21,8 @@ import TextLink from '../components/TextLink.astro';
 import FaqItem from '../components/FaqItem.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
 import NextBand from '../components/NextBand.astro';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
+import { readFileSync } from 'node:fs';
 import { photos } from '../data/photos';
 
 const title = 'The Show Company | Live Entertainment & Events India';
@@ -126,6 +127,7 @@ const faqs = [
   },
 ];
 const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+const dateModified = readFileSync('public/sitemap.xml', 'utf8').match(/<loc>https:\/\/www\.theshowcompany\.in\/<\/loc>\s*<lastmod>([\d-]+)</)![1];
 
 // Structured data: production's four blocks and @ids (every sub-page points at #organization),
 // updated per strategy §7.1.
@@ -133,19 +135,11 @@ const org = `${home}#organization`;
 const jsonLd = [
   {
     '@context': 'https://schema.org',
-    '@type': 'EntertainmentBusiness',
-    '@id': org,
-    name: site.name,
+    ...organization,
     alternateName: 'TSC',
-    url: home,
-    logo: { '@type': 'ImageObject', url: `${site.url}/assets/logo.png`, width: 605, height: 367 },
     image: { '@type': 'ImageObject', url: `${site.url}${site.ogImage.path}`, width: site.ogImage.width, height: site.ogImage.height },
     description:
       'Entertainment production company specialising in stand-up comedy, college events, corporate shows, and auditorium performances across India.',
-    email: site.contact.email.label,
-    telephone: '+917060293132',
-    address: { '@type': 'PostalAddress', addressCountry: 'IN' },
-    areaServed: { '@type': 'Country', name: 'India' },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Live Entertainment Services',
@@ -154,7 +148,6 @@ const jsonLd = [
         itemOffered: { '@type': 'Service', name },
       })),
     },
-    sameAs: [site.contact.instagram.href],
     founder: founders.map((p) => ({ '@type': 'Person', name: p.name, jobTitle: p.role, worksFor: { '@id': org } })),
   },
   {
@@ -180,8 +173,8 @@ const jsonLd = [
     breadcrumb: { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: home }] },
     inLanguage: site.lang,
     datePublished: '2026-03-06',
-    // The launch date is the build date (strategy §5.7).
-    dateModified: new Date().toISOString().slice(0, 10),
+    // The sitemap's <lastmod> for / (git date of this file, written by the prebuild step), so the two always agree.
+    dateModified,
   },
   {
     '@context': 'https://schema.org',

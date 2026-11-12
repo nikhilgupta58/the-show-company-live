@@ -29,7 +29,7 @@ interface Props {
   path: string;
   robots?: string;
   noindex?: boolean;
-  og?: { title?: string; description?: string; type?: 'website' | 'article'; image?: string; imageAlt?: string };
+  og?: { title?: string; description?: string; type?: 'website' | 'article'; image?: string; imageAlt?: string; imageWidth?: number; imageHeight?: number };
   twitter?: { title?: string; description?: string; image?: string; imageAlt?: string };
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   footer?: 'full' | 'compact';
@@ -40,6 +40,8 @@ const canonical = new URL(path, site.url).href;
 const card = site.ogCards[path];
 const ogImage = og.image ?? new URL(card?.path ?? site.ogImage.path, site.url).href;
 const ogImageAlt = og.imageAlt ?? card?.alt;
+const ogImageW = og.image ? og.imageWidth : site.ogImage.width;
+const ogImageH = og.image ? og.imageHeight : site.ogImage.height;
 const twImage = twitter.image ?? ogImage;
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
@@ -132,8 +134,8 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
           <meta property="og:description" content={og.description ?? description} />
           <meta property="og:url" content={canonical} />
           <meta property="og:image" content={ogImage} />
-          {!og.image && <meta property="og:image:width" content={String(site.ogImage.width)} />}
-          {!og.image && <meta property="og:image:height" content={String(site.ogImage.height)} />}
+          {ogImageW && <meta property="og:image:width" content={String(ogImageW)} />}
+          {ogImageH && <meta property="og:image:height" content={String(ogImageH)} />}
           {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 
           <meta name="twitter:card" content="summary_large_image" />
