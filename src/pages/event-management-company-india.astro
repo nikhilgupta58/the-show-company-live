@@ -23,7 +23,7 @@ import StatLedger from '../components/StatLedger.astro';
 import TextLink from '../components/TextLink.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 import { photos } from '../data/photos';
 
 const path = '/event-management-company-india/';
@@ -82,12 +82,12 @@ const sheet = [
 
 const faqs = [
   {
-    q: 'What does a full-service event management company actually do?',
+    q: 'What does full-service event management actually cover?',
     a: 'Our event management services run end to end: artist booking and management, stage design and setup, sound and lighting (through our partner VIGOR MENTORS), venue sourcing and coordination, technical crew, on-ground show management and post-event wrap-up. It’s handled from concept to curtain call, so you don’t have to juggle vendors.',
   },
   {
-    q: 'How is an event management company different from an artist booking agency?',
-    a: 'A booking agency finds you an artist and stops there. A full-service event management company also handles contracts, travel, technical production, stage and backdrop design, and a producer on the ground on event day: one point of contact and one invoice, instead of separate vendors for talent, sound and staging.',
+    q: 'How is that different from an artist booking agency?',
+    a: 'A booking agency finds you an artist and stops there. Full-service event management also covers contracts, travel, technical production, stage and backdrop design, and a producer on the ground on event day: one point of contact and one invoice, instead of separate vendors for talent, sound and staging.',
   },
   {
     q: 'What does event management cost in India?',
@@ -116,13 +116,7 @@ const jsonLd = [
     '@id': `${url}#service`,
     name: 'Full-Service Event Management',
     serviceType: 'Event Management',
-    provider: {
-      '@type': 'Organization',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      logo: `${site.url}/assets/logo.png`,
-    },
+    provider: organization,
     // India plus the ten cities this page names (the cities row and FAQ 4). Pune and Gurugram wait for the owner (strategy §5.5).
     areaServed: [
       { '@type': 'Country', name: 'India' },
@@ -232,7 +226,7 @@ const jsonLd = [
     <div class="wrap split">
       <div class="split__aside proof" data-reveal>
         <p class="t-lead">
-          Search for event organisers in India and you’ll mostly find directories. Here, one team answers for the whole event, so you aren’t
+          One team answers for the whole event, so you aren’t
           managing a comedian, a sound vendor and a stage contractor as three separate relationships.
         </p>
         <StatLedger size="sm" items={site.stats} reveal={false} />

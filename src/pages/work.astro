@@ -23,7 +23,7 @@ import ServiceRow from '../components/ServiceRow.astro';
 import BrandBridge from '../components/illustrations/BrandBridge.astro';
 import NextBand from '../components/NextBand.astro';
 import { photos, type Photograph } from '../data/photos';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 
 const path = '/work/';
 const url = new URL(path, site.url).href;
@@ -90,7 +90,7 @@ const jsonLd = [
     description,
     inLanguage: 'en-IN',
     isPartOf: { '@id': `${site.url}/#website` },
-    about: { '@id': `${site.url}/#organization` },
+    about: organization,
     breadcrumb: { '@id': `${url}#breadcrumb` },
     primaryImageOfPage: { '@id': `${url}#photo-1` },
     associatedMedia: rows.flat().map((t, i) => ({
@@ -114,7 +114,7 @@ const jsonLd = [
 ];
 ---
 
-<Base title={title} description={description} path={path} jsonLd={jsonLd} og={{ image: absolute(shareImage.src), imageAlt: photos.entranceWide.alt }}>
+<Base title={title} description={description} path={path} jsonLd={jsonLd} og={{ image: absolute(shareImage.src), imageAlt: photos.entranceWide.alt, imageWidth: 1200, imageHeight: 630 }}>
   <header class="intro wrap">
     <div data-enter style="--enter-delay:80ms"><Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Work' }]} /></div>
     <div class="intro__grid">

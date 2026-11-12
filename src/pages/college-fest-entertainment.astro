@@ -16,7 +16,7 @@ import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
 import FestStage from '../components/illustrations/FestStage.astro';
 import { photos } from '../data/photos';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 
 const path = '/college-fest-entertainment/';
 const url = `${site.url}${path}`;
@@ -102,13 +102,7 @@ const jsonLd = [
     '@id': `${url}#service`,
     name: 'College Fest Artist Booking & Entertainment',
     serviceType: 'College Event Entertainment',
-    provider: {
-      '@type': 'Organization',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      logo: `${site.url}/assets/logo.png`,
-    },
+    provider: organization,
     // India only: this page names no city (strategy §7.1).
     areaServed: [{ '@type': 'Country', name: 'India' }],
     description:

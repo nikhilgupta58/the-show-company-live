@@ -11,7 +11,7 @@
 // Photographs (round3/PHOTO-PLAN.md): the hero is `conferenceAudience`, a seated conference audience of
 // UNVERIFIED provenance (owner to confirm), so it carries no caption; the formats open beside the company's own
 // photograph of a hall with beams over the seats. Neither is captioned as one of our corporate events.
-// Signature: the cue sheet. The booking is set out as five numbered cues (Q1 to Q5) on one line; every cue
+// Signature: the cue sheet. The booking is set out as five numbered cues (1 to 5) on one line; every cue
 // opens with who answers for it, and the light calls the cues one by one as the line is read.
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
@@ -25,7 +25,7 @@ import Photo from '../components/Photo.astro';
 import FaqItem from '../components/FaqItem.astro';
 import NextBand from '../components/NextBand.astro';
 import CorporateGala from '../components/illustrations/CorporateGala.astro';
-import { site } from '../data/site';
+import { site, organization } from '../data/site';
 import { photos } from '../data/photos';
 
 const path = '/corporate-entertainment/';
@@ -97,10 +97,6 @@ const faqs = [
     q: 'What are some corporate event entertainment ideas?',
     a: 'We deliver six formats as entertainment for corporate events: stand-up comedy for annual days and offsites; live bands and singers for dinners, after-parties and award nights; DJ nights for the after-party; emcees for award ceremonies and town halls; celebrity appearances for milestone events; and full event production, from 50-person offsites to 1,000+ galas. One brief can combine several.',
   },
-  {
-    q: 'What does “corporate entertainment” mean?',
-    a: 'Corporate entertainment is the live entertainment a company books for its own events: annual days, offsites, galas, award nights and client evenings. For corporate entertainment in India, The Show Company covers both the artists — comedians, bands and singers, DJs, emcees and celebrity appearances — and the production around them: stage, sound, lighting and a producer on the ground.',
-  },
 ];
 
 const plain = (html: string) => html.replace(/<[^>]+>/g, '');
@@ -115,13 +111,7 @@ const jsonLd = [
     '@id': `${url}#service`,
     name: 'Corporate Event Entertainment',
     serviceType: 'Corporate Entertainment Production',
-    provider: {
-      '@type': 'Organization',
-      '@id': `${site.url}/#organization`,
-      name: site.name,
-      url: `${site.url}/`,
-      logo: `${site.url}/assets/logo.png`,
-    },
+    provider: organization,
     // India plus the cities this page names (FAQ 3). Pune and Gurugram wait for the owner (strategy §5.5).
     areaServed: [
       { '@type': 'Country', name: 'India' },
@@ -208,7 +198,7 @@ const jsonLd = [
             cues.map((c, i) => (
               <li class="ros__cue" style={`--f:${i / (cues.length - 1)}`}>
                 <p class="ros__when">{c.when}</p>
-                <p class="t-label ros__q" data-q={`Q${i + 1}`}>{`Q${i + 1}`}</p>
+                <p class="t-label ros__q" data-q={`${i + 1}`}>{`${i + 1}`}</p>
                 {i < cues.length - 1 && (
                   <span class="ros__rail" aria-hidden="true">
                     <span class="ros__lit" />

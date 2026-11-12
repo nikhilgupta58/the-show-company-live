@@ -13,7 +13,7 @@ import Photo from '../components/Photo.astro';
 import Scroller from '../components/Scroller.astro';
 import NextBand from '../components/NextBand.astro';
 import { photos, type Photograph } from '../data/photos';
-import { site, nextAfter } from '../data/site';
+import { site, nextAfter, organization } from '../data/site';
 // Crops (no resize, no tonal edit) of each founder's one decodable photo in public/assets/team-*.jpeg.
 // The two corrupt files there are both spare photos of Nikhil Gupta (assets.md §1.3).
 import adbhutPhoto from '../components/pages/about/adbhut-tripathi.jpg';
@@ -67,11 +67,7 @@ const aboutPage = {
   isPartOf: { '@id': `${site.url}/#website` },
   breadcrumb: { '@id': `${pageUrl}#breadcrumb` },
   mainEntity: {
-    '@type': 'Organization',
-    '@id': orgId,
-    name: site.name,
-    url: `${site.url}/`,
-    logo: `${site.url}/assets/logo.png`,
+    ...organization,
     founder: founders.map((f) => ({ '@type': 'Person', name: f.name, jobTitle: f.role, worksFor: { '@id': orgId } })),
   },
 };

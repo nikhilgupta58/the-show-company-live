@@ -108,3 +108,24 @@ export const nextAfter = (pathname: string): NavLink => {
   const i = site.ring.findIndex((page) => bare(page.href) === bare(pathname));
   return i < 0 ? home : site.ring[(i + 1) % site.ring.length];
 };
+
+/** The one organisation node (JSON-LD). Every page emits or references this same node; no street
+    address is public, so it is an Organization serving India, not a LocalBusiness. */
+export const organization = {
+  '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  url: `${site.url}/`,
+  logo: `${site.url}/assets/logo.png`,
+  telephone: site.contact.phone.href.replace('tel:', ''),
+  email: site.contact.email.label,
+  sameAs: [site.contact.instagram.href],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    telephone: site.contact.phone.href.replace('tel:', ''),
+    email: site.contact.email.label,
+    areaServed: 'IN',
+  },
+  areaServed: { '@type': 'Country', name: 'India' },
+};
