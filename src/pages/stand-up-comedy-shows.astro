@@ -16,7 +16,6 @@ import Photo from '../components/Photo.astro';
 import TextLink from '../components/TextLink.astro';
 import FaqItem from '../components/FaqItem.astro';
 import RuledList from '../components/RuledList.astro';
-import DataTable from '../components/DataTable.astro';
 import NextBand from '../components/NextBand.astro';
 import StandupStage from '../components/illustrations/StandupStage.astro';
 import { photos } from '../data/photos';
@@ -53,25 +52,11 @@ const steps = [
   { name: 'Show day', text: 'We run the sound-check, compering and cues. You watch the show.' },
 ];
 
-// Cost guide S4, cell text verbatim (the spaced en dashes and the unspaced ₹10L+ are the source's).
-const tiers = [
-  ['Emerging / club circuit', '₹50K – ₹1.5L', 'Club nights, small college shows, intimate offsites'],
-  ['Established touring comedian', '₹2L – ₹8L', 'Fest headline nights, corporate annual days, ticketed shows'],
-  ['National headliner (OTT special / mass following)', '₹10L+', 'Marquee corporate galas, large auditorium and arena shows'],
-];
-
-// Cost guide S6: the H3 strings and their paragraphs, verbatim.
-const budgets = [
-  { title: 'College comedy night · ~₹2–3 lakh all-in', text: 'A well-known touring comedian for the fest’s comedy night, campus auditorium production, travel included. The most-booked package on the college fest circuit.' },
-  { title: 'Corporate annual day · ~₹4–8 lakh all-in', text: 'An established name with corporate-safe material, 45–60 minute set, full sound and lighting at a hotel ballroom, emcee included. Typical for 300–800 person corporate events.' },
-  { title: 'Ticketed auditorium show · ₹8 lakh+', text: 'A headliner in a 800–2,000 seat venue with full production, ticketing and promotion, priced as a revenue-sharing or flat-fee show production deal.' },
-];
-
-// Corporate mapping (cost guide S7) and the lead times (content contract S5), by buyer.
+// Set length, material and lead times by buyer (content contract S5). Prices live on the cost guide only.
 const buyers = [
-  { title: 'Corporate', text: 'Intimate offsites can start under ₹1 lakh with an emerging comedian. Mid-size events with a headline act plus production run ₹2–8 lakh; our most common annual day booking lands around ₹4–8 lakh all-in for a 300–800 person audience. Galas with a national headliner can exceed ₹10 lakh. A corporate set runs 45–60 minutes and the comedian is briefed on your audience, industry and red lines. Book 2–4 weeks ahead, 6–8 weeks for December and financial-year-end dates.' },
-  { title: 'College', text: 'A fest comedy night with a touring comedian lands around ₹2–3 lakh all-in, campus auditorium production and travel included. Clean or edgy is the committee’s call. Book 1–3 months ahead; fest season calendars fill first.' },
-  { title: 'Auditorium', text: 'A ticketed show with a headliner in an 800–2,000 seat venue starts at ₹8 lakh, priced flat or as a revenue share, with ticketing and promotion in the deal. Book 3–6 months ahead.' },
+  { title: 'Corporate', text: 'A corporate set runs 45–60 minutes and the comedian is briefed on your audience, industry and red lines. Book 2–4 weeks ahead, 6–8 weeks for December and financial-year-end dates.' },
+  { title: 'College', text: 'A fest comedy night with a touring comedian, with campus auditorium production and travel in the quote. Clean or edgy is the committee’s call. Book 1–3 months ahead; fest season calendars fill first.' },
+  { title: 'Auditorium', text: 'A ticketed show with a headliner in an 800–2,000 seat venue, priced flat or as a revenue share, with ticketing and promotion in the deal. Book 3–6 months ahead.' },
 ];
 
 // One source for the visible FAQ and the FAQPage JSON-LD, so the two can never drift apart.
@@ -81,10 +66,6 @@ const faqs = [
     q: 'How much does it cost to book a stand-up comedian in India?',
     a: 'Emerging comedians typically start around ₹50,000–₹1.5 lakh; established touring names range ₹2–8 lakh; national headliners go well beyond. The venue, city, date and format all move the number — see our comedian booking cost guide for detailed ranges.',
     link: { text: 'comedian booking cost guide', href: cost },
-  },
-  {
-    q: 'What is the average price of a comedy show?',
-    a: 'All-in, with the comedian, production and travel: a college comedy night lands around ₹2–3 lakh, a corporate annual day around ₹4–8 lakh, and a ticketed auditorium show with a headliner starts at ₹8 lakh. Production alone is ₹40,000–₹3 lakh depending on venue size and city, and a Saturday night in fest or wedding season can price 2–3x a weekday.',
   },
   {
     q: 'Can you suggest comedians that fit our audience and budget?',
@@ -104,7 +85,7 @@ const faqs = [
   },
   {
     q: 'How do you organise a comedy night?',
-    a: 'Whether you book or hire a stand-up comedian for a fest, an offsite or a ticketed show, the night comes together in four steps. You brief us on the date, city, venue capacity, audience and budget band. Within 48 hours we send a shortlist. We then handle the artist contract, advance, travel and rider. On the night our production team runs the sound-check, compering and cues, with sound and lighting through VIGOR MENTORS.',
+    a: 'Whether you book or hire a stand-up comedian for a fest, an offsite or a ticketed show, we act as the organiser and the night comes together in four steps. You brief us on the date, city, venue capacity, audience and budget band. Within 48 hours we send a shortlist. We then handle the artist contract, advance, travel and rider. On the night our production team runs the sound-check, compering and cues, with sound and lighting through VIGOR MENTORS.',
   },
 ];
 
@@ -121,7 +102,7 @@ const jsonLd = [
       ...['Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Dehradun'].map((name) => ({ '@type': 'City', name })),
     ],
     description:
-      'Stand-up comedian booking and show production across India: comedian shortlists, artist contracts and travel, stage design, sound and lighting, compering and on-ground show management for college, corporate and ticketed auditorium shows.',
+      'Comedian booking in India: book a stand-up comedian for college fests, corporate events and ticketed auditorium shows, with comedian shortlists, artist contracts and travel, sound and lighting, compering and on-ground show management.',
     url,
   },
   {
@@ -141,14 +122,17 @@ const jsonLd = [
 ---
 
 <Base
-  title="Stand-Up Comedian Booking in India | The Show Company"
-  description="Stand-up comedian booking for colleges, corporates and auditoriums across India. Fee bands by tier, three worked budgets, a shortlist in 48 hours."
+  title="Comedian Booking: Book Stand-Up Comedians | The Show Company"
+  description="Comedian booking in India: book a stand-up comedian for a college fest, corporate event or ticketed show. Fee bands, one contract, a shortlist in 48 hours."
   path={path}
   jsonLd={jsonLd}
 >
   <Hero photo={photos.micPalace} ratio="4/5">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'Stand-up comedy shows' }]} />
-    <h1 slot="title">Stand-up comedian booking across India</h1>
+    <h1 slot="title" class="su-h1">
+      <span class="t-kicker su-h1__kicker">Comedian booking in India:</span>
+      <span class="su-h1__line">book a <span class="nowrap">stand-up</span> comedian</span>
+    </h1>
     <p slot="lead" class="t-lead">Book stand-up comedians for college fests, corporate evenings and ticketed shows. From club nights to 2,000-seat auditoriums, we book the comedian, build the stage and fill the room.</p>
     <Fragment slot="actions">
       <Button href={site.nav.cta.href} icon="arrow-right">Get a comedian shortlist</Button>
@@ -172,7 +156,7 @@ const jsonLd = [
       <div class="formats">
         <div class="formats__copy">
           <h2 class="t-h2 formats__title" id="formats-title" data-reveal="lines">Stand-up comedy shows we <em>produce</em></h2>
-          <p class="dim" data-reveal>The Show Company doesn’t just send you a comedian’s number. We match the comedian to the room and produce the night, as we have in 50+ cities, for Graphic Era, DPS and BITS Pilani. Four rooms, each with its own brief.</p>
+          <p class="dim" data-reveal>The Show Company doesn’t just send you a comedian’s number. As a stand-up comedy show organiser, we match the comedian to the room and produce the night, as we have in 50+ cities, for Graphic Era, DPS and BITS Pilani. Four rooms, each with its own brief.</p>
         </div>
 
         <div class="beat">
@@ -213,7 +197,7 @@ const jsonLd = [
   <section class="section" aria-label="How booking works">
     <div class="wrap split">
       <div class="split__aside booking__col">
-        <SectionHeader stack title="How comedian booking works" />
+        <SectionHeader stack title="How stand-up comedian booking works" />
         <StandupStage class="booking__fig" alt="Line drawing of a mic stand and a stool on a stage, under a spotlight" />
       </div>
 
@@ -243,31 +227,9 @@ const jsonLd = [
 
   <section class="section" aria-labelledby="fees-title">
     <div class="wrap">
-      <SectionHeader id="fees-title" title="Comedian booking fees by tier" lead="Artist fee only, before production and travel. Ranges are indicative for 2026 and vary by date, city and format; a specific artist’s quote can sit outside these bands, so we confirm against real availability before you see a number." />
-      <DataTable
-        caption="Comedian booking fees in India by artist tier"
-        columns={['Artist tier', 'Typical fee', 'Best for']}
-        rows={tiers}
-        note="No roster with a price against each name: fees move with the date and the room. Your shortlist carries live prices."
-      />
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="travel-title">
-    <div class="wrap">
-      <SectionHeader id="travel-title" title="What travel and production add">
-        <div class="prose dim">
-          <p>Production and travel sit on top of the fee: typically ₹40,000–₹3 lakh, depending on venue size and city. A club has a mic and a spot. An auditorium needs PA, monitors, lighting, a backdrop and a technical crew.</p>
-          <p>Shows in metros where the artist lives cost less than fly-in dates; non-metro venues add flights, stay and ground transport for artist and crew. The calendar moves it too: Saturday nights in fest or wedding season can price 2–3x a weekday, and December and February–March are the most contested dates.</p>
-        </div>
+      <SectionHeader id="fees-title" title="What a comedian costs">
+        <p class="dim">Fees run in three tiers, from emerging club comedians to touring names to national headliners, with production and travel on top. A college comedy night lands around ₹2–3 lakh all-in, a corporate annual day around ₹4–8 lakh. Fee bands by tier and worked budgets are in the <a class="link" href={cost}>comedian booking cost guide</a>.</p>
       </SectionHeader>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="budgets-title">
-    <div class="wrap">
-      <SectionHeader id="budgets-title" title="Three worked budgets" lead="The packages we book most often, all-in. Your date and venue move each one." />
-      <RuledList level={3} items={budgets} />
     </div>
   </section>
 
@@ -316,6 +278,23 @@ const jsonLd = [
 </Base>
 
 <style>
+  /* The H1 reads as one string for search ("Comedian booking in India: book a stand-up comedian"):
+     the keyword as the kicker, the action at display size, first letter capitalised by CSS. */
+  .su-h1__kicker {
+    display: block;
+    margin-block-end: var(--s-4);
+    letter-spacing: 0.06em;
+  }
+  .su-h1__line {
+    display: block;
+  }
+  .su-h1__line::first-letter {
+    text-transform: uppercase;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+
   /* ── Formats: the pair of frames on the left edge, the words and the four rooms from the midline. */
   .formats {
     display: grid;

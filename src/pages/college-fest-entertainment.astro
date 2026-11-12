@@ -83,7 +83,7 @@ const faqs: { q: string; a: string; link?: InlineLink }[] = [
   },
   {
     q: 'When should we start planning?',
-    a: '1–3 months before your fest. Earlier is cheaper: artist calendars for fest season fill months ahead, and confirmed dates unlock better rates.',
+    a: '1–3 months before your college annual fest. Earlier is cheaper: artist calendars for fest season fill months ahead, and confirmed dates unlock better rates.',
   },
   {
     q: 'How do we book an artist for our college fest?',
@@ -106,7 +106,7 @@ const jsonLd = [
     // India only: this page names no city (strategy §7.1).
     areaServed: [{ '@type': 'Country', name: 'India' }],
     description:
-      'Artist booking and entertainment production for college fests across India: stand-up comedians, EDM and DJ nights, singers, live bands and complete stage production for campus festivals.',
+      'College event entertainment and college fest artist booking across India: stand-up comedians, EDM and DJ nights, singers, live bands and complete stage production for annual fests and campus festivals.',
     url,
   },
   {
@@ -126,8 +126,8 @@ const jsonLd = [
 ---
 
 <Base
-  title="College Fest Artist Booking & Entertainment | The Show Company"
-  description="College fest artist booking with full production: comedians, EDM and DJ nights, singers and live bands. Written quotes, signed contracts, campuses across India."
+  title="College Fest Artist Booking in India | The Show Company"
+  description="College fest artist booking and event entertainment for your annual fest: comedians, DJ nights, singers and bands. Book early for your dates."
   path={path}
   jsonLd={jsonLd}
 >
@@ -136,7 +136,7 @@ const jsonLd = [
   <Hero photo={{ ...photos.festivalSparks, position: '47% 50%' }} ratio="4/5" ratioSmall="3/2" positionSmall="47% 62%" size="compact">
     <Breadcrumb slot="top" items={[{ label: 'Home', href: '/' }, { label: 'College fest entertainment' }]} />
     <h1 slot="title">College fest artist booking, produced <em>properly</em></h1>
-    <p slot="lead" class="t-lead">The fest your campus talks about for years. Book artists for college fest season: comedians, EDM nights, singers and live bands.</p>
+    <p slot="lead" class="t-lead">College event entertainment for your annual fest: comedians, EDM nights, singers and live bands. Fest calendars fill months ahead, so book early.</p>
     <Fragment slot="actions">
       <Button href={site.nav.cta.href} icon="arrow-right">Plan your fest</Button>
       <Button href={costGuide} variant="outline">What an artist, singer or DJ costs</Button>

@@ -188,7 +188,7 @@ const jsonLd = [
   {/* The cover (owner, round 3: "keep cover background photo as the earlier one"): the live site's
       stage photograph, full-bleed and at full brightness. The comic stands in the light on the
       left; the words sit in the dark house on the right (on a phone, under the stage), with a
-      soft shade behind the words only. The H1 is the gold kicker, the statement the display line.
+      soft shade behind the words only. The H1 is the gold kicker and the line under it that says what we do; the statement is the display line.
       On a phone the dock is the action, so the buttons stay in the page but off the screen, as
       in <Hero>. It is the LCP: eager, high priority, sized for a cover crop. */}
   <link slot="head" rel="preload" as="font" type="font/woff2" href={italicUrl} crossorigin />
@@ -205,9 +205,8 @@ const jsonLd = [
       fetchpriority="high"
     />
     <div class="cover__copy">
-      <h1 class="cover__name">THE SHOW COMPANY</h1>
+      <h1 class="cover__h1"><span class="cover__name">THE SHOW COMPANY</span><span class="visually-hidden">: </span> <span class="cover__what">Stand-up comedy, artist booking, college fests and corporate events</span></h1>
       <p class="cover__statement t-h1">We book the artist<br /> and produce<br /> <em>the whole show.</em></p>
-      <p class="t-lead">Stand-up comedy, corporate events, college fests and auditorium shows.</p>
       <div class="cover__actions">
         <Button href={enquire} icon="arrow-right">Book a show</Button>
         <Button href="/work/" variant="outline">See recent work</Button>
@@ -218,7 +217,7 @@ const jsonLd = [
 
   <section class="section" id="shows">
     <div class="wrap">
-      <SectionHeader title="Who is the show for?" lead="Pick your kind of event. The same live entertainment company produces every one." />
+      <SectionHeader title="Who is the show for?" lead="Pick your kind of event, from college fests to auditorium shows. The same live entertainment company produces every one." />
       <div data-reveal="stagger">
         {
           routes.map((r) => (
@@ -341,6 +340,11 @@ const jsonLd = [
     background: radial-gradient(closest-side, rgb(5 5 5 / 0.62), rgb(5 5 5 / 0.3) 65%, transparent);
     pointer-events: none;
   }
+  /* The H1: the gold wordmark, and under it what the company does, in a quiet ivory line. */
+  .cover__h1 {
+    display: grid;
+    gap: var(--s-2);
+  }
   .cover__name {
     font-family: var(--font-wide);
     font-stretch: 125%;
@@ -349,6 +353,16 @@ const jsonLd = [
     line-height: 1.3;
     letter-spacing: 0.12em;
     color: var(--gold-text);
+  }
+  .cover__what {
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    font-size: var(--t-body);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.005em;
+    color: var(--text-2);
+    text-wrap: balance;
   }
   .cover__statement {
     max-inline-size: 9em;
@@ -401,7 +415,6 @@ const jsonLd = [
     .cover__copy > :nth-child(2) { --n: 1; }
     .cover__copy > :nth-child(3) { --n: 2; }
     .cover__copy > :nth-child(4) { --n: 3; }
-    .cover__copy > :nth-child(5) { --n: 4; }
     /* First page of a visit: the words wait, held on their first frame, while "The Show Begins..."
        is up and fading (Base.astro's is-opening, then is-closing), and rise once it is gone. Later
        pages of the visit show them at once. No JavaScript: neither class exists, so they rise as before. */
