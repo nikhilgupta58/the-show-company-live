@@ -38,7 +38,11 @@ const T = level ? (`h${level}` as 'h3' | 'h4') : 'p';
         {(item.text || item.link) && (
           <p class="rlist__text">
             {item.text}
-            {item.link && <a class="link" href={item.link.href}>{item.link.label}</a>}
+            {item.link && (
+              <a class="link" href={item.link.href} {...(item.link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                {item.link.label}
+              </a>
+            )}
           </p>
         )}
       </li>

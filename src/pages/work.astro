@@ -20,16 +20,18 @@ import SectionHeader from '../components/SectionHeader.astro';
 import Scroller from '../components/Scroller.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ServiceRow from '../components/ServiceRow.astro';
+import RuledList from '../components/RuledList.astro';
 import BrandBridge from '../components/illustrations/BrandBridge.astro';
 import NextBand from '../components/NextBand.astro';
 import { photos, type Photograph } from '../data/photos';
 import { site, nextAfter, organization } from '../data/site';
+import { shows, venue, names } from '../data/shows';
 
 const path = '/work/';
 const url = new URL(path, site.url).href;
 const title = 'Recent Shows and Live Event Work | The Show Company';
 const description =
-  'Recent shows produced by The Show Company: stand-up comedy, full-house auditorium nights, college fests and live concerts, in real photographs.';
+  'Recent shows produced by The Show Company: two stand-up comedy nights at BITS Pilani fests in 2026, with dates, line-ups and sources, in real photographs.';
 
 // OWNER: the wall's Sony frames (bits/, 20 September 2026 by the camera) have no venue, date, line-up or audience
 // size on file. Fill any of them in and they appear beside the wall's title; empty ones stay out of the page.
@@ -111,6 +113,22 @@ const jsonLd = [
       { '@type': 'ListItem', position: 2, name: 'Work', item: url },
     ],
   },
+  // Past events: no eventStatus (EventScheduled would be wrong), no offers, no audience size on file.
+  ...shows.map((s) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    '@id': `${url}#show-${s.date}`,
+    name: s.name,
+    startDate: s.date,
+    location: {
+      '@type': 'Place',
+      name: venue.name,
+      address: { '@type': 'PostalAddress', addressLocality: venue.city, addressRegion: venue.region, addressCountry: 'IN' },
+    },
+    performer: s.performers.map((p) => ({ '@type': 'Person', name: p.name })),
+    organizer: organization,
+    sameAs: s.performers.map((p) => p.post),
+  })),
 ];
 ---
 
@@ -186,6 +204,20 @@ const jsonLd = [
           </div>
         ))
       }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="produced">
+    <div class="wrap">
+      <SectionHeader id="produced" title="Shows we produced" lead="Two college fest comedy nights at BITS Pilani, Pilani, each on the record on our Instagram. Fest, date, venue and line-up, with the post as the source." />
+      <RuledList
+        level={3}
+        items={shows.map((s) => ({
+          title: s.fest,
+          text: `${s.dateLabel} · ${venue.name}, ${venue.city}, ${venue.region} · ${names(s)}. `,
+          link: { href: s.performers[0].post, label: 'Source: our Instagram post' },
+        }))}
+      />
     </div>
   </section>
 

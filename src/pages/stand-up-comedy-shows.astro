@@ -4,7 +4,8 @@
 // (docs/redesign-2.0/content/comedian-booking-cost-india.md S3–S8): every rupee figure here is copied from there.
 // Head, H1 and keywords: build-tools/seo-targets.json. The signature is the "set-up, (beat), punchline"
 // pair in the formats section: two frames (two comedians: no performer twice on a page), the second landing a beat lower.
-// No named roster: no comedian name exists in the repo. Tiers, not names (seo/city-pages-plan.md §8).
+// No priced roster: tiers, not names (seo/city-pages-plan.md §8). The four comedians named beside the tier table come
+// from src/data/shows.ts (sourced Instagram posts), with the show each played and no fee against any name.
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
@@ -21,6 +22,7 @@ import NextBand from '../components/NextBand.astro';
 import StandupStage from '../components/illustrations/StandupStage.astro';
 import { photos } from '../data/photos';
 import { site, nextAfter, organization } from '../data/site';
+import { shows } from '../data/shows';
 
 const path = '/stand-up-comedy-shows/';
 const url = `${site.url}${path}`;
@@ -250,6 +252,17 @@ const jsonLd = [
         rows={tiers}
         note="No roster with a price against each name: fees move with the date and the room. Your shortlist carries live prices."
       />
+      <h3 class="t-h3 booked__title" id="booked-title">Comedians we have booked</h3>
+      <p class="booked__lead">Four names from our last two college fest nights, each with the show they played and the post that records it.</p>
+      <RuledList
+        items={shows.flatMap((s) =>
+          s.performers.map((p) => ({
+            title: p.name,
+            text: `${s.fest}, BITS Pilani, ${s.dateLabel}. `,
+            link: { href: p.post, label: 'Source: our Instagram post' },
+          })),
+        )}
+      />
     </div>
   </section>
 
@@ -316,6 +329,15 @@ const jsonLd = [
 </Base>
 
 <style>
+  .booked__title {
+    margin-block-start: var(--s-7);
+  }
+  .booked__lead {
+    color: var(--text-2);
+    margin-block: var(--s-2) var(--s-5);
+    max-inline-size: 60ch;
+  }
+
   /* ── Formats: the pair of frames on the left edge, the words and the four rooms from the midline. */
   .formats {
     display: grid;
