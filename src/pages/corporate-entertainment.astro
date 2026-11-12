@@ -38,8 +38,8 @@ const next = site.ring.find((p) => p.href === '/artist-booking/')!;
 // the wording of all six is production's.
 const formats = [
   {
-    name: 'Corporate stand-up comedy',
-    text: 'Comedians briefed on your audience and boundaries — funny without an HR escalation. The most-requested format for annual days and offsites.',
+    name: 'Corporate comedy shows',
+    text: 'A corporate event comedian briefed on your audience and boundaries — funny without an HR escalation. The most-requested format for annual days, year-end parties and offsites.',
     link: { href: '/stand-up-comedy-shows/', label: 'Book a comedian for a corporate event' },
   },
   {
@@ -95,7 +95,7 @@ const faqs = [
   {
     // The plan's secondary phrase "corporate event entertainment ideas" lives here: the formats heading no longer repeats it.
     q: 'What are some corporate event entertainment ideas?',
-    a: 'We deliver six formats as entertainment for corporate events: stand-up comedy for annual days and offsites; live bands and singers for dinners, after-parties and award nights; DJ nights for the after-party; emcees for award ceremonies and town halls; celebrity appearances for milestone events; and full event production, from 50-person offsites to 1,000+ galas. One brief can combine several.',
+    a: 'We deliver six formats as entertainment for corporate events: corporate stand-up comedy for annual days and offsites; live bands and singers for dinners, after-parties and award nights; DJ nights for the after-party; emcees for award ceremonies and town halls; celebrity appearances for milestone events; and full event production, from 50-person offsites to 1,000+ galas. One brief can combine several.',
   },
 ];
 
@@ -118,7 +118,7 @@ const jsonLd = [
       ...['Dehradun', 'Jaipur', 'Lucknow', 'Indore'].map((name) => ({ '@type': 'City', name })),
     ],
     description:
-      'Live entertainment for corporate events across India: stand-up comedy, live bands, DJs, emcees and full technical production for annual days, offsites, galas, award nights and client events.',
+      'Corporate event entertainment across India: corporate comedy shows, live bands, DJs, emcees and full technical production for annual days, offsites, galas, award nights and client events.',
     url,
   },
   {
@@ -139,7 +139,7 @@ const jsonLd = [
 
 <Base
   title="Corporate Event Entertainment in India | The Show Company"
-  description="Corporate event entertainment across India: stand-up comedy, live bands, DJs and emcees for annual days, offsites and galas. A curated line-up in 48 hours."
+  description="Corporate event entertainment in India: a corporate comedy show, live band, DJ or emcee for annual days, offsites and galas. A curated line-up in 48 hours."
   path={path}
   jsonLd={jsonLd}
 >

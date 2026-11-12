@@ -34,7 +34,7 @@
     "/": {
       "title": "The Show Company | Live Entertainment & Events India",
       "description": "The Show Company is a pan-India live entertainment company: stand-up comedy, corporate events, college fests and artist booking. 500+ shows in 50+ cities.",
-      "h1": "THE SHOW COMPANY",
+      "h1": "THE SHOW COMPANY Stand-up comedy, artist booking, college fests and corporate events",
       "primary": "the show company",
       "secondary": [
         "live entertainment company",
@@ -52,10 +52,10 @@
       "minWords": 600
     },
     "/stand-up-comedy-shows/": {
-      "title": "Stand-Up Comedian Booking in India | The Show Company",
-      "description": "Stand-up comedian booking for colleges, corporates and auditoriums across India. Fee bands by tier, three worked budgets, a shortlist in 48 hours.",
-      "h1": "Stand-up comedian booking across India",
-      "primary": "stand up comedian booking",
+      "title": "Comedian Booking: Book Stand-Up Comedians | The Show Company",
+      "description": "Comedian booking in India: book a stand-up comedian for a college fest, corporate event or ticketed show. Fee bands, one contract, a shortlist in 48 hours.",
+      "h1": "Comedian booking in India: book a stand-up comedian",
+      "primary": "comedian booking",
       "secondary": [
         "book a comedian",
         "book a stand-up comedian",
@@ -63,17 +63,20 @@
         "comedian for a corporate event",
         "college comedy nights",
         "auditorium specials",
-        "comedy nights"
+        "comedy nights",
+        "stand-up comedy show organiser",
+        "organizer"
       ],
       "protected": [
         "stand-up comedy shows",
-        "book stand-up comedians"
+        "book stand-up comedians",
+        "stand up comedian booking"
       ],
       "minWords": 500
     },
     "/corporate-entertainment/": {
       "title": "Corporate Event Entertainment in India | The Show Company",
-      "description": "Corporate event entertainment across India: stand-up comedy, live bands, DJs and emcees for annual days, offsites and galas. A curated line-up in 48 hours.",
+      "description": "Corporate event entertainment in India: a corporate comedy show, live band, DJ or emcee for annual days, offsites and galas. A curated line-up in 48 hours.",
       "h1": "Corporate event entertainment that people remember",
       "primary": "corporate event entertainment",
       "secondary": [
@@ -83,7 +86,9 @@
         "corporate stand-up comedy",
         "annual days",
         "offsites",
-        "live bands"
+        "live bands",
+        "corporate comedy shows",
+        "corporate event comedian"
       ],
       "protected": [
         "corporate event entertainment",
@@ -94,8 +99,8 @@
       "minWords": 500
     },
     "/college-fest-entertainment/": {
-      "title": "College Fest Artist Booking & Entertainment | The Show Company",
-      "description": "College fest artist booking with full production: comedians, EDM and DJ nights, singers and live bands. Written quotes, signed contracts, campuses across India.",
+      "title": "College Fest Artist Booking in India | The Show Company",
+      "description": "College fest artist booking and college event entertainment for a college annual fest: comedians, DJ nights, singers and bands. Book early for your dates.",
       "h1": "College fest artist booking, produced properly",
       "primary": "college fest artist booking",
       "secondary": [
@@ -105,7 +110,9 @@
         "EDM night",
         "pro-night",
         "campus fests",
-        "student committees"
+        "student committees",
+        "college event entertainment",
+        "college annual fest"
       ],
       "protected": [
         "college fest artist booking",
@@ -115,8 +122,8 @@
       "minWords": 500
     },
     "/artist-booking/": {
-      "title": "Artist Booking Agency in India | The Show Company",
-      "description": "Artist booking agency for comedians, singers, DJs, live bands and emcees in India. 100+ artists booked, written quotes and contracts. Shortlist in 48 hours.",
+      "title": "Artist Booking Agency: Book an Artist | The Show Company",
+      "description": "Book an artist through our artist booking agency in India: comedians, singers, DJs, bands and emcees. Written quotes, contracts, a shortlist in 48 hours.",
       "h1": "Artist booking agency: the artist you want, confirmed",
       "primary": "artist booking agency",
       "secondary": [
@@ -126,7 +133,9 @@
         "stand-up comedians",
         "singers and live bands",
         "DJs",
-        "emcees and anchors"
+        "emcees and anchors",
+        "booking artists for events",
+        "artist booking agent"
       ],
       "protected": [
         "artist booking agency",
